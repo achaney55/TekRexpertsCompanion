@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / C-extension files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables & secrets
+.env
+.env.local
+*.env
+local_settings.py
+
+# Django database & media
+*.sqlite3
+*.db
+db.sqlite3
+/media/
+
+# Static files collected by 'collectstatic'
+/static_collected/
+/staticfiles/
+
+# Logs
+*.log
+logs/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.coverage.*
+.tox/
+.nox/
+
+# IDEs & Editor configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Celery (if used for background tasks)
+celerybeat-schedule
+celerybeat.pid
