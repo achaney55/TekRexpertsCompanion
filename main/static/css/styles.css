@@ -1,0 +1,63 @@
+.bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: -1;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #001a4d; /* Dark blue background */
+}
+
+header {
+    position: relative; 
+    margin: auto; 
+    width: 50vw; 
+    height: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    header {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    header {
+        width: 50vw;
+    }
+}
+
+.tech-text {
+    color: #00f0ff; /* Vibrant high-tech cyan */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    /* Layered text-shadow creates a soft, realistic neon glow */
+    text-shadow: 
+        0 0 5px rgba(0, 240, 255, 0.8),
+        0 0 15px rgba(0, 240, 255, 0.5),
+        0 0 30px rgba(0, 240, 255, 0.3);
+}
+
+.loading-logo img {
+    width: 150px;
+    animation: zoomOpen 0.8s ease-in-out 1;
+}

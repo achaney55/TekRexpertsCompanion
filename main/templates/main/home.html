@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Header content for links -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <!-- Open Graph Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="Countdown | Tek Rexperts">
+    <meta property="og:description" content="Countdown to the launch of the new ASA Cluster on 10/10/2026. Join the Discord community and be part of the launch!">
+    <meta property="og:image" content="{% static 'images/og-image.png' %}">
+    <meta property="og:url" content="https://ark.chaneyverse.app">
+    <meta property="og:type" content="website">
+    <!--Black Background Color-->
+    <meta name="theme-color" content="#001a4d">
+    <title>Countdown | Tek Rexperts</title>
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Fullscreen Loading Overlay */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0b0e14;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Light bluish spinning loader */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 229, 255, 0.15);
+            border-top-color: #00e5ff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.35);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Countdown styling */
+        .countdown-container {
+            display: flex;
+            gap: 13px;
+            margin: 25px 0;
+            flex-wrap: nowrap;
+            justify-content: center;
+            max-width: 100%;
+        }
+
+        .countdown-box {
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px 18px;
+            min-width: 70px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .countdown-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: monospace, sans-serif;
+            color: #00e5ff;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ccc;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .countdown-box {
+                min-width: 60px;
+                padding: 10px 12px;
+            }
+            .countdown-value {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top layer Fullscreen Loader -->
+    
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="bg-image">
+        <img style="min-height: 102vh; min-width: 102vw; object-fit: cover; filter: brightness(0.7) blur(1px);" src="{% static 'images/background.png' %}" alt="Background Image">
+    </div>
+    <header class="intro-section">
+        <div class="content" style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; color: white;">
+            <img src="{% static 'images/logo.png' %}" style="width: 70%;" alt="Logo" class="logo">
+            <h2 class="tech-text">New ASA Cluster Launching 10/10/2026</h2>
+            <h3 style="width: 90%; text-align: center;" class="description-text">Come back here on launch day to set up your account!</h3>
+            <!-- Countdown Timer HTML -->
+            <div id="countdown" class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Mins</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Secs</div>
+                </div>
+            </div>
+            <p>Until then, join the Discord community!</p>
+            <button class="discord-button" style="background-color: #5865F2; color: white; border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer;" onclick="window.location.href='https://discord.gg/KAvUxGMT8j';">
+                <img src="{% static 'images/Discord-Logo-White.png' %}" style="width: 150px;" alt="Discord Icon">
+            </button>
+        </div>
+    </header>
+
+    <!-- Countdown Timer Script -->
+    <script>
+        // Target launch date: October 10, 2026 at 00:00:00
+        const launchDate = new Date('October 10, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<h2 style='color: #00e5ff; margin: 15px 0;'>Server is Now Live!</h2>";
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        // Run immediately, then every second
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+
+        // Preloader script: hides loader as soon as all images are loaded
+        const preloader = document.getElementById('preloader');
+        const images = Array.from(document.images);
+
+        const imagePromises = images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+                img.addEventListener('load', resolve);
+                img.addEventListener('error', resolve); // continue even if an image fails
+            });
+        });
+
+        Promise.all(imagePromises).then(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.remove(), 500); // Remove from DOM after fade out
+        });
+    </script>
+</body>
+</html>

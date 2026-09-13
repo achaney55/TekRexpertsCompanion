@@ -1,0 +1,159 @@
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(720deg);
+    }
+}
+
+@keyframes spinOnce {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounceOnce {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes GrowandShrink {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+    20% {
+        transform: translateX(-50%) scale(0.97);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.03);
+    }
+    85% {
+        transform: translateX(-50%) scale(0.99);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes ShrinkandGrow {
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(0.8);
+    }
+    70% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes spinReverse {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-720deg);
+    }
+}
+
+@keyframes bounceIn-left {
+    0% {
+        transform: translateX(110%) scaleY(0.99) scaleX(1.1);
+    }
+    60% {
+        transform: translateX(-8%) scaleY(1) scaleX(1.1);
+    }
+    80% {
+        transform: translateX(-3%) scaleY(0.99) scaleX(1.05);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomOpen {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    40% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(0.985);
+    }
+    90% {
+        transform: scale(1.01);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomClose {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(1.02);
+    }
+    35% {
+        transform: scale(0.97);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+
+.slide-in {
+  animation: slideIn 1s ease-in-out;
+}
+
+.astro-completion-spin {
+    animation: spin 0.5s ease-in-out 1;
+}
+
+.astro-spin-once {
+    animation: spinOnce 0.5s ease-in-out 1;
+}
+
+
+.astro-completion-spin-reverse {
+    animation: spinReverse 0.45s linear 1;
+}
+
+.grow-shrink-animation {
+    animation: GrowandShrink 0.45s ease-in-out;
+}
