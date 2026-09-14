@@ -50,3 +50,5 @@ htmlcov/
 # Celery (if used for background tasks)
 celerybeat-schedule
 celerybeat.pid
+
+migrations/
