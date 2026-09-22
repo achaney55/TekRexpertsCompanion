@@ -4,140 +4,277 @@
 
 {% block content %}
 
-<div class="bg-image">
-    <img style="min-height: 102vh; min-width: 102vw; object-fit: cover; filter: brightness(0.7) blur(1px);" src="{% static 'images/background.png' %}" alt="Background Image">
+<!-- Background Image with Ambient Overlay -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+  <img 
+    src="{% static 'images/background.png' %}" 
+    alt="ARK Background" 
+    class="w-full h-full object-cover brightness-[0.35] blur-[2px] scale-105"
+  >
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/85 to-slate-950"></div>
 </div>
-<div class="intro-section">
-    <div class="content" style="position: relative; margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; color: white;">
-        <img src="{% static 'images/logo.png' %}" style="position: relative; width: 90%;" alt="Logo" class="logo">
-        <h2 class="tek-text-blue">New ASA Cluster Launching 10/10/2026</h2>
-        <h3 style="width: 90%; text-align: center;" class="description-text">Come back here on launch day to set up your account!</h3>
-        <!-- Countdown Timer HTML -->
-        <div id="countdown" class="countdown-container">
-            <div class="countdown-box">
-                <div class="countdown-value" id="days">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="minutes">00</div>
-                <div class="countdown-label">Mins</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="seconds">00</div>
-                <div class="countdown-label">Secs</div>
-            </div>
-        </div>
-        <p>Until then, join the Discord community!</p>
-        <button class="discord-button" style="background-color: #5865F2; color: white; border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer;" onclick="window.location.href='https://discord.gg/KAvUxGMT8j';">
-            <img src="{% static 'images/Discord-Logo-White.png' %}" style="width: 150px;" alt="Discord Icon">
-        </button>
-        <br>
-        <div class="image-list" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; width:">
-            <hr style="width: 95%; margin: 10px 0; border-color: #00e5ff;">
-            <div class="showcase-header" style="width: 100%; text-align: center;">
-                <h2 class="tek-text-blue">PVE+NPC Cluster</h2>
-            </div>
-            <hr style="width: 95%; margin: 10px 0; border-color: #00e5ff;">
-            <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
-                <img src="{% static 'images/dodo_domain.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
-            </div>
-            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center; margin-bottom: 20px;">
-                <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
-                    A PVE cluster with the addition of NPC's. Using a mod called 
-                    "Human NPCs ASA", created by ZoneKiller, you can encounter 
-                    other human tribes, which you can raid for loot. You can also 
-                    tame NPC humans to have them help out with various tasks 
-                    around your base. Not all of the humans are friendly, though,
-                    and may try and attack your base. That means you'll need to be
-                    more strategic with how you build and utilize more of the game 
-                    components previously only useful in PvP modes. Human NPC's will not
-                    foundation wipe or steal any items on raids and will not attack any 
-                    passive tames. They will, however, attack anything that attacks them.
-                </p>
-                <br>
-                <button class="view-more-button blue" onclick="window.location.href='{% url 'dodo_domain_stats' %}'">
-                    <svg class="tek-svg-blue" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00e5ff"><path d="m105-399-65-47 200-320 120 140 160-260 120 180 135-214 65 47-198 314-119-179-152 247-121-141-145 233Zm475 159q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM784-80 676-188q-21 14-45.5 21t-50.5 7q-75 0-127.5-52.5T400-340q0-75 52.5-127.5T580-520q75 0 127.5 52.5T760-340q0 26-7 50.5T732-244l108 108-56 56Z"/></svg>
-                    <span class="tek-label-blue">Show All Stats</span>
-                </button>
-            </div>
-            
-            <hr style="width: 95%; margin: 10px 0; border-color: #ff9d00;">
-            <div class="showcase-header" style="width: 100%; text-align: center;">
-                <h2 class="tek-text-red">Hybrid PVP Cluster</h2>
-            </div>
-            <hr style="width: 95%; margin: 10px 0; border-color: #ff9d00;">
 
-            <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
-                <img src="{% static 'images/gigabite_retreat1.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
-            </div>
-            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center;">
-                <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
-                    A hybrid, fast-paced PvP experience with 90-day wipe cycles. Build your base in peace for 12 days before PvP combat is enabled. For an entire weekend, tribes are free to raid
-                    others, or stay back and defend their own bases. This hybrid approach combines the thrill of PvP with the strategic depth of base building, ensuring that both offensive 
-                    and defensive skills are constantly tested. The wipe cycle ensures that no one tribe can ever dominate the map and all players, new or returning, will have a fair chance to compete. This would also
-                    lead to more dynamic and engaging gameplay experiences for all participants. Allowing players to equally build up before combat provides an opportunity for more strategic and dynamic battles between
-                    players on a more level playing field. 
-                </p>
-                <button class="view-more-button red" onclick="window.location.href='{% url 'gbr_stats' %}'">
-                    <svg class="tek-svg-red" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff9d00"><path d="m105-399-65-47 200-320 120 140 160-260 120 180 135-214 65 47-198 314-119-179-152 247-121-141-145 233Zm475 159q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM784-80 676-188q-21 14-45.5 21t-50.5 7q-75 0-127.5-52.5T400-340q0-75 52.5-127.5T580-520q75 0 127.5 52.5T760-340q0 26-7 50.5T732-244l108 108-56 56Z"/></svg>
-                    <span class="tek-label-red">Show All Stats</span>
-                </button>
-            </div>
+<!-- Main Content Wrapper -->
+<div class="relative w-full max-w-6xl mx-auto px-3 sm:px-6 py-6 md:py-10 space-y-8 md:space-y-12 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-black">
 
-        </div>
+  <!-- Hero & Launch Countdown Card -->
+  <header class="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 backdrop-blur-xl p-5 sm:p-8 md:p-10 shadow-2xl text-center flex flex-col items-center">
+    
+    <!-- Ambient Background Glow Accents -->
+    <div class="absolute -top-24 -left-24 w-80 h-80 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Cluster Status Pill -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 mb-4">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>CLUSTER LAUNCH IN PROGRESS</span>
     </div>
+
+    <!-- Logo -->
+    <div class="w-full max-w-sm sm:max-w-md mx-auto mb-4">
+      <img src="{% static 'images/logo.png' %}" alt="Tek Rexperts Logo" class="w-full h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]">
+    </div>
+
+    <!-- Subtitle / Notice -->
+    <h2 class="font-orbitron text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-400 to-amber-300">
+      New ASA Clusters Launching 10/10/2026
+    </h2>
+    <p class="mt-2 text-slate-300 max-w-xl text-xs sm:text-sm md:text-base leading-relaxed">
+      Return on launch day to link and configure your player account. Prepare your tribe, explore the cluster rules, and join the community hub below!
+    </p>
+
+    <!-- Sci-Fi Countdown Timer -->
+    <div id="countdown" class="grid grid-cols-4 gap-2 sm:gap-4 my-6 w-full max-w-lg">
+      
+      <div class="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-lg backdrop-blur-sm relative overflow-hidden group hover:border-cyan-500/40 transition">
+        <div class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black text-cyan-400 tracking-tight" id="days">00</div>
+        <div class="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mt-1">Days</div>
+        <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-lg backdrop-blur-sm relative overflow-hidden group hover:border-teal-500/40 transition">
+        <div class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black text-teal-300 tracking-tight" id="hours">00</div>
+        <div class="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mt-1">Hours</div>
+        <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent"></div>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-lg backdrop-blur-sm relative overflow-hidden group hover:border-amber-500/40 transition">
+        <div class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black text-amber-400 tracking-tight" id="minutes">00</div>
+        <div class="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mt-1">Mins</div>
+        <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"></div>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-lg backdrop-blur-sm relative overflow-hidden group hover:border-rose-500/40 transition">
+        <div class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black text-rose-400 tracking-tight" id="seconds">00</div>
+        <div class="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mt-1">Secs</div>
+        <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-rose-500/50 to-transparent"></div>
+      </div>
+
+    </div>
+
+    <!-- Discord CTA Button -->
+    <div class="flex flex-col sm:flex-row items-center gap-3 mt-1">
+      <span class="text-xs sm:text-sm text-slate-400 font-medium">Until then, get ready in our community:</span>
+      <a 
+        href="https://discord.gg/KAvUxGMT8j" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-[#5865F2]/30 transition-all hover:scale-[1.02] active:scale-95"
+      >
+        <img src="{% static 'images/Discord-Logo-White.png' %}" alt="Discord" class="h-4 sm:h-5 w-auto object-contain">
+      </a>
+    </div>
+
+  </header>
+
+  <!-- Showcase Cards (PVE vs PVP Hybrid) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+    <!-- Card 1: Dodo Domain (PVE + NPC Humans) -->
+    <article class="bg-slate-900/80 rounded-3xl border border-teal-500/30 p-6 md:p-8 backdrop-blur-xl shadow-2xl flex flex-col justify-between hover:border-cyan-400/60 transition group relative overflow-hidden">
+      <div class="absolute -top-16 -right-16 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div>
+        <!-- Pill Badges -->
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-cyan-950 text-cyan-300 border border-cyan-800/60 uppercase font-bold">
+            PVE + NPC Humans
+          </span>
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-950 text-emerald-300 border border-emerald-800/60 uppercase">
+            Never Wipes
+          </span>
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+            3x Minimum Floor
+          </span>
+        </div>
+
+        <h3 class="font-orbitron text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-300 to-white mb-4">
+          Dodo Domain
+        </h3>
+
+        <!-- Logo / Image Banner -->
+        <div class="w-full rounded-2xl overflow-hidden border border-slate-800/90 shadow-xl bg-slate-950/80 mb-5 max-h-56 flex items-center justify-center p-3 group-hover:border-cyan-500/30 transition">
+          <img 
+            src="{% static 'images/dodo_domain.png' %}" 
+            alt="Dodo Domain Logo" 
+            class="max-h-48 w-auto object-contain transition duration-500 group-hover:scale-105"
+          >
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2">
+          A dedicated PvE cluster populated with intelligent NPC survivors via the <strong>Human NPCs ASA</strong> mod. Encounter and raid living human villages for valuable loot, or tame NPCs to handle light chores around your base and accompany solo runs.
+        </p>
+
+        <ul class="mt-4 space-y-2 text-xs text-slate-400 font-mono">
+          <li class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold">&#10003;</span>
+            <span>No foundation wiping &amp; zero damage to passive dinos</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold">&#10003;</span>
+            <span>Ascended Armory weapon leveling &amp; Dino Revive shrines</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-slate-800">
+        <a 
+          href="{% url 'dodo_domain_stats' %}" 
+          class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-cyan-500/25 transition-all group-hover:scale-[1.01]"
+        >
+          <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+          <span>View Dodo Domain Stats</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2: GigaBite Retreat (Hybrid PVP) -->
+    <article class="bg-slate-900/80 rounded-3xl border border-rose-500/30 p-6 md:p-8 backdrop-blur-xl shadow-2xl flex flex-col justify-between hover:border-rose-400/60 transition group relative overflow-hidden">
+      <div class="absolute -top-16 -right-16 w-48 h-48 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div>
+        <!-- Pill Badges -->
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-rose-950 text-rose-300 border border-rose-800/60 uppercase font-bold">
+            PVP Hybrid Cluster
+          </span>
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-amber-950 text-amber-300 border border-amber-800/60 uppercase">
+            12D Safe / 48H Purge
+          </span>
+          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-purple-950 text-purple-300 border border-purple-800/60 uppercase">
+            90-Day Wipe
+          </span>
+        </div>
+
+        <h3 class="font-orbitron text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-300 to-white mb-4">
+          GigaBite Retreat
+        </h3>
+
+        <!-- Logo / Image Banner -->
+        <div class="w-full rounded-2xl overflow-hidden border border-slate-800/90 shadow-xl bg-slate-950/80 mb-5 max-h-56 flex items-center justify-center p-3 group-hover:border-rose-500/30 transition">
+          <img 
+            src="{% static 'images/gigabite_retreat1.png' %}" 
+            alt="GigaBite Retreat Logo" 
+            class="max-h-48 w-auto object-contain transition duration-500 group-hover:scale-105"
+          >
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2">
+          The ultimate balanced ARK PvP experience. Enjoy 12 uninterrupted days of safe building, taming, and base fortification, followed by an all-out 48-hour weekend Purge. 90-day wipe cycles keep the playing field clean and competitive for all tribes.
+        </p>
+
+        <ul class="mt-4 space-y-2 text-xs text-slate-400 font-mono">
+          <li class="flex items-center gap-2">
+            <span class="text-rose-400 font-bold">&#9888;</span>
+            <span>Zero offline raids during 12-day PvE preparation window</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-rose-400 font-bold">&#9888;</span>
+            <span>No pay-to-win mods — 100% fair and balanced warfare</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-slate-800">
+        <a 
+          href="{% url 'gbr_stats' %}" 
+          class="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-rose-500/25 transition-all group-hover:scale-[1.01]"
+        >
+          <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span>View GigaBite Retreat Stats</span>
+        </a>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="text-center text-xs text-slate-500 py-4 flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-slate-800/80 px-2">
+    <div>Tek Rexperts &copy; ASA Cluster Network</div>
+    <div>Launch Day: October 10, 2026 &bull; Crossplay Enabled</div>
+  </footer>
+
 </div>
 
-<!-- Countdown Timer Script -->
+<!-- Countdown Timer & Preloader Script -->
 <script>
-    // Target launch date: October 10, 2026 at 00:00:00
-    const launchDate = new Date('October 10, 2026 00:00:00').getTime();
+  // Target launch date: October 10, 2026 at 00:00:00
+  const launchDate = new Date('October 10, 2026 00:00:00').getTime();
 
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = launchDate - now;
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = launchDate - now;
 
-        if (distance < 0) {
-            document.getElementById('countdown').innerHTML = "<h2 style='color: #00e5ff; margin: 15px 0;'>Server is Now Live!</h2>";
-            clearInterval(timerInterval);
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('days').innerText = String(days).padStart(2, '0');
-        document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-        document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    if (distance < 0) {
+      document.getElementById('countdown').innerHTML = `
+        <div class="col-span-4 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/40 text-emerald-300 font-orbitron font-bold text-xl">
+          Servers Are Officially Live!
+        </div>
+      `;
+      clearInterval(timerInterval);
+      return;
     }
 
-    // Run immediately, then every second
-    updateCountdown();
-    const timerInterval = setInterval(updateCountdown, 1000);
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Preloader script: hides loader as soon as all images are loaded
-    const preloader = document.getElementById('preloader');
+    const elDays = document.getElementById('days');
+    const elHours = document.getElementById('hours');
+    const elMinutes = document.getElementById('minutes');
+    const elSeconds = document.getElementById('seconds');
+
+    if (elDays) elDays.innerText = String(days).padStart(2, '0');
+    if (elHours) elHours.innerText = String(hours).padStart(2, '0');
+    if (elMinutes) elMinutes.innerText = String(minutes).padStart(2, '0');
+    if (elSeconds) elSeconds.innerText = String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  const timerInterval = setInterval(updateCountdown, 1000);
+
+  // Preloader handler
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
     const images = Array.from(document.images);
-
     const imagePromises = images.map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => {
-            img.addEventListener('load', resolve);
-            img.addEventListener('error', resolve); // continue even if an image fails
-        });
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve);
+        img.addEventListener('error', resolve);
+      });
     });
 
     Promise.all(imagePromises).then(() => {
-        preloader.classList.add('hidden');
-        setTimeout(() => preloader.remove(), 500); // Remove from DOM after fade out
+      preloader.classList.add('hidden');
+      setTimeout(() => preloader.remove(), 500);
     });
+  }
 </script>
 
 {% endblock %}
