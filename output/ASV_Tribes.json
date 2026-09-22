@@ -1,0 +1,49 @@
+{
+  "map": "The Island (Ascended)",
+  "day": 2315,
+  "time": "00:16",
+  "data": [
+    {
+      "tribeid": 2000000000,
+      "tribe": "[ASV Unclaimed]",
+      "players": 0,
+      "members": [],
+      "tames": 0,
+      "uploadedTames": 0,
+      "structures": 0,
+      "active": null,
+      "dataFile": "",
+      "last_member_login": null,
+      "last_member_login_player_id": null,
+      "last_member_login_game_seconds": null
+    },
+    {
+      "tribeid": -2147483648,
+      "tribe": "[ASV Abandoned]",
+      "players": 0,
+      "members": [],
+      "tames": 0,
+      "uploadedTames": 0,
+      "structures": 0,
+      "active": null,
+      "dataFile": "",
+      "last_member_login": null,
+      "last_member_login_player_id": null,
+      "last_member_login_game_seconds": null
+    },
+    {
+      "tribeid": 1136346365,
+      "tribe": "Tribe of Chaney",
+      "players": 0,
+      "members": [],
+      "tames": 0,
+      "uploadedTames": 0,
+      "structures": 53,
+      "active": null,
+      "dataFile": "",
+      "last_member_login": null,
+      "last_member_login_player_id": null,
+      "last_member_login_game_seconds": null
+    }
+  ]
+}

@@ -27,9 +27,19 @@ header {
     align-items: center;
 }
 
+.intro-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: 100px auto;
+}
+
 @media (max-width: 768px) {
     header {
         width: 100%;
+    }
+
+    .showcase-image {
+        border-radius: 40px;
     }
 }
 
@@ -37,15 +47,23 @@ header {
     header {
         width: 100%;
     }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    header {
-        width: 50vw;
+    
+    .showcase-image {
+        border-radius: 40px;
     }
 }
 
-.tech-text {
+@media (min-width: 769px) {
+    header {
+        width: 50vw;
+    }
+
+    .showcase-image {
+        border-radius: 50px;
+    }
+}
+
+.tek-text-blue {
     color: #00f0ff; /* Vibrant high-tech cyan */
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -55,9 +73,206 @@ header {
         0 0 5px rgba(0, 240, 255, 0.8),
         0 0 15px rgba(0, 240, 255, 0.5),
         0 0 30px rgba(0, 240, 255, 0.3);
+
+    /* shadow for svg elements */
+    
+}
+
+.tek-label-blue {
+    color: #00f0ff; /* Vibrant high-tech cyan */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    /* Layered text-shadow creates a soft, realistic neon glow */
+    transition: transform 0.5s ease;
+}
+
+.tek-text-blue.no-shadow {
+    text-shadow: none;
+}
+
+.view-more-button {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    border: none; 
+    border-radius: 10px; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    margin: auto;
+    transition: transform 0.3s ease;
+}
+
+.view-more-button.blue {
+    background-color: #001a4d; /* Dark blue background */
+}
+
+.view-more-button.blue:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+    background-color: #02205e; /* Dark blue background */
+}
+
+.view-more-button.blue svg {
+    transition: filter 0.3s ease;
+}
+
+.view-more-button.blue:hover svg {
+    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.8))
+        drop-shadow(0 0 15px rgba(0, 240, 255, 0.5))
+        drop-shadow(0 0 30px rgba(0, 240, 255, 0.3));
+
+    transition: filter 0.3s ease;
+}
+
+.view-more-button:hover .tek-label-blue {
+    text-shadow: 
+        0 0 5px rgba(0, 240, 255, 0.8),
+        0 0 15px rgba(0, 240, 255, 0.5),
+        0 0 30px rgba(0, 240, 255, 0.3);
+
+    transition: transform 0.5s ease;
+}
+
+
+.view-more-button.red {
+    background-color: #4d0000; /* Dark red background */
+}
+
+.view-more-button.red svg {
+    transition: filter 0.3s ease;
+}
+
+.view-more-button.red:hover svg {
+    filter: drop-shadow(0 0 5px rgba(255, 157, 0, 0.8))
+        drop-shadow(0 0 15px rgba(255, 157, 0, 0.5))
+        drop-shadow(0 0 30px rgba(255, 157, 0, 0.3));
+
+    transition: filter 0.3s ease;
+}
+
+.view-more-button.red:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+    background-color: #660000; /* Dark red background */
+}
+
+.tek-label-red {
+    color: #ff9d00; /* Vibrant high-tech orange */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    /* Layered text-shadow creates a soft, realistic neon glow */
+    transition: transform 0.5s ease;
+}
+
+.view-more-button:hover .tek-label-red {
+    text-shadow: 
+        0 0 5px rgba(255, 157, 0, 0.8),
+        0 0 15px rgba(255, 157, 0, 0.5),
+        0 0 30px rgba(255, 157, 0, 0.3);
+
+    transition: transform 0.5s ease;
+}
+
+.tek-text-red {
+    color: #ff9d00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-shadow:
+        0 0 5px rgba(255, 157, 0, 0.8),
+        0 0 15px rgba(255, 157, 0, 0.5),
+        0 0 30px rgba(255, 157, 0, 0.3);
 }
 
 .loading-logo img {
     width: 150px;
     animation: zoomOpen 0.8s ease-in-out 1;
 }
+
+/* Fullscreen Loading Overlay */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0b0e14;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Light bluish spinning loader */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 229, 255, 0.15);
+    border-top-color: #00e5ff;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.35);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Countdown styling */
+.countdown-container {
+    display: flex;
+    gap: 13px;
+    margin: 25px 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.countdown-box {
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 12px 18px;
+    min-width: 70px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.countdown-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-family: monospace, sans-serif;
+    color: #00e5ff;
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ccc;
+    margin-top: 5px;
+}
+
+@media (max-width: 480px) {
+    .countdown-box {
+        min-width: 60px;
+        padding: 10px 12px;
+    }
+    .countdown-value {
+        font-size: 1.6rem;
+    }
+}
+

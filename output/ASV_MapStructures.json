@@ -1,0 +1,147 @@
+{
+  "map": "The Island (Ascended)",
+  "day": 2315,
+  "time": "00:16",
+  "data": [
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_01_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "354075744_821283648"
+        }
+      ],
+      "ccc": "48332.83 267955.22 -24321.68",
+      "lat": 89.12,
+      "lon": 57.06
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_03_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "7080295_974913792"
+        }
+      ],
+      "ccc": "287970.88 136731.91 -25099.46",
+      "lat": 69.96,
+      "lon": 92.04
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_02_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "689321600_599383552"
+        }
+      ],
+      "ccc": "88161.34 183872.36 -28315.45",
+      "lat": 76.84,
+      "lon": 62.87
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_08_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "642963968_75716424"
+        }
+      ],
+      "ccc": "-83407.69 97394.19 -9002.92",
+      "lat": 64.22,
+      "lon": 37.82
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_06_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "851191744_956663744"
+        }
+      ],
+      "ccc": "-252965.69 -243544.3 -11783.51",
+      "lat": 14.45,
+      "lon": 13.07
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_11_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "455641344_279702144"
+        }
+      ],
+      "ccc": "267221.59 -28564.69 -43435.5",
+      "lat": 45.83,
+      "lon": 89.01
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_05_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "175450912_563554816"
+        }
+      ],
+      "ccc": "-32551.65 -83491.41 -7303.78",
+      "lat": 37.81,
+      "lon": 45.25
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_07_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "986419264_122562336"
+        }
+      ],
+      "ccc": "276803.09 -270864.44 -25717.38",
+      "lat": 10.46,
+      "lon": 90.41
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_12_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "118900112_135898928"
+        }
+      ],
+      "ccc": "-223810.28 86974.05 -29200.67",
+      "lat": 62.7,
+      "lon": 17.33
+    },
+    {
+      "struct": "ASV_Artifact",
+      "inventory": [
+        {
+          "itemId": "PrimalItemArtifact_09_C",
+          "qty": 1,
+          "blueprint": false,
+          "id": "164189584_859950592"
+        }
+      ],
+      "ccc": "-187856.94 -160967.48 -6660.5",
+      "lat": 26.5,
+      "lon": 22.58
+    }
+  ]
+}

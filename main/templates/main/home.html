@@ -1,197 +1,137 @@
-<!DOCTYPE html>
+{% extends "main/base.html" %}
+
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Header content for links -->
-    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-    <!-- Open Graph Meta Tags for Social Media Sharing -->
-    <meta property="og:title" content="Countdown | Tek Rexperts">
-    <meta property="og:description" content="Countdown to the launch of the new ASA Cluster on 10/10/2026. Join the Discord community and be part of the launch!">
-    <meta property="og:image" content="{% static 'images/og-image.png' %}">
-    <meta property="og:url" content="https://ark.chaneyverse.app">
-    <meta property="og:type" content="website">
-    <!--Black Background Color-->
-    <meta name="theme-color" content="#001a4d">
-    <title>Countdown | Tek Rexperts</title>
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        /* Fullscreen Loading Overlay */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #0b0e14;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
 
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+{% block content %}
 
-        /* Light bluish spinning loader */
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(0, 229, 255, 0.15);
-            border-top-color: #00e5ff;
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.35);
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Countdown styling */
-        .countdown-container {
-            display: flex;
-            gap: 13px;
-            margin: 25px 0;
-            flex-wrap: nowrap;
-            justify-content: center;
-            max-width: 100%;
-        }
-
-        .countdown-box {
-            background: rgba(0, 0, 0, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 12px 18px;
-            min-width: 70px;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .countdown-value {
-            font-size: 2.2rem;
-            font-weight: 700;
-            font-family: monospace, sans-serif;
-            color: #00e5ff;
-            line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ccc;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 480px) {
-            .countdown-box {
-                min-width: 60px;
-                padding: 10px 12px;
-            }
-            .countdown-value {
-                font-size: 1.6rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Top layer Fullscreen Loader -->
-    
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="bg-image">
-        <img style="min-height: 102vh; min-width: 102vw; object-fit: cover; filter: brightness(0.7) blur(1px);" src="{% static 'images/background.png' %}" alt="Background Image">
-    </div>
-    <header class="intro-section">
-        <div class="content" style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; color: white;">
-            <img src="{% static 'images/logo.png' %}" style="width: 70%;" alt="Logo" class="logo">
-            <h2 class="tech-text">New ASA Cluster Launching 10/10/2026</h2>
-            <h3 style="width: 90%; text-align: center;" class="description-text">Come back here on launch day to set up your account!</h3>
-            <!-- Countdown Timer HTML -->
-            <div id="countdown" class="countdown-container">
-                <div class="countdown-box">
-                    <div class="countdown-value" id="days">00</div>
-                    <div class="countdown-label">Days</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="hours">00</div>
-                    <div class="countdown-label">Hours</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="minutes">00</div>
-                    <div class="countdown-label">Mins</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="seconds">00</div>
-                    <div class="countdown-label">Secs</div>
-                </div>
+<div class="bg-image">
+    <img style="min-height: 102vh; min-width: 102vw; object-fit: cover; filter: brightness(0.7) blur(1px);" src="{% static 'images/background.png' %}" alt="Background Image">
+</div>
+<div class="intro-section">
+    <div class="content" style="position: relative; margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; color: white;">
+        <img src="{% static 'images/logo.png' %}" style="position: relative; width: 90%;" alt="Logo" class="logo">
+        <h2 class="tek-text-blue">New ASA Cluster Launching 10/10/2026</h2>
+        <h3 style="width: 90%; text-align: center;" class="description-text">Come back here on launch day to set up your account!</h3>
+        <!-- Countdown Timer HTML -->
+        <div id="countdown" class="countdown-container">
+            <div class="countdown-box">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">Days</div>
             </div>
-            <p>Until then, join the Discord community!</p>
-            <button class="discord-button" style="background-color: #5865F2; color: white; border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer;" onclick="window.location.href='https://discord.gg/KAvUxGMT8j';">
-                <img src="{% static 'images/Discord-Logo-White.png' %}" style="width: 150px;" alt="Discord Icon">
-            </button>
+            <div class="countdown-box">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">Mins</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">Secs</div>
+            </div>
         </div>
-    </header>
+        <p>Until then, join the Discord community!</p>
+        <button class="discord-button" style="background-color: #5865F2; color: white; border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer;" onclick="window.location.href='https://discord.gg/KAvUxGMT8j';">
+            <img src="{% static 'images/Discord-Logo-White.png' %}" style="width: 150px;" alt="Discord Icon">
+        </button>
+        <br>
+        <div class="image-list" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; width:">
+            <hr style="width: 95%; margin: 20px 0; border-color: #00e5ff;">
+            <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
+                <img src="{% static 'images/dodo_domain.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
+            </div>
+            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center;">
+                <div class="showcase-header" style="margin-top: 20px; width: 100%; text-align: center;">
+                    <h2 class="tek-text-blue">PVE+NPC Cluster</h2>
+                </div>
+                <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
+                    A PVE cluster with the addition of NPC's. Using a mod called 
+                    "Human NPCs ASA", created by ZoneKiller, you can encounter 
+                    other human tribes, which you can raid for loot. You can also 
+                    tame NPC humans to have them help out with various tasks 
+                    around your base. Not all of the humans are friendly, though,
+                    and may try and attack your base. That means you'll need to be
+                    more strategic with how you build and utilize more of the game 
+                    components previously only useful in PvP modes. Human NPC's will not
+                    foundation wipe or steal any items on raids and will not attack any 
+                    passive tames. They will, however, attack anything that attacks them.
+                </p>
+                <br>
+                <button class="view-more-button blue">
+                    <svg class="tek-svg-blue" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00e5ff"><path d="m105-399-65-47 200-320 120 140 160-260 120 180 135-214 65 47-198 314-119-179-152 247-121-141-145 233Zm475 159q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM784-80 676-188q-21 14-45.5 21t-50.5 7q-75 0-127.5-52.5T400-340q0-75 52.5-127.5T580-520q75 0 127.5 52.5T760-340q0 26-7 50.5T732-244l108 108-56 56Z"/></svg>
+                    <span class="tek-label-blue">Show All Stats</span>
+                </button>
+            </div>
+            <hr style="width: 95%; margin: 20px 0; border-color: #00e5ff;">
+            <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
+                <img src="{% static 'images/gigabite_retreat1.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
+            </div>
+            <div class="showcase-header" style="margin-top: 20px; width: 100%; text-align: center;">
+                <h2 class="tek-text-red">Hybrid PVP Cluster</h2>
+                <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
+                    A hybrid, fast-paced PvP experience with 90-day wipe cycles. Build your base in peace for 12 days before PvP combat is enabled. For an entire weekend, tribes are free to raid
+                    others, or stay back and defend their own bases. This hybrid approach combines the thrill of PvP with the strategic depth of base building, ensuring that both offensive 
+                    and defensive skills are constantly tested. The wipe cycle ensures that no one tribe can ever dominate the map and all players, new or returning, will have a fair chance to compete. This would also
+                    lead to more dynamic and engaging gameplay experiences for all participants. Allowing players to equally build up before combat provides an opportunity for more strategic and dynamic battles between
+                    players on a more level playing field. 
+                </p>
+                <button class="view-more-button red">
+                    <svg class="tek-svg-red" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ff9d00"><path d="m105-399-65-47 200-320 120 140 160-260 120 180 135-214 65 47-198 314-119-179-152 247-121-141-145 233Zm475 159q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM784-80 676-188q-21 14-45.5 21t-50.5 7q-75 0-127.5-52.5T400-340q0-75 52.5-127.5T580-520q75 0 127.5 52.5T760-340q0 26-7 50.5T732-244l108 108-56 56Z"/></svg>
+                    <span class="tek-label-red">Show All Stats</span>
+                </button>
+            </div>
 
-    <!-- Countdown Timer Script -->
-    <script>
-        // Target launch date: October 10, 2026 at 00:00:00
-        const launchDate = new Date('October 10, 2026 00:00:00').getTime();
+        </div>
+    </div>
+</div>
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = launchDate - now;
+<!-- Countdown Timer Script -->
+<script>
+    // Target launch date: October 10, 2026 at 00:00:00
+    const launchDate = new Date('October 10, 2026 00:00:00').getTime();
 
-            if (distance < 0) {
-                document.getElementById('countdown').innerHTML = "<h2 style='color: #00e5ff; margin: 15px 0;'>Server is Now Live!</h2>";
-                clearInterval(timerInterval);
-                return;
-            }
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = launchDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML = "<h2 style='color: #00e5ff; margin: 15px 0;'>Server is Now Live!</h2>";
+            clearInterval(timerInterval);
+            return;
         }
 
-        // Run immediately, then every second
-        updateCountdown();
-        const timerInterval = setInterval(updateCountdown, 1000);
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Preloader script: hides loader as soon as all images are loaded
-        const preloader = document.getElementById('preloader');
-        const images = Array.from(document.images);
+        document.getElementById('days').innerText = String(days).padStart(2, '0');
+        document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
 
-        const imagePromises = images.map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(resolve => {
-                img.addEventListener('load', resolve);
-                img.addEventListener('error', resolve); // continue even if an image fails
-            });
+    // Run immediately, then every second
+    updateCountdown();
+    const timerInterval = setInterval(updateCountdown, 1000);
+
+    // Preloader script: hides loader as soon as all images are loaded
+    const preloader = document.getElementById('preloader');
+    const images = Array.from(document.images);
+
+    const imagePromises = images.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+            img.addEventListener('load', resolve);
+            img.addEventListener('error', resolve); // continue even if an image fails
         });
+    });
 
-        Promise.all(imagePromises).then(() => {
-            preloader.classList.add('hidden');
-            setTimeout(() => preloader.remove(), 500); // Remove from DOM after fade out
-        });
-    </script>
-</body>
-</html>
+    Promise.all(imagePromises).then(() => {
+        preloader.classList.add('hidden');
+        setTimeout(() => preloader.remove(), 500); // Remove from DOM after fade out
+    });
+</script>
+
+{% endblock %}

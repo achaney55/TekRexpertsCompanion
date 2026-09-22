@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Header content for links -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <!-- Open Graph Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="Countdown | Tek Rexperts">
+    <meta property="og:description" content="Countdown to the launch of the new ASA Cluster on 10/10/2026. Join the Discord community and be part of the launch!">
+    <meta property="og:image" content="{% static 'images/og-image.png' %}">
+    <meta property="og:url" content="https://ark.chaneyverse.app">
+    <meta property="og:type" content="website">
+    <!--Black Background Color-->
+    <meta name="theme-color" content="#001a4d">
+    <title>Countdown | Tek Rexperts</title>
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+    <!-- Top layer Fullscreen Loader -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>

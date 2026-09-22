@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-y1!cf-eu4i@hjr)k3sl18%zb()*(m93+))+f_4thx80^wh*bg+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0:7287', 'ark.chaneyverse.app']
+ALLOWED_HOSTS = ['0.0.0.0:7287', 'ark.chaneyverse.app', 'localhost', '127.0.0.1']
 
 
 # Application definition
