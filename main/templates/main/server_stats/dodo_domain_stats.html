@@ -5,7 +5,7 @@
 
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen p-3 md:p-6 lg:p-8 flex justify-center items-start selection:bg-cyan-500 selection:text-black">
 
-  <div class="w-full max-w-7xl mx-auto space-y-6">
+<div class="w-full max-w-7xl mx-auto space-y-6">
 
     <!-- Top Server Banner / Hero Header -->
     <header class="relative overflow-hidden rounded-2xl border border-ark-border bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 shadow-2xl">
@@ -29,7 +29,7 @@
             DODO DOMAIN
           </h1>
           <p class="mt-2 text-slate-300 max-w-2xl text-sm md:text-base leading-relaxed">
-            High performance PVE cluster featuring living NPC human survivors, tailored gather rates with minimum 3x boosts, and Ascended Armory RPG-style equipment progression.
+            High performance PVE cluster featuring living NPC human survivors, tailored gather rates with minimum 3x boosts, and Ascended Armory RPG-style equipment progression across permanent, non-wiping worlds.
           </p>
         </div>
 
@@ -55,11 +55,11 @@
         </div>
 
         <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
-          <span class="text-xs uppercase font-medium text-slate-400">Weapon Mod</span>
+          <span class="text-xs uppercase font-medium text-slate-400">Freemium Mod</span>
           <span class="font-orbitron text-sm md:text-base font-bold text-amber-300 mt-0.5 truncate" title="Ascended Armory Mod">
             Ascended Armory
           </span>
-          <span class="text-[10px] text-amber-400/80">Funding available on request</span>
+          <span class="text-[10px] text-amber-400/80">Upgrade Weapons and Armor</span>
         </div>
 
         <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
@@ -78,16 +78,42 @@
           <span class="text-[10px] text-emerald-500/80">Fine-tuned per resource</span>
         </div>
 
+        <!-- Refined Map Availability Card -->
         <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col col-span-2 sm:col-span-1">
-          <span class="text-xs uppercase font-medium text-slate-400">Map Rotation</span>
-          <span class="font-orbitron text-sm md:text-base font-bold text-slate-300 mt-0.5">
-            Map TBA
+          <span class="text-xs uppercase font-medium text-slate-400">Cluster Maps</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-cyan-300 mt-0.5 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            3 Active
           </span>
-          <span class="text-[10px] text-slate-400">Announced via Discord</span>
+          <span class="text-[10px] text-teal-400/80">More coming soon</span>
         </div>
       </div>
-    </header>
 
+      <!-- Active Maps Bar -->
+      <div class="mt-4 pt-3.5 border-t border-slate-800/70 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            Active Cluster Maps:
+          </span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Astraeos
+          </span>
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> The Island
+          </span>
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Ragnarok
+          </span>
+          <span class="px-2 py-1 rounded-lg font-mono text-[11px] text-slate-400 border border-dashed border-slate-700 bg-slate-900/40">
+            + More Planned
+          </span>
+        </div>
+      </div>
+
+    </header>
     <!-- Main 2-Column / Modular Grid Layout: Player Multipliers & Taming -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
@@ -199,7 +225,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
             <div class="p-3 bg-slate-800/30 rounded-xl border border-slate-700/40">
               <span class="font-bold text-amber-300 block mb-1">RPG Weapon Progression</span>
-              Ascended Armory enabled in PVE. Level gear with XP and unlock boosts without pay-to-win on PVP.
+              Ascended Armory enabled in PVE. Level gear with XP, unlock boosts, and upgrade blueprint tiers.
             </div>
             <div class="p-3 bg-slate-800/30 rounded-xl border border-slate-700/40">
               <span class="font-bold text-teal-300 block mb-1">NPC Humans Inhabited</span>
@@ -257,44 +283,13 @@
         No resources match your search query.
       </div>
     </section>
-
-    <!-- Section: Installed Mods & Cluster Features (Now Last Section) -->
-    <section class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="font-orbitron font-bold text-xl text-slate-100">Installed Mods & Cluster Features</h2>
-            <span class="text-xs px-2 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-800/70 rounded-full font-mono">9 Active Mods</span>
-          </div>
-          <p class="text-xs text-slate-400 mt-1">Carefully curated mods enhancing building, progression, trading, and PVE quality-of-life</p>
-        </div>
-
-        <!-- Mod Mode Filter Tabs -->
-        <div class="flex items-center gap-1 bg-slate-800/70 p-1 rounded-xl border border-slate-700 text-xs font-mono">
-          <button onclick="setModFilter('all')" class="mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30" data-mod-filter="all">All Mods</button>
-          <button onclick="setModFilter('pve')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="pve">PVE Only</button>
-          <button onclick="setModFilter('both')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="both">Both Clusters</button>
-        </div>
-      </div>
-
-      <!-- Mod Cards Grid -->
-      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="modsContainer">
-        <!-- Rendered dynamically via JavaScript -->
-      </div>
-    </section>
-
+    
     <!-- Footer Note -->
     <footer class="text-center text-xs text-slate-400 py-3 flex flex-wrap justify-between items-center px-2">
-      <div>Dodo Domain &copy; ARK Server Cluster &bull; Optimized for Crossplay</div>
-      <div class="text-slate-400">Map updates TBA &bull; Join the community hub</div>
+      <div>GigaBite Retreat &copy; ARK Hybrid PvP Cluster &bull; 90-Day Wipe Rotation</div>
+      <div class="text-slate-400">Map updates TBA &bull; Join the Discord for Purge alerts</div>
     </footer>
 
-  </div>
-
-  <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-16 opacity-0 transition-all duration-300 bg-slate-900 border border-teal-500/50 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs">
-    <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-    <span id="toastMsg">Action completed successfully!</span>
   </div>
 
   <script>
@@ -328,126 +323,6 @@
       { name: "All Other Materials", rate: "x3", numeric: 3, tier: "3x", category: "Baseline Floor" }
     ];
 
-    const MODS_DATA = [
-      {
-        title: "Human NPC's ASA",
-        author: "ZoneKi11er",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Inhabitants & Combat",
-        points: [
-          "Human NPC base stats are 10% weaker than player stats.",
-          "Tameable companions to boost a solo run or provide tribe grunts for light work.",
-          "May organize raid parties and drop loot upon defeat.",
-          "Construct villages with neutral humans packed with lootable rewards."
-        ]
-      },
-      {
-        title: "Ascended Armory",
-        author: "khalahad",
-        availability: "pve",
-        badge: "PVE Only",
-        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
-        tag: "RPG Progression",
-        points: [
-          "Freemium mod upgrading weapon and armor stats/tiers as you gain XP.",
-          "Improve reload speed, damage, durability, harvest rate, and magazine size.",
-          "Free version earns XP and levels up gear (upgrades unlockable; purchase funding on request).",
-          "Excluded from Hybrid/PVP servers to prevent pay-to-win advantage."
-        ]
-      },
-      {
-        title: "Dino Revive Mod",
-        author: "haruscompany",
-        availability: "pve",
-        badge: "PVE Only",
-        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
-        tag: "Tame Insurance",
-        points: [
-          "Revive lost tames at Goddess Statues positioned around the map.",
-          "Taming times on the cluster can reach up to 5 hours (Tek Giga).",
-          "Eliminates the heartbreak and time loss of an accidental dino death."
-        ]
-      },
-      {
-        title: "Berrybush Coins",
-        author: "Quellcrest",
-        availability: "pve",
-        badge: "PVE Only",
-        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
-        tag: "Rewards Economy",
-        points: [
-          "Custom server tokens redeemable for exclusive in-game rewards.",
-          "Awarded by admins for community events, boss achievements, and cluster donations."
-        ]
-      },
-      {
-        title: "Guns and Firearms",
-        author: "Jax322",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Weapons Expansion",
-        points: [
-          "Adds 20 extra realistic weapons to your arsenal.",
-          "Several new ammo variations that are cheap and balanced to craft."
-        ]
-      },
-      {
-        title: "Starter Kits",
-        author: "GaiaStudios",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Level Progression",
-        points: [
-          "Granted automatically to survivors at 5-level intervals.",
-          "Includes Food, Tools, Base Building, Weapons, and Metal starter packs."
-        ]
-      },
-      {
-        title: "Simple Trade",
-        author: "Segradeth",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Player Economy",
-        points: [
-          "Enables player-built trading shops and marketplaces.",
-          "Introduces a standardized in-game currency for player-to-player trade."
-        ]
-      },
-      {
-        title: "Power Mesh System",
-        author: "AifiasGaming",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Utility & Wireless",
-        points: [
-          "Expand power generator radii with cheap, connectable power relays.",
-          "Clean wireless electricity distribution without messy cable clutter."
-        ]
-      },
-      {
-        title: "Wall'n'Floor Decor",
-        author: "Glitch_DK",
-        availability: "both",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Cosmetics & Building",
-        points: [
-          "Over 100+ Dino statues and miniature figurines.",
-          "Huge suite of furniture additions, room clutter, floor, and wall decorations.",
-          "Stained glass windows and mosaic wall elements."
-        ]
-      }
-    ];
-
-    let currentFilter = 'all';
-    let currentModFilter = 'all';
-
     // Populate Player Stats
     function renderPlayerStats() {
       const container = document.getElementById('playerStatsList');
@@ -469,50 +344,6 @@
           </div>
         `;
       }).join('');
-    }
-
-    // Populate Mods
-    function renderModsGrid() {
-      const container = document.getElementById('modsContainer');
-      const filtered = MODS_DATA.filter(mod => {
-        if (currentModFilter === 'all') return true;
-        return mod.availability === currentModFilter;
-      });
-
-      container.innerHTML = filtered.map(mod => `
-        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40">
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">${mod.tag}</span>
-              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded border ${mod.badgeColor}">
-                ${mod.badge}
-              </span>
-            </div>
-            <h3 class="font-orbitron font-bold text-base text-slate-100">${mod.title}</h3>
-            <p class="text-[11px] text-cyan-400 font-mono mb-3">By ${mod.author}</p>
-            <ul class="space-y-1.5 text-xs text-slate-300">
-              ${mod.points.map(pt => `
-                <li class="flex items-start gap-1.5 leading-relaxed">
-                  <span class="text-teal-400 shrink-0 text-sm leading-none mt-0.5">&bull;</span>
-                  <span>${pt}</span>
-                </li>
-              `).join('')}
-            </ul>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function setModFilter(type) {
-      currentModFilter = type;
-      document.querySelectorAll('.mod-filter-btn').forEach(btn => {
-        if (btn.getAttribute('data-mod-filter') === type) {
-          btn.className = "mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30";
-        } else {
-          btn.className = "mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white";
-        }
-      });
-      renderModsGrid();
     }
 
     // Color and badge mapping for Harvest Tiers
@@ -618,7 +449,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderPlayerStats();
       renderHarvestGrid();
-      renderModsGrid();
     });
   </script>
 </body>

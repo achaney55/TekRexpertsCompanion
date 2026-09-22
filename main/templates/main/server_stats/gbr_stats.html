@@ -393,24 +393,6 @@
       </div>
     </section>
 
-    <!-- Section: Installed Mods (PVP Cluster Selection) -->
-    <section class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="font-orbitron font-bold text-xl text-slate-100">Installed Mods & Cluster Features</h2>
-            <span class="text-xs px-2 py-0.5 bg-rose-950 text-rose-300 border border-rose-800/70 rounded-full font-mono">PVP Hybrid Balance</span>
-          </div>
-          <p class="text-xs text-slate-400 mt-1">Carefully tuned for fair PvP combat without pay-to-win gear upgrades</p>
-        </div>
-      </div>
-
-      <!-- Mod Cards Grid -->
-      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="modsContainer">
-        <!-- Rendered dynamically via JavaScript -->
-      </div>
-    </section>
-
     <!-- Footer Note -->
     <footer class="text-center text-xs text-slate-400 py-3 flex flex-wrap justify-between items-center px-2">
       <div>GigaBite Retreat &copy; ARK Hybrid PvP Cluster &bull; 90-Day Wipe Rotation</div>
@@ -456,77 +438,6 @@
       { name: "All Other Materials", rate: "x3", numeric: 3, tier: "3x", category: "Baseline Floor" }
     ];
 
-    // Mods present in the PVP Hybrid cluster (Ascended Armory, Dino Revive & Berrybush Coins excluded)
-    const MODS_DATA = [
-      {
-        title: "Human NPC's ASA",
-        author: "ZoneKi11er",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Inhabitants & Combat",
-        points: [
-          "Human NPC base stats are 10% weaker than player stats.",
-          "Tameable companions to help solo players fortify or run light tasks.",
-          "May organize raid parties and drop valuable loot upon defeat.",
-          "Construct villages with neutral humans packed with raid rewards."
-        ]
-      },
-      {
-        title: "Guns and Firearms",
-        author: "Jax322",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Weapons Expansion",
-        points: [
-          "Adds 20 additional realistic weapons balanced for PvP raiding.",
-          "Several new ammo variations that are cheap and fast to craft."
-        ]
-      },
-      {
-        title: "Starter Kits",
-        author: "GaiaStudios",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Fast Recovery",
-        points: [
-          "Granted automatically to survivors at 5-level intervals.",
-          "Includes Food, Tools, Base Building, Weapons, and Metal packs to quickly rebuild between Purges."
-        ]
-      },
-      {
-        title: "Simple Trade",
-        author: "Segradeth",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Player Economy",
-        points: [
-          "Enables player-built trading hubs and shops.",
-          "Standardized currency for inter-tribe trade during safe PvE windows."
-        ]
-      },
-      {
-        title: "Power Mesh System",
-        author: "AifiasGaming",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Utility & Defense",
-        points: [
-          "Expand generator radii with cheaper-to-build power relays.",
-          "Wireless electricity distribution for cleaner, more defensible base layouts."
-        ]
-      },
-      {
-        title: "Wall'n'Floor Decor",
-        author: "Glitch_DK",
-        badge: "Both Clusters",
-        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
-        tag: "Building & Cosmetics",
-        points: [
-          "100+ Dino Statues, figurines, and room clutter additions.",
-          "Stained glass windows, mosaic walls, and custom furniture sets."
-        ]
-      }
-    ];
 
     let currentFilter = 'all';
 
@@ -551,33 +462,6 @@
           </div>
         `;
       }).join('');
-    }
-
-    // Populate Mods
-    function renderModsGrid() {
-      const container = document.getElementById('modsContainer');
-      container.innerHTML = MODS_DATA.map(mod => `
-        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-amber-500/40">
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">${mod.tag}</span>
-              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded border ${mod.badgeColor}">
-                ${mod.badge}
-              </span>
-            </div>
-            <h3 class="font-orbitron font-bold text-base text-slate-100">${mod.title}</h3>
-            <p class="text-[11px] text-amber-400 font-mono mb-3">By ${mod.author}</p>
-            <ul class="space-y-1.5 text-xs text-slate-300">
-              ${mod.points.map(pt => `
-                <li class="flex items-start gap-1.5 leading-relaxed">
-                  <span class="text-rose-400 shrink-0 text-sm leading-none mt-0.5">&bull;</span>
-                  <span>${pt}</span>
-                </li>
-              `).join('')}
-            </ul>
-          </div>
-        </div>
-      `).join('');
     }
 
     // Color and badge mapping for Harvest Tiers
@@ -680,7 +564,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderPlayerStats();
       renderHarvestGrid();
-      renderModsGrid();
+      
     });
   </script>
 </body>

@@ -212,6 +212,32 @@
 
   </div>
 
+  
+        <!-- Section: Installed Mods & Cluster Features (Now Last Section) -->
+    <section class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-orbitron font-bold text-xl text-slate-100">Installed Mods & Cluster Features</h2>
+            <span class="text-xs px-2 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-800/70 rounded-full font-mono">9 Active Mods</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Carefully curated mods enhancing building, progression, trading, and PVE quality-of-life</p>
+        </div>
+
+        <!-- Mod Mode Filter Tabs -->
+        <div class="flex items-center gap-1 bg-slate-800/70 p-1 rounded-xl border border-slate-700 text-xs font-mono">
+          <button onclick="setModFilter('all')" class="mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30" data-mod-filter="all">All Mods</button>
+          <button onclick="setModFilter('pve')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="pve">PVE Only</button>
+          <button onclick="setModFilter('both')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="both">Both Clusters</button>
+        </div>
+      </div>
+
+      <!-- Mod Cards Grid -->
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="modsContainer">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
   <!-- Footer Info -->
   <footer class="text-center text-xs text-slate-500 py-4 flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-slate-800/80 px-2">
     <div>Tek Rexperts &copy; ASA Cluster Network</div>
@@ -222,6 +248,127 @@
 
 <!-- Countdown Timer & Preloader Script -->
 <script>
+
+    const MODS_DATA = [
+    {
+    title: "Human NPC's ASA",
+    author: "ZoneKi11er",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Inhabitants & Combat",
+    points: [
+        "Human NPC base stats are 10% weaker than player stats.",
+        "Tameable companions to boost a solo run or provide tribe grunts for light work.",
+        "May organize raid parties and drop loot upon defeat.",
+        "Construct villages with neutral humans packed with lootable rewards."
+    ]
+    },
+    {
+    title: "Ascended Armory",
+    author: "khalahad",
+    availability: "pve",
+    badge: "PVE Only",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+    tag: "RPG Progression",
+    points: [
+        "Freemium mod upgrading weapon and armor stats/tiers as you gain XP.",
+        "Improve reload speed, damage, durability, harvest rate, and magazine size.",
+        "Free version earns XP and levels up gear (upgrades unlockable; purchase funding on request).",
+        "Excluded from Hybrid/PVP servers to prevent pay-to-win advantage."
+    ]
+    },
+    {
+    title: "Dino Revive Mod",
+    author: "haruscompany",
+    availability: "pve",
+    badge: "PVE Only",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+    tag: "Tame Insurance",
+    points: [
+        "Revive lost tames at Goddess Statues positioned around the map.",
+        "Taming times on the cluster can reach up to 5 hours (Tek Giga).",
+        "Eliminates the heartbreak and time loss of an accidental dino death."
+    ]
+    },
+    {
+    title: "Berrybush Coins",
+    author: "Quellcrest",
+    availability: "pve",
+    badge: "PVE Only",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+    tag: "Rewards Economy",
+    points: [
+        "Custom server tokens redeemable for exclusive in-game rewards.",
+        "Awarded by admins for community events, boss achievements, and cluster donations."
+    ]
+    },
+    {
+    title: "Guns and Firearms",
+    author: "Jax322",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Weapons Expansion",
+    points: [
+        "Adds 20 extra realistic weapons to your arsenal.",
+        "Several new ammo variations that are cheap and balanced to craft."
+    ]
+    },
+    {
+    title: "Starter Kits",
+    author: "GaiaStudios",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Level Progression",
+    points: [
+        "Granted automatically to survivors at 5-level intervals.",
+        "Includes Food, Tools, Base Building, Weapons, and Metal starter packs."
+    ]
+    },
+    {
+    title: "Simple Trade",
+    author: "Segradeth",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Player Economy",
+    points: [
+        "Enables player-built trading shops and marketplaces.",
+        "Introduces a standardized in-game currency for player-to-player trade."
+    ]
+    },
+    {
+    title: "Power Mesh System",
+    author: "AifiasGaming",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Utility & Wireless",
+    points: [
+        "Expand power generator radii with cheap, connectable power relays.",
+        "Clean wireless electricity distribution without messy cable clutter."
+    ]
+    },
+    {
+    title: "Wall'n'Floor Decor",
+    author: "Glitch_DK",
+    availability: "both",
+    badge: "Both Clusters",
+    badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+    tag: "Cosmetics & Building",
+    points: [
+        "Over 100+ Dino statues and miniature figurines.",
+        "Huge suite of furniture additions, room clutter, floor, and wall decorations.",
+        "Stained glass windows and mosaic wall elements."
+    ]
+    }
+];
+
+let currentFilter = 'all';
+let currentModFilter = 'all';
+
   // Target launch date: October 10, 2026 at 00:00:00
   const launchDate = new Date('October 10, 2026 00:00:00').getTime();
 
@@ -255,6 +402,51 @@
     if (elSeconds) elSeconds.innerText = String(seconds).padStart(2, '0');
   }
 
+      // Populate Mods
+    function renderModsGrid() {
+      const container = document.getElementById('modsContainer');
+      const filtered = MODS_DATA.filter(mod => {
+        if (currentModFilter === 'all') return true;
+        return mod.availability === currentModFilter;
+      });
+
+      container.innerHTML = filtered.map(mod => `
+        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">${mod.tag}</span>
+              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded border ${mod.badgeColor}">
+                ${mod.badge}
+              </span>
+            </div>
+            <h3 class="font-orbitron font-bold text-base text-slate-100">${mod.title}</h3>
+            <p class="text-[11px] text-cyan-400 font-mono mb-3">By ${mod.author}</p>
+            <ul class="space-y-1.5 text-xs text-slate-300">
+              ${mod.points.map(pt => `
+                <li class="flex items-start gap-1.5 leading-relaxed">
+                  <span class="text-teal-400 shrink-0 text-sm leading-none mt-0.5">&bull;</span>
+                  <span>${pt}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setModFilter(type) {
+      currentModFilter = type;
+      document.querySelectorAll('.mod-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-mod-filter') === type) {
+          btn.className = "mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30";
+        } else {
+          btn.className = "mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white";
+        }
+      });
+      renderModsGrid();
+    }
+
+
   updateCountdown();
   const timerInterval = setInterval(updateCountdown, 1000);
 
@@ -275,6 +467,8 @@
       setTimeout(() => preloader.remove(), 500);
     });
   }
+
+  renderModsGrid();
 </script>
 
 {% endblock %}
