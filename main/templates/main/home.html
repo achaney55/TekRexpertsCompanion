@@ -5,14 +5,14 @@
 {% block content %}
 
 <!-- Background Image with Ambient Overlay -->
-<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+{% comment %} <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
   <img 
     src="{% static 'images/background.png' %}" 
     alt="ARK Background" 
     class="w-full h-full object-cover brightness-[0.35] blur-[2px] scale-105"
   >
   <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/85 to-slate-950"></div>
-</div>
+</div> {% endcomment %}
 
 <!-- Main Content Wrapper -->
 <div class="relative w-full max-w-6xl mx-auto px-3 sm:px-6 py-6 md:py-10 space-y-8 md:space-y-12 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-black">
