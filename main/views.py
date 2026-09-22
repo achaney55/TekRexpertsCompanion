@@ -14,3 +14,6 @@ def update_dodoball(request):
 
 def dodo_domain_stats(request):
     return render(request, 'main/server_stats/dodo_domain_stats.html')
+
+def gbr_stats(request):
+    return render(request, 'main/server_stats/gbr_stats.html')
