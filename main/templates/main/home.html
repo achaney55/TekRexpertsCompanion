@@ -37,14 +37,15 @@
         </button>
         <br>
         <div class="image-list" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; width:">
-            <hr style="width: 95%; margin: 20px 0; border-color: #00e5ff;">
+            <hr style="width: 95%; margin: 10px 0; border-color: #00e5ff;">
+            <div class="showcase-header" style="width: 100%; text-align: center;">
+                <h2 class="tek-text-blue">PVE+NPC Cluster</h2>
+            </div>
+            <hr style="width: 95%; margin: 10px 0; border-color: #00e5ff;">
             <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
                 <img src="{% static 'images/dodo_domain.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
             </div>
-            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center;">
-                <div class="showcase-header" style="margin-top: 20px; width: 100%; text-align: center;">
-                    <h2 class="tek-text-blue">PVE+NPC Cluster</h2>
-                </div>
+            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center; margin-bottom: 20px;">
                 <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
                     A PVE cluster with the addition of NPC's. Using a mod called 
                     "Human NPCs ASA", created by ZoneKiller, you can encounter 
@@ -58,17 +59,22 @@
                     passive tames. They will, however, attack anything that attacks them.
                 </p>
                 <br>
-                <button class="view-more-button blue">
+                <button class="view-more-button blue" onclick="window.location.href='{% url 'dodo_domain_stats' %}'">
                     <svg class="tek-svg-blue" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00e5ff"><path d="m105-399-65-47 200-320 120 140 160-260 120 180 135-214 65 47-198 314-119-179-152 247-121-141-145 233Zm475 159q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM784-80 676-188q-21 14-45.5 21t-50.5 7q-75 0-127.5-52.5T400-340q0-75 52.5-127.5T580-520q75 0 127.5 52.5T760-340q0 26-7 50.5T732-244l108 108-56 56Z"/></svg>
                     <span class="tek-label-blue">Show All Stats</span>
                 </button>
             </div>
-            <hr style="width: 95%; margin: 20px 0; border-color: #00e5ff;">
+            
+            <hr style="width: 95%; margin: 10px 0; border-color: #ff9d00;">
+            <div class="showcase-header" style="width: 100%; text-align: center;">
+                <h2 class="tek-text-red">Hybrid PVP Cluster</h2>
+            </div>
+            <hr style="width: 95%; margin: 10px 0; border-color: #ff9d00;">
+
             <div class="showcase-image" style="overflow: hidden; width: 90%; max-width: 450px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); margin-top: 10px;">
                 <img src="{% static 'images/gigabite_retreat1.png' %}" alt="TkRxp_GBR_Logo" style="width: 100%; height: 100%;">
             </div>
-            <div class="showcase-header" style="margin-top: 20px; width: 100%; text-align: center;">
-                <h2 class="tek-text-red">Hybrid PVP Cluster</h2>
+            <div class="showcase-description" style="margin-top: 10px; width: 100%; text-align: center;">
                 <p style="line-height: 1.7; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; padding: 10px 20px;">
                     A hybrid, fast-paced PvP experience with 90-day wipe cycles. Build your base in peace for 12 days before PvP combat is enabled. For an entire weekend, tribes are free to raid
                     others, or stay back and defend their own bases. This hybrid approach combines the thrill of PvP with the strategic depth of base building, ensuring that both offensive 

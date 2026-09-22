@@ -1,0 +1,179 @@
+@media screen and (max-width: 768px) {
+
+.astro-pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.astro-propeller-2 {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    align-items: center;
+    height: 50px;
+    top: 60px;
+}
+
+.astro-propeller-inner {
+    display: block;
+    position: relative;
+    width: 98%;
+    margin: auto;
+}
+
+.astro-blade-shell {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+    height: 40px;
+    transition: 0.5s ease-in-out;
+    
+}
+
+.astro-propeller-2 .blade-partition-2.p1 {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow2);
+    height: 100%;
+    flex: 1 1 0;      /* grow and shrink evenly */
+    min-width: 0;   
+}
+
+.astro-propeller-2 .blade-partition-2.p2 {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow2);
+    flex: 1 1 0;      /* grow and shrink evenly */
+    min-width: 0;   
+    height: 100%;
+}
+
+.astro-propeller-2 .blade-root-housing {
+    width: 15%;
+    top: 50%;
+    position: absolute;
+    z-index: 6;
+    overflow:visible;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.blade-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110%;
+    z-index: 5;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow3);
+}
+
+.astro-propeller-4 {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    align-items: center;
+    height: 50px;
+    bottom: 30px;
+}
+
+.blade-housing-spacer {
+    position: relative;
+    width: 50px;
+}
+.astro-propeller-4 .blade-partition-4.p1 {
+    position: relative;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow4);
+    height: 100%;
+    flex: 1 1 0;      /* grow and shrink evenly */
+    min-width: 0;   
+    
+}
+
+.astro-propeller-4 .blade-partition-4.p2{
+    position: relative;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow4);
+    flex: 1 1 0;      /* grow and shrink evenly */
+    min-width: 0;   
+    height: 100%;
+    
+}
+
+.astro-propeller-4 .blade-partition-4.p3{
+    position: relative;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow4);
+    flex: 1 1 0;      /* grow and shrink evenly */
+    
+    min-width: 0;   
+    height: 100%;
+}
+
+
+
+.astro-propeller-4 .blade-partition-4.p4 {
+    position: relative;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background: var(--elementBackground);
+    box-shadow: var(--shadow4);
+    flex: 1 1 0;      /* grow and shrink evenly */
+    
+    min-width: 0;   
+    height: 100%;
+}
+
+.yb-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    fill: rgb(100, 100, 100);
+}
+
+
+
+.astro-propeller-4 .blade-root-housing {
+    width: 17%;
+    top: 50%;
+    position: absolute;
+    z-index: 6;
+    overflow:visible;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.astro-pageHeader h1 {
+    margin: 0;
+}
+
+.astro-listItem-detailed {
+    background: var(--elementBackground);
+    box-shadow: var(--shadow2);
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+#profile-button-image {
+    width: 90%;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+}

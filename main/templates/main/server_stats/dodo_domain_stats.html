@@ -1,0 +1,626 @@
+{% extends "main/server_stats/stat_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen p-3 md:p-6 lg:p-8 flex justify-center items-start selection:bg-cyan-500 selection:text-black">
+
+  <div class="w-full max-w-7xl mx-auto space-y-6">
+
+    <!-- Top Server Banner / Hero Header -->
+    <header class="relative overflow-hidden rounded-2xl border border-ark-border bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 shadow-2xl">
+      <!-- Glow ambient background shapes -->
+      <div class="absolute -top-24 -right-24 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 border border-emerald-500/40 text-emerald-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              CLUSTER ONLINE
+            </span>
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-cyan-950 text-cyan-300 border border-cyan-800/60 uppercase">
+              PVE + NPC Humans
+            </span>
+          </div>
+
+          <h1 class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-400 to-amber-300">
+            DODO DOMAIN
+          </h1>
+          <p class="mt-2 text-slate-300 max-w-2xl text-sm md:text-base leading-relaxed">
+            High performance PVE cluster featuring living NPC human survivors, tailored gather rates with minimum 3x boosts, and Ascended Armory RPG-style equipment progression.
+          </p>
+        </div>
+
+        <!-- Quick actions & copy button -->
+        <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
+          <button onclick="copyServerDetails()" id="copyBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 transition-all shadow-md hover:shadow-cyan-500/25 flex items-center gap-2">
+            <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <span id="copyBtnText">Copy Server Info</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Highlights Grid -->
+      <div class="mt-6 pt-6 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
+          <span class="text-xs uppercase font-medium text-slate-400">Persistence</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-teal-300 mt-0.5 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Never Wipes
+          </span>
+        </div>
+
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
+          <span class="text-xs uppercase font-medium text-slate-400">Weapon Mod</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-amber-300 mt-0.5 truncate" title="Ascended Armory Mod">
+            Ascended Armory
+          </span>
+          <span class="text-[10px] text-amber-400/80">Funding available on request</span>
+        </div>
+
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
+          <span class="text-xs uppercase font-medium text-slate-400">Cross-Cluster</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-cyan-300 mt-0.5">
+            PVP Downloads
+          </span>
+          <span class="text-[10px] text-slate-400">From Hybrid PVP Cluster</span>
+        </div>
+
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col">
+          <span class="text-xs uppercase font-medium text-slate-400">Baseline Harvest</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-emerald-400 mt-0.5">
+            3x Minimum
+          </span>
+          <span class="text-[10px] text-emerald-500/80">Fine-tuned per resource</span>
+        </div>
+
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 flex flex-col col-span-2 sm:col-span-1">
+          <span class="text-xs uppercase font-medium text-slate-400">Map Rotation</span>
+          <span class="font-orbitron text-sm md:text-base font-bold text-slate-300 mt-0.5">
+            Map TBA
+          </span>
+          <span class="text-[10px] text-slate-400">Announced via Discord</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main 2-Column / Modular Grid Layout: Player Multipliers & Taming -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Column 1: Player Multipliers (5 Cols) -->
+      <section class="lg:col-span-5 bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl flex flex-col">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-lg bg-teal-500/10 text-teal-400 border border-teal-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <div>
+              <h2 class="font-orbitron font-bold text-lg text-slate-100">Player Stats</h2>
+              <p class="text-xs text-slate-400">Multiplier applied per leveled stat point</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-teal-400 border border-slate-700">10 Stats</span>
+        </div>
+
+        <!-- Player Stat Cards / Progress Bars -->
+        <div class="mt-4 space-y-3.5 flex-1" id="playerStatsList"></div>
+
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+          <span>* Weight (x3.0) and Fortitude (x2.0) heavily augmented</span>
+          <span class="text-teal-400 font-mono">PVE Tuning</span>
+        </div>
+      </section>
+
+      <!-- Column 2: Taming & Breeding Benchmarks (7 Cols) -->
+      <section class="lg:col-span-7 space-y-6 flex flex-col justify-between">
+        
+        <!-- Breeding / Taming Rates Box -->
+        <div class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <h2 class="font-orbitron font-bold text-lg text-slate-100">Taming & Breeding Speed</h2>
+                <p class="text-xs text-slate-400">Aggressive maturation & fast incubation rates</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-700/50 font-bold">Fast Pace</span>
+          </div>
+
+          <!-- Quick Metric Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-5">
+            <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl text-center relative overflow-hidden group hover:border-cyan-500/50 transition-colors">
+              <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Taming Speed</div>
+              <div class="font-orbitron text-3xl font-extrabold text-cyan-400 mt-1">25x</div>
+              <div class="text-[11px] text-slate-400 mt-1">Quick knockout & passive</div>
+            </div>
+
+            <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl text-center relative overflow-hidden group hover:border-amber-500/50 transition-colors">
+              <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Maturation</div>
+              <div class="font-orbitron text-3xl font-extrabold text-amber-400 mt-1">45x</div>
+              <div class="text-[11px] text-slate-400 mt-1">Imprints tuned for speed</div>
+            </div>
+
+            <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl text-center relative overflow-hidden group hover:border-teal-500/50 transition-colors">
+              <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Incubation</div>
+              <div class="font-orbitron text-3xl font-extrabold text-teal-300 mt-1">35x</div>
+              <div class="text-[11px] text-slate-400 mt-1">Rapid egg & gestation hatch</div>
+            </div>
+          </div>
+
+          <!-- Mating Cooldown Notice -->
+          <div class="mt-4 p-3.5 rounded-xl bg-gradient-to-r from-amber-950/30 via-slate-800/50 to-slate-800/30 border border-amber-600/30 flex items-center gap-3">
+            <div class="text-amber-400 p-2 rounded-lg bg-amber-500/10">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="text-xs md:text-sm text-slate-200">
+              <span class="font-semibold text-amber-300">Global Mating Cooldown:</span> 
+              <span class="font-mono font-bold text-white px-1.5 py-0.5 rounded bg-slate-900 border border-amber-500/30 ml-1">57m - 144m</span>
+              <p class="text-xs text-slate-400 mt-0.5">Imprinting speeds are synchronized so you reach 100% imprint without missing maturation cycles.</p>
+            </div>
+          </div>
+
+          <!-- Breed Benchmarks -->
+          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700 flex items-center justify-between">
+              <div>
+                <span class="text-[11px] font-semibold tracking-wider text-rose-400 uppercase block">Longest Mature Time</span>
+                <span class="font-orbitron text-base font-bold text-slate-100">Tek Giga</span>
+              </div>
+              <div class="text-right">
+                <span class="font-mono text-sm font-bold text-amber-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700">5h 25m</span>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700 flex items-center justify-between">
+              <div>
+                <span class="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase block">Shortest Mature Time</span>
+                <span class="font-orbitron text-base font-bold text-slate-100">Lystrosaurus</span>
+              </div>
+              <div class="text-right">
+                <span class="font-mono text-sm font-bold text-emerald-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700">20m 34s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Summary Perk Highlights -->
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900/90 to-cyan-950/20 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
+          <h3 class="text-xs font-orbitron uppercase tracking-widest text-cyan-400 font-bold mb-3 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Server Core Perks
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+            <div class="p-3 bg-slate-800/30 rounded-xl border border-slate-700/40">
+              <span class="font-bold text-amber-300 block mb-1">RPG Weapon Progression</span>
+              Ascended Armory enabled in PVE. Level gear with XP and unlock boosts without pay-to-win on PVP.
+            </div>
+            <div class="p-3 bg-slate-800/30 rounded-xl border border-slate-700/40">
+              <span class="font-bold text-teal-300 block mb-1">NPC Humans Inhabited</span>
+              Encounter interactive NPC humans roaming the world. Tame them for tribe work or raid their villages for loot.
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- Section: Harvest Rates Detailed Table & Interactive Filter -->
+    <section class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-orbitron font-bold text-xl text-slate-100">Harvest Rates</h2>
+            <span class="text-xs px-2 py-0.5 bg-emerald-950 text-emerald-300 border border-emerald-800/70 rounded-full font-mono">Fine Tuned</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Every resource has been calibrated individually (3x minimum floor)</p>
+        </div>
+
+        <!-- Filter + Search Bar -->
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
+          <div class="relative w-full sm:w-64">
+            <input 
+              type="text" 
+              id="resourceSearch" 
+              placeholder="Search resource..." 
+              oninput="filterResources()"
+              class="w-full bg-slate-800/80 border border-slate-700 text-slate-100 placeholder-slate-400 text-xs rounded-xl px-3.5 py-2 pl-9 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+            >
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+
+          <div class="flex items-center gap-1 bg-slate-800/70 p-1 rounded-xl border border-slate-700 text-xs font-mono">
+            <button onclick="setRateFilter('all')" class="rate-filter-btn active px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-filter="all">All</button>
+            <button onclick="setRateFilter('8x')" class="rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-filter="8x">8x</button>
+            <button onclick="setRateFilter('6x')" class="rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-filter="6x">6x</button>
+            <button onclick="setRateFilter('5x')" class="rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-filter="5x">5x</button>
+            <button onclick="setRateFilter('4x')" class="rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-filter="4x">4x</button>
+            <button onclick="setRateFilter('3x')" class="rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-filter="3x">3x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resource Grid Presentation -->
+      <div class="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3" id="harvestContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div id="noResultsMsg" class="hidden text-center py-10 text-slate-400 text-sm">
+        No resources match your search query.
+      </div>
+    </section>
+
+    <!-- Section: Installed Mods & Cluster Features (Now Last Section) -->
+    <section class="bg-slate-900/80 rounded-2xl border border-slate-800 p-5 md:p-6 backdrop-blur-md shadow-xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-orbitron font-bold text-xl text-slate-100">Installed Mods & Cluster Features</h2>
+            <span class="text-xs px-2 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-800/70 rounded-full font-mono">9 Active Mods</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Carefully curated mods enhancing building, progression, trading, and PVE quality-of-life</p>
+        </div>
+
+        <!-- Mod Mode Filter Tabs -->
+        <div class="flex items-center gap-1 bg-slate-800/70 p-1 rounded-xl border border-slate-700 text-xs font-mono">
+          <button onclick="setModFilter('all')" class="mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30" data-mod-filter="all">All Mods</button>
+          <button onclick="setModFilter('pve')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="pve">PVE Only</button>
+          <button onclick="setModFilter('both')" class="mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white" data-mod-filter="both">Both Clusters</button>
+        </div>
+      </div>
+
+      <!-- Mod Cards Grid -->
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="modsContainer">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Footer Note -->
+    <footer class="text-center text-xs text-slate-400 py-3 flex flex-wrap justify-between items-center px-2">
+      <div>Dodo Domain &copy; ARK Server Cluster &bull; Optimized for Crossplay</div>
+      <div class="text-slate-400">Map updates TBA &bull; Join the community hub</div>
+    </footer>
+
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-16 opacity-0 transition-all duration-300 bg-slate-900 border border-teal-500/50 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs">
+    <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <script>
+    // Data definition strictly matching user provided tables
+    const PLAYER_STATS = [
+      { name: "Weight", mult: "x3.0", val: 3.0, max: 3.0, highlight: true },
+      { name: "Fortitude", mult: "x2.0", val: 2.0, max: 3.0, highlight: true },
+      { name: "Health", mult: "x1.5", val: 1.5, max: 3.0 },
+      { name: "Stamina", mult: "x1.5", val: 1.5, max: 3.0 },
+      { name: "Oxygen", mult: "x1.5", val: 1.5, max: 3.0 },
+      { name: "Movement Speed Leveling", mult: "x1.5", val: 1.5, max: 3.0 },
+      { name: "Food", mult: "x1.2", val: 1.2, max: 3.0 },
+      { name: "Water", mult: "x1.2", val: 1.2, max: 3.0 },
+      { name: "Melee", mult: "x1.2", val: 1.2, max: 3.0 },
+      { name: "Crafting", mult: "x1.2", val: 1.2, max: 3.0 }
+    ];
+
+    const HARVEST_RATES = [
+      { name: "Narcoberries", rate: "x8", numeric: 8, tier: "8x", category: "Berry / Taming" },
+      { name: "Oil", rate: "x6", numeric: 6, tier: "6x", category: "Refining" },
+      { name: "Organic Polymer", rate: "x6", numeric: 6, tier: "6x", category: "Crafting" },
+      { name: "Raw Mutton", rate: "x6", numeric: 6, tier: "6x", category: "Food / Taming" },
+      { name: "Raw Prime Meat", rate: "x6", numeric: 6, tier: "6x", category: "Food / Taming" },
+      { name: "Silica Pearls", rate: "x6", numeric: 6, tier: "6x", category: "Electronics" },
+      { name: "Electronics", rate: "x5", numeric: 5, tier: "5x", category: "Advanced" },
+      { name: "Element Ore", rate: "x5", numeric: 5, tier: "5x", category: "Tek / Advanced" },
+      { name: "Keratin", rate: "x5", numeric: 5, tier: "5x", category: "Crafting" },
+      { name: "Metal", rate: "x4", numeric: 4, tier: "4x", category: "Structure / Resource" },
+      { name: "Mejoberries", rate: "x4", numeric: 4, tier: "4x", category: "Berry / Taming" },
+      { name: "Obsidian", rate: "x4", numeric: 4, tier: "4x", category: "Advanced" },
+      { name: "All Other Materials", rate: "x3", numeric: 3, tier: "3x", category: "Baseline Floor" }
+    ];
+
+    const MODS_DATA = [
+      {
+        title: "Human NPC's ASA",
+        author: "ZoneKi11er",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Inhabitants & Combat",
+        points: [
+          "Human NPC base stats are 10% weaker than player stats.",
+          "Tameable companions to boost a solo run or provide tribe grunts for light work.",
+          "May organize raid parties and drop loot upon defeat.",
+          "Construct villages with neutral humans packed with lootable rewards."
+        ]
+      },
+      {
+        title: "Ascended Armory",
+        author: "khalahad",
+        availability: "pve",
+        badge: "PVE Only",
+        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+        tag: "RPG Progression",
+        points: [
+          "Freemium mod upgrading weapon and armor stats/tiers as you gain XP.",
+          "Improve reload speed, damage, durability, harvest rate, and magazine size.",
+          "Free version earns XP and levels up gear (upgrades unlockable; purchase funding on request).",
+          "Excluded from Hybrid/PVP servers to prevent pay-to-win advantage."
+        ]
+      },
+      {
+        title: "Dino Revive Mod",
+        author: "haruscompany",
+        availability: "pve",
+        badge: "PVE Only",
+        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+        tag: "Tame Insurance",
+        points: [
+          "Revive lost tames at Goddess Statues positioned around the map.",
+          "Taming times on the cluster can reach up to 5 hours (Tek Giga).",
+          "Eliminates the heartbreak and time loss of an accidental dino death."
+        ]
+      },
+      {
+        title: "Berrybush Coins",
+        author: "Quellcrest",
+        availability: "pve",
+        badge: "PVE Only",
+        badgeColor: "bg-amber-950/80 text-amber-300 border-amber-700/60",
+        tag: "Rewards Economy",
+        points: [
+          "Custom server tokens redeemable for exclusive in-game rewards.",
+          "Awarded by admins for community events, boss achievements, and cluster donations."
+        ]
+      },
+      {
+        title: "Guns and Firearms",
+        author: "Jax322",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Weapons Expansion",
+        points: [
+          "Adds 20 extra realistic weapons to your arsenal.",
+          "Several new ammo variations that are cheap and balanced to craft."
+        ]
+      },
+      {
+        title: "Starter Kits",
+        author: "GaiaStudios",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Level Progression",
+        points: [
+          "Granted automatically to survivors at 5-level intervals.",
+          "Includes Food, Tools, Base Building, Weapons, and Metal starter packs."
+        ]
+      },
+      {
+        title: "Simple Trade",
+        author: "Segradeth",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Player Economy",
+        points: [
+          "Enables player-built trading shops and marketplaces.",
+          "Introduces a standardized in-game currency for player-to-player trade."
+        ]
+      },
+      {
+        title: "Power Mesh System",
+        author: "AifiasGaming",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Utility & Wireless",
+        points: [
+          "Expand power generator radii with cheap, connectable power relays.",
+          "Clean wireless electricity distribution without messy cable clutter."
+        ]
+      },
+      {
+        title: "Wall'n'Floor Decor",
+        author: "Glitch_DK",
+        availability: "both",
+        badge: "Both Clusters",
+        badgeColor: "bg-teal-950/80 text-teal-300 border-teal-700/60",
+        tag: "Cosmetics & Building",
+        points: [
+          "Over 100+ Dino statues and miniature figurines.",
+          "Huge suite of furniture additions, room clutter, floor, and wall decorations.",
+          "Stained glass windows and mosaic wall elements."
+        ]
+      }
+    ];
+
+    let currentFilter = 'all';
+    let currentModFilter = 'all';
+
+    // Populate Player Stats
+    function renderPlayerStats() {
+      const container = document.getElementById('playerStatsList');
+      container.innerHTML = PLAYER_STATS.map(stat => {
+        const percent = (stat.val / stat.max) * 100;
+        const isHighlight = stat.highlight;
+        return `
+          <div class="group">
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="font-medium ${isHighlight ? 'text-cyan-300 font-bold' : 'text-slate-300'}">${stat.name}</span>
+              <span class="font-mono font-bold ${isHighlight ? 'text-amber-400' : 'text-slate-400'}">${stat.mult}</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden p-0.5 border border-slate-700/60">
+              <div 
+                class="h-full rounded-full transition-all duration-500 ${isHighlight ? 'bg-gradient-to-r from-teal-400 to-amber-400' : 'bg-gradient-to-r from-slate-500 to-cyan-500'}"
+                style="width: ${percent}%;"
+              ></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Populate Mods
+    function renderModsGrid() {
+      const container = document.getElementById('modsContainer');
+      const filtered = MODS_DATA.filter(mod => {
+        if (currentModFilter === 'all') return true;
+        return mod.availability === currentModFilter;
+      });
+
+      container.innerHTML = filtered.map(mod => `
+        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">${mod.tag}</span>
+              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded border ${mod.badgeColor}">
+                ${mod.badge}
+              </span>
+            </div>
+            <h3 class="font-orbitron font-bold text-base text-slate-100">${mod.title}</h3>
+            <p class="text-[11px] text-cyan-400 font-mono mb-3">By ${mod.author}</p>
+            <ul class="space-y-1.5 text-xs text-slate-300">
+              ${mod.points.map(pt => `
+                <li class="flex items-start gap-1.5 leading-relaxed">
+                  <span class="text-teal-400 shrink-0 text-sm leading-none mt-0.5">&bull;</span>
+                  <span>${pt}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setModFilter(type) {
+      currentModFilter = type;
+      document.querySelectorAll('.mod-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-mod-filter') === type) {
+          btn.className = "mod-filter-btn active px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30";
+        } else {
+          btn.className = "mod-filter-btn px-3 py-1 rounded-lg text-slate-400 hover:text-white";
+        }
+      });
+      renderModsGrid();
+    }
+
+    // Color and badge mapping for Harvest Tiers
+    function getTierBadgeClasses(tier) {
+      switch(tier) {
+        case '8x': return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+        case '6x': return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+        case '5x': return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
+        case '4x': return 'bg-teal-500/20 text-teal-300 border-teal-500/40';
+        case '3x': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        default: return 'bg-slate-700 text-slate-300 border-slate-600';
+      }
+    }
+
+    // Populate Harvest Cards
+    function renderHarvestGrid() {
+      const container = document.getElementById('harvestContainer');
+      const searchVal = (document.getElementById('resourceSearch').value || '').toLowerCase().trim();
+      const noResults = document.getElementById('noResultsMsg');
+
+      const filtered = HARVEST_RATES.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchVal) || item.category.toLowerCase().includes(searchVal);
+        const matchesFilter = currentFilter === 'all' || item.tier === currentFilter;
+        return matchesSearch && matchesFilter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      container.innerHTML = filtered.map(item => `
+        <div class="bg-slate-800/40 hover:bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] text-slate-400 font-mono tracking-wider">${item.category}</span>
+              <span class="text-xs font-mono font-black px-1.5 py-0.5 rounded border ${getTierBadgeClasses(item.tier)}">
+                ${item.rate}
+              </span>
+            </div>
+            <div class="font-semibold text-sm text-slate-100 leading-snug">
+              ${item.name}
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-500 flex justify-between">
+            <span>Harvest Tier</span>
+            <span class="font-mono text-cyan-400 font-bold">${item.numeric}x Base</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setRateFilter(tier) {
+      currentFilter = tier;
+      document.querySelectorAll('.rate-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === tier) {
+          btn.className = "rate-filter-btn px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30";
+        } else {
+          btn.className = "rate-filter-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white";
+        }
+      });
+      renderHarvestGrid();
+    }
+
+    function filterResources() {
+      renderHarvestGrid();
+    }
+
+    // Toast UI helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0');
+      }, 2800);
+    }
+
+    // Copying helper
+    function copyServerDetails() {
+      const text = `DODO DOMAIN - PVE with NPC Humans\nRates: 3x Min Baseline, Metal 4x, Narcoberries 8x, Prime/Mutton/Oil 6x\nTaming: 25x | Maturation: 45x | Incubation: 35x\nCooldown: 57m-144m | Ascended Armory & NPC Humans Cluster (Never Wipes)`;
+      
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        showToast('Server stats copied to clipboard!');
+      } catch (err) {
+        showToast('Failed to copy info');
+      }
+      document.body.removeChild(el);
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPlayerStats();
+      renderHarvestGrid();
+      renderModsGrid();
+    });
+  </script>
+</body>
+
+{% endblock %}

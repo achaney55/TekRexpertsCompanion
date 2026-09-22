@@ -1,0 +1,394 @@
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: var(--shadow2);
+    background: #f0f4fa;
+    font-family: inherit;
+    font-size: 0.95rem;
+    box-shadow: inset 6px 6px 12px #c4cad3, inset -6px -6px 12px #ffffff;
+    margin-bottom: 20px;
+}
+
+textarea,
+.astro-text-input,
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"]
+{
+    font-family: inherit;
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: none;
+    background: var(--elementBackground);
+    box-shadow: inset 3px 3px 6px #c4cad3, inset -1px -1px 3px #ffffff;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+textarea,
+.astro-text-input,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+    outline: none;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+
+
+.astro-hoverfx-greenlight:hover {
+    background: linear-gradient(145deg, #d8e4f0, #d3e0d8);
+    box-shadow: var(--shadow3);
+    transition: 0.75s ease;
+}
+
+.astro-button.active
+{
+    border: 3px solid #7abbe7;
+    background: linear-gradient(145deg, #d8e4f0, #d3e0d8);
+    box-shadow: var(--shadow3);
+    transition: 0.75s ease;
+    animation: ShrinkandGrow 0.5s ease-in-out 1;
+}
+
+.astro-button.bounce {
+    animation: ShrinkandGrow 0.5s ease-in-out 1;
+}
+
+
+
+input[type="file"] {
+    margin-bottom: 20px;
+}
+
+.cover-thumbnail:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.astro-button,
+.astro-widget-content button,
+.astro-controls button {
+    position: relative;
+    display: block;
+    background: var(--bg-light);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow2);
+    font-size: 0.85rem;
+    margin-top: 10px;
+    transform: scale(1.00);
+    transition: 0.3s ease;
+    font-weight: 550;
+    transition: 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.astro-button.paused {
+    border: 3px solid #f59191;
+    background: linear-gradient(145deg, #f0d8e4, #f0d3e0);
+    box-shadow: var(--shadowred);
+    transition: 1s ease;
+    animation: ShrinkandGrow 0.5s ease-in-out 1;
+}
+
+.astro-button.playing {
+    border: 3px solid #a5f591;
+    background: linear-gradient(145deg, #d8e4f0, #d3e0d8);
+    box-shadow: var(--shadowgreen);
+    transition: 1s ease;
+    animation: ShrinkandGrow 0.5s ease-in-out 1;
+
+}
+
+
+.astro-button.start {
+    transform: scale(0);
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.astro-button.flex {
+    display: flex; 
+    gap: 5px; 
+    align-items: center;
+    flex-direction: row;
+}
+
+.astro-widget-content button {
+    display: block;
+}
+
+.astro-button:hover,
+.widget-content button:hover,
+.controls button:hover {
+    transform: scale(1.04);
+    transition: 0.3s ease;
+}
+
+.astro-button.no-margin {
+    margin: 0;
+}
+
+.astro-button.no-padding {
+    padding: 0;
+}
+
+.astro-button.slim-padding {
+    padding: 2px 4px;
+}
+
+.astro-button.medium-padding {
+    padding: 4px 8px;
+}
+
+.astro-button.large-padding {
+    padding: 8px 12px;
+}
+
+.astro-floating-button {
+    align-self: center;
+    margin: 20px auto 0px;
+    background: #e0e5ec;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow2);
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.astro-controls select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: var(--shadow2);
+    background: 
+    #e0e5ec;
+    cursor: pointer;
+}
+
+.astro-button-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+
+.astro-responsiveButton {
+    height: 60px;
+    font-size: 16px;
+    border: none;
+    border-radius: 16px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.astro-wide-button:active {
+    transform: scale(0.97);
+}
+
+
+.astro-search-field {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(145deg, #f0f4fa, #d3dae6);
+    box-shadow: inset 3px 3px 6px #c4cad3, inset -1px -1px 3px #ffffff;
+    font-size: 0.95rem;
+}
+
+.astro-button.circle {
+    margin: 0; 
+    padding: 6px; 
+    border-radius: 50%; 
+    aspect-ratio: 1; 
+    height: 36px; 
+    width: 36px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.astro-button.home {
+    margin: 0; 
+    padding: 6px; 
+    border-radius: 50%; 
+    aspect-ratio: 1; 
+    height: 36px; 
+    width: 36px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: var(--shadow5);
+}
+
+
+.astro-button.rounded {
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 20px;
+    
+}
+
+.astro-button-set {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.00);
+    transition: 0.3s ease;
+
+}
+
+.astro-button-set.start {
+    transform: scale(0);
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.astro-button-set.vt {
+    flex-direction: column;
+}
+
+.astro-button-set.hz {
+    flex-direction: row;
+}
+
+.yb-menu-button {
+    width: 100%; 
+    gap: 10px; 
+    flex: 0 0 calc(25% - 10px);
+}
+
+
+.astro-button.green-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #44c649, #6ad26e);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #81e085;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.dark-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #444, #666);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #888;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: gray;
+}
+
+.astro-button.blue-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #4a90e2, #6ab0f5);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #8ac0f5;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.yellow-preset {
+    border: none;
+    background: linear-gradient(0deg, #f5a623, #f7c55b);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #f7d55b;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.red-preset {
+    border: none;
+    background: linear-gradient(0deg, #e74c3c, #f05a5a);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #e49792;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.purple-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #9b59b6, #b76fbf);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #b76fbf;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.orange-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #e67e22, #f39c12);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #f39c12;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.astro-button.indigo-preset {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(0deg, #3f51b5, #5c6bc0);
+    box-shadow: 6px 6px 12px #bcc2cb, -1.5px -1.5px 0px #5c6bc0;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}

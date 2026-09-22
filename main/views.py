@@ -11,3 +11,6 @@ def update_dodoball(request):
     # Add logic to update DodoBall status for the given net_id
     print(f"Team scored points in dodoball: {pointsToAdd}")
     return HttpResponse(f"Points to add: {pointsToAdd}")
+
+def dodo_domain_stats(request):
+    return render(request, 'main/server_stats/dodo_domain_stats.html')
