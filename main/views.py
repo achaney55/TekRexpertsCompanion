@@ -13,6 +13,10 @@ def update_dodoball(request):
     print(f"Team scored points in dodoball: {pointsToAdd}")
     return HttpResponse(f"Points to add: {pointsToAdd}")
 
+def gbr_stats(request):
+    
+    return render(request, 'main/server_stats/gbr_stats.html')
+
 def ddd_rag_stats(request):
     server_info = get_server_info("DDD_RAG_ID")
     return render(request, 'main/server_stats/ddd_rag_stats.html')
