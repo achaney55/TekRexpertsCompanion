@@ -1,10 +1,26 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from ArkServer.utility import get_server_info
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
     return render(request, 'main/home.html')
+
+@csrf_exempt
+def dodo_domain_maps(request):
+    rag_info = get_server_info("DDD_RAG_ID")
+    isl_info = get_server_info("DDD_ISL_ID")
+    ast_info = get_server_info("DDD_AST_ID")
+    total_players = rag_info['player_current'] + isl_info['player_current'] + ast_info['player_current']
+
+    data = {
+        'rag_info': rag_info,
+        'isl_info': isl_info,
+        'ast_info': ast_info,
+        'total_players': total_players,
+    }
+    return JsonResponse(data)
 
 def update_dodoball(request):
     from .models import DodoBallMatch
@@ -30,18 +46,6 @@ def ddd_ast_stats(request):
     return render(request, 'main/server_stats/ddd_ast_stats.html')
 
 def dodo_domain_stats(request):
-    rag_info = get_server_info("DDD_RAG_ID")
-    print(f"RAG Info: {rag_info}")
-    isl_info = get_server_info("DDD_ISL_ID")
-    print(f"ISL Info: {isl_info}")
-    ast_info = get_server_info("DDD_AST_ID")
-    print(f"AST Info: {ast_info}")
-    total_players = rag_info['player_current'] + isl_info['player_current'] + ast_info['player_current']
-
-    return render(request, 'main/server_stats/dodo_domain_stats.html', {
-        'rag_info': rag_info,
-        'isl_info': isl_info,
-        'ast_info': ast_info,
-        'total_players': total_players,
-    })
+    
+    return render(request, 'main/server_stats/dodo_domain_stats.html')
 

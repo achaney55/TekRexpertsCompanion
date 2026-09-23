@@ -6,16 +6,6 @@
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen p-3 md:p-6 lg:p-8 flex justify-center items-start selection:bg-cyan-500 selection:text-black bg-scanlines">
 
 <div class="w-full max-w-7xl mx-auto space-y-6">
-    
-    
-    <!--An alert for a server notification such as a server is offline and we are investigating-->
-    <div class="bg-rose-500/10 border border-rose-500/30 text-rose-400 p-4 rounded-xl mb-6">
-      <p class="text-sm flex items-center gap-2">
-        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full border border-rose-400 font-bold" aria-hidden="true">!</span>
-        <span>An issue has been detected with the "Astraeos" server.</span>
-      </p>
-    </div>
-
 
     <!-- Top Server Banner / Hero Header -->
     <header class="relative overflow-hidden rounded-2xl border border-ark-border bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 shadow-2xl">
@@ -108,34 +98,21 @@
             Active Cluster Maps:
           </span>
         </div>
-        <div class="flex flex-wrap items-center gap-2">
-        {% if ast_info.is_online %}
+        <div id="active-map-list" class="flex flex-wrap items-center gap-2">
+
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Astraeos &bull; {{ast_info.player_current}}/{{ast_info.player_max}}
+            <span id="ast-online-indicator" class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> <span id="astInfo">Astraeos &bull; {{ast_info.player_current}}/{{ast_info.player_max}}</span>
           </span>
-        {% else %}
-          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> Astraeos &bull; offline
-          </span>
-        {% endif %}
-        {% if isl_info.is_online %}
+
+
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> The Island &bull; {{isl_info.player_current}}/{{isl_info.player_max}}
+            <span id="isl-online-indicator" class="w-1.5 h-1.5 rounded-full bg-teal-400"></span><span id="islInfo">The Island &bull; {{isl_info.player_current}}/{{isl_info.player_max}}</span>
           </span>
-        {% else %}
-          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> The Island &bull; offline
-          </span>
-        {% endif %}
-        {% if rag_info.is_online %}
+
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Ragnarok &bull; {{rag_info.player_current}}/{{rag_info.player_max}}
+            <span id="rag-online-indicator" class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> <span id="ragInfo">Ragnarok &bull; {{rag_info.player_current}}/{{rag_info.player_max}}</span>
           </span>
-        {% else %}
-          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> Ragnarok &bull; offline
-          </span>
-          {% endif %}
+
           <span class="px-2 py-1 rounded-lg font-mono text-[11px] text-slate-400 border border-dashed border-slate-700 bg-slate-900/40">
             + More Planned
           </span>
@@ -391,6 +368,120 @@
       }
     }
 
+    function renderNotificationHeader(message) {
+      const notification = document.createElement('div');
+      notification.className = 'bg-rose-500/10 border border-rose-500/30 text-rose-400 p-4 rounded-xl mb-6';
+
+      const paragraph = document.createElement('p');
+      paragraph.className = 'text-sm flex items-center gap-2';
+
+      const icon = document.createElement('span');
+      icon.className = 'inline-flex h-5 w-5 items-center justify-center rounded-full border border-rose-400 font-bold';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = '!';
+
+      const messageElement = document.createElement('span');
+      messageElement.textContent = message;
+
+      paragraph.append(icon, messageElement);
+      notification.appendChild(paragraph);
+
+      const documentContainer = document.querySelector('.w-full.max-w-7xl');
+      if (documentContainer) {
+        documentContainer.prepend(notification);
+      }
+    } 
+
+    function renderMapInfo() {
+      const ragInfo = document.getElementById('ragInfo');
+      const islInfo = document.getElementById('islInfo');
+      const astInfo = document.getElementById('astInfo');
+      const totalPlayers = document.getElementById('totalPlayers');
+
+      fetch("{% url 'api_dodo_domain_maps' %}")
+        .then(response => response.json())
+        .then(data => {
+            if (data.rag_info.is_online){
+                ragInfo.textContent = `Ragnarok: ${data.rag_info.player_current} / ${data.rag_info.player_max}`;
+                ragInfo.parentElement.classList.remove('bg-rose-500/10');
+                ragInfo.parentElement.classList.remove('text-rose-400');
+                ragInfo.parentElement.classList.remove('border-rose-700');
+                ragInfo.parentElement.classList.add('bg-slate-800/80');
+                ragInfo.parentElement.classList.add('text-cyan-300');
+                ragInfo.parentElement.classList.add('border-slate-700');
+
+                document.getElementById('rag-online-indicator').classList.remove('bg-red-500');
+                document.getElementById('rag-online-indicator').classList.add('bg-teal-500');
+            } else {
+                document.getElementById('rag-online-indicator').classList.remove('bg-teal-500');
+                document.getElementById('rag-online-indicator').classList.add('bg-red-500');
+                ragInfo.textContent = `Ragnarok: Offline`;
+                ragInfo.parentElement.classList.remove('bg-slate-800/80');
+                ragInfo.parentElement.classList.remove('text-cyan-300');
+                ragInfo.parentElement.classList.remove('border-slate-700');
+
+                ragInfo.parentElement.classList.add('bg-rose-500/10');
+                ragInfo.parentElement.classList.add('text-rose-400');
+                ragInfo.parentElement.classList.add('border-rose-400');
+
+                renderNotificationHeader("Outage detected: Ragnarok - Status: Investigating...")
+            }
+            if (data.isl_info.is_online){
+                document.getElementById('isl-online-indicator').classList.remove('bg-red-500');
+                document.getElementById('isl-online-indicator').classList.add('bg-teal-500');
+                islInfo.textContent = `Island: ${data.isl_info.player_current} / ${data.isl_info.player_max}`;
+                islInfo.parentElement.classList.remove('bg-rose-500/10');
+                islInfo.parentElement.classList.remove('text-rose-400');
+                islInfo.parentElement.classList.remove('border-rose-400');
+
+                islInfo.parentElement.classList.add('bg-slate-800/80');
+                islInfo.parentElement.classList.add('text-cyan-300');
+                islInfo.parentElement.classList.add('border-slate-700');
+
+            } else {
+                document.getElementById('isl-online-indicator').classList.remove('bg-teal-500');
+                document.getElementById('isl-online-indicator').classList.add('bg-red-500');
+                islInfo.textContent = `Island: Offline`;
+                islInfo.parentElement.classList.remove('bg-slate-800/80');
+                islInfo.parentElement.classList.remove('text-cyan-300');
+                islInfo.parentElement.classList.remove('border-slate-400');
+
+                islInfo.parentElement.classList.add('bg-rose-500/10');
+                islInfo.parentElement.classList.add('text-rose-400');
+                islInfo.parentElement.classList.add('border-rose-400');
+
+                renderNotificationHeader("Outage detected: The Island - Status: Investigating...")
+                
+            }
+            if (data.ast_info.is_online){
+                document.getElementById('ast-online-indicator').classList.remove('bg-red-500');
+                document.getElementById('ast-online-indicator').classList.add('bg-teal-500');
+                astInfo.textContent = `Astraeos: ${data.ast_info.player_current} / ${data.ast_info.player_max}`;
+                astInfo.parentElement.classList.remove('bg-rose-500/10');
+                astInfo.parentElement.classList.remove('text-rose-400');
+                astInfo.parentElement.classList.remove('border-rose-400');
+
+                astInfo.parentElement.classList.add('bg-slate-800/80');
+                astInfo.parentElement.classList.add('text-teal-300');
+                astInfo.parentElement.classList.add('border-slate-700');
+            } else {
+                document.getElementById('ast-online-indicator').classList.remove('bg-teal-500');
+                document.getElementById('ast-online-indicator').classList.add('bg-red-500');
+                astInfo.textContent = `Astraeos: Offline`;
+                astInfo.parentElement.classList.remove('bg-slate-800/80');
+                astInfo.parentElement.classList.remove('text-teal-300');
+                astInfo.parentElement.classList.remove('border-slate-700');
+
+                astInfo.parentElement.classList.add('bg-rose-500/10');
+                astInfo.parentElement.classList.add('text-rose-400');
+                astInfo.parentElement.classList.add('border-rose-400');
+
+                renderNotificationHeader("Outage detected: Astraeos - Status: Investigating...")
+
+            }
+        });
+    }
+
     // Populate Harvest Cards
     function renderHarvestGrid() {
       const container = document.getElementById('harvestContainer');
@@ -482,6 +573,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderPlayerStats();
       renderHarvestGrid();
+      renderMapInfo();
     });
   </script>
 </body>
