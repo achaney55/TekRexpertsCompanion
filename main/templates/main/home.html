@@ -262,7 +262,8 @@
         "Tameable companions to boost a solo run or provide tribe grunts for light work.",
         "May organize raid parties and drop loot upon defeat.",
         "Construct villages with neutral humans packed with lootable rewards."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/human_npcs_asa"
     },
     {
     title: "Ascended Armory",
@@ -276,7 +277,8 @@
         "Improve reload speed, damage, durability, harvest rate, and magazine size.",
         "Free version earns XP and levels up gear (upgrades unlockable; purchase funding on request).",
         "Excluded from Hybrid/PVP servers to prevent pay-to-win advantage."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/ascended-armory"
     },
     {
     title: "Dino Revive Mod",
@@ -289,7 +291,8 @@
         "Revive lost tames at Goddess Statues positioned around the map.",
         "Taming times on the cluster can reach up to 5 hours (Tek Giga).",
         "Eliminates the heartbreak and time loss of an accidental dino death."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/dino-revive-mod"
     },
     {
     title: "Berrybush Coins",
@@ -301,7 +304,8 @@
     points: [
         "Custom server tokens redeemable for exclusive in-game rewards.",
         "Awarded by admins for community events, boss achievements, and cluster donations."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/berrybush-coin"
     },
     {
     title: "Guns and Firearms",
@@ -313,7 +317,8 @@
     points: [
         "Adds 20 extra realistic weapons to your arsenal.",
         "Several new ammo variations that are cheap and balanced to craft."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/gunsandfirearms"
     },
     {
     title: "Starter Kits",
@@ -325,7 +330,8 @@
     points: [
         "Granted automatically to survivors at 5-level intervals.",
         "Includes Food, Tools, Base Building, Weapons, and Metal starter packs."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/starter-kits"
     },
     {
     title: "Simple Trade",
@@ -337,7 +343,8 @@
     points: [
         "Enables player-built trading shops and marketplaces.",
         "Introduces a standardized in-game currency for player-to-player trade."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/simpletrade"
     },
     {
     title: "Power Mesh System",
@@ -349,7 +356,8 @@
     points: [
         "Expand power generator radii with cheap, connectable power relays.",
         "Clean wireless electricity distribution without messy cable clutter."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/power-mesh-system"
     },
     {
     title: "Wall'n'Floor Decor",
@@ -362,7 +370,8 @@
         "Over 100+ Dino statues and miniature figurines.",
         "Huge suite of furniture additions, room clutter, floor, and wall decorations.",
         "Stained glass windows and mosaic wall elements."
-    ]
+    ],
+    link: "https://www.curseforge.com/ark-survival-ascended/mods/wallnfloor-decor"
     }
 ];
 
@@ -411,7 +420,7 @@ let currentModFilter = 'all';
       });
 
       container.innerHTML = filtered.map(mod => `
-        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40">
+        <div class="bg-slate-800/40 hover:bg-slate-800/70 p-4 rounded-xl border border-slate-700/60 transition-all flex flex-col justify-between hover:border-cyan-500/40" onclick="window.open('${mod.link}', '_blank')">
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">${mod.tag}</span>

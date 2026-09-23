@@ -23,11 +23,13 @@
             <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-cyan-950 text-cyan-300 border border-cyan-800/60 uppercase">
               PVE + NPC Humans
             </span>
+
           </div>
 
           <h1 class="font-orbitron text-2xl sm:text-4xl md:text-5xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-cyan-400 to-amber-300">
             DODO DOMAIN
           </h1>
+
           <p class="mt-2 text-slate-300 max-w-2xl text-sm md:text-base leading-relaxed">
             High performance PVE cluster featuring living NPC human survivors, tailored gather rates with minimum 3x boosts, and Ascended Armory RPG-style equipment progression across permanent, non-wiping worlds. PVE servers support cross-cluster reward and loot transfer from PVP, Hybrid, and Event Clusters hosted by Tek Rexperts.
           </p>
@@ -97,15 +99,33 @@
           </span>
         </div>
         <div class="flex flex-wrap items-center gap-2">
+        {% if ast_info.is_online %}
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Astraeos
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Astraeos &bull; {{ast_info.player_current}}/{{ast_info.player_max}}
           </span>
+        {% else %}
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> Astraeos &bull; offline
+          </span>
+        {% endif %}
+        {% if isl_info.is_online %}
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> The Island
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> The Island &bull; {{isl_info.player_current}}/{{isl_info.player_max}}
           </span>
+        {% else %}
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> The Island &bull; offline
+          </span>
+        {% endif %}
+        {% if rag_info.is_online %}
           <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-cyan-300 border border-slate-700 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Ragnarok
+            <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span> Ragnarok &bull; {{rag_info.player_current}}/{{rag_info.player_max}}
           </span>
+        {% else %}
+          <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-slate-800/80 text-red-300 border border-slate-700 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span> Ragnarok &bull; offline
+          </span>
+          {% endif %}
           <span class="px-2 py-1 rounded-lg font-mono text-[11px] text-slate-400 border border-dashed border-slate-700 bg-slate-900/40">
             + More Planned
           </span>
