@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+import requests
 from ArkServer.utility import get_server_info
 from django.views.decorators.csrf import csrf_exempt
 
@@ -49,3 +50,23 @@ def dodo_domain_stats(request):
     
     return render(request, 'main/server_stats/dodo_domain_stats.html')
 
+def beacon_login():
+    try:
+        response = requests.get(
+            url="https://api.usebeacon.app/v4/login",
+            params={
+                "state": "0fc732a9-05d8-403c-bdce-231c90f7b924",
+                "client_id": "95e7998f-ae52-4fa2-b0a7-886ff7d43abf",
+                "scope": "common users:read",
+                "redirect_uri": "https://jiinuko.edu/ehreg/oauth",
+                "response_type": "code",
+                "code_challenge": "2b6-gW15O10gZcp97PaXVmmu_4IrMXVBXNWtP8q8crs",
+                "code_challenge_method": "S256",
+            },
+        )
+        print('Response HTTP Status Code: {status_code}'.format(
+            status_code=response.status_code))
+        print('Response HTTP Response Body: {content}'.format(
+            content=response.content))
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')

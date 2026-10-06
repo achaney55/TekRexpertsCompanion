@@ -301,16 +301,16 @@
   <script>
     // Data definition strictly matching user provided tables
     const PLAYER_STATS = [
-      { name: "Weight", mult: "x3.0", val: 3.0, max: 3.0, highlight: true },
-      { name: "Fortitude", mult: "x2.0", val: 2.0, max: 3.0, highlight: true },
-      { name: "Health", mult: "x1.5", val: 1.5, max: 3.0 },
-      { name: "Stamina", mult: "x1.5", val: 1.5, max: 3.0 },
-      { name: "Oxygen", mult: "x1.5", val: 1.5, max: 3.0 },
-      { name: "Movement Speed Leveling", mult: "x1.5", val: 1.5, max: 3.0 },
-      { name: "Food", mult: "x1.2", val: 1.2, max: 3.0 },
-      { name: "Water", mult: "x1.2", val: 1.2, max: 3.0 },
-      { name: "Melee", mult: "x1.2", val: 1.2, max: 3.0 },
-      { name: "Crafting", mult: "x1.2", val: 1.2, max: 3.0 }
+      { name: "Weight", mult: "x7.0", val: 7.0, max: 7.0, highlight: true },
+      { name: "Fortitude", mult: "x6.0", val: 6.0, max: 7.0, highlight: true },
+      { name: "Health", mult: "x1.5", val: 1.5, max: 7.0 },
+      { name: "Stamina", mult: "x1.5", val: 1.5, max: 7.0 },
+      { name: "Oxygen", mult: "x1.5", val: 1.5, max: 7.0 },
+      { name: "Movement Speed Leveling", mult: "x1.5", val: 1.5, max: 7.0 },
+      { name: "Food", mult: "x1.2", val: 1.2, max: 7.0 },
+      { name: "Water", mult: "x1.2", val: 1.2, max: 7.0 },
+      { name: "Melee", mult: "x1.5", val: 1.5, max: 7.0 },
+      { name: "Crafting", mult: "x1.5", val: 1.5, max: 7.0 }
     ];
 
     const HARVEST_RATES = [
@@ -323,9 +323,11 @@
       { name: "Electronics", rate: "x5", numeric: 5, tier: "5x", category: "Advanced" },
       { name: "Element Ore", rate: "x5", numeric: 5, tier: "5x", category: "Tek / Advanced" },
       { name: "Keratin", rate: "x5", numeric: 5, tier: "5x", category: "Crafting" },
-      { name: "Metal", rate: "x4", numeric: 4, tier: "4x", category: "Structure / Resource" },
+      { name: "Metal", rate: "x5", numeric: 5, tier: "5x", category: "Structure / Resource" },
       { name: "Mejoberries", rate: "x4", numeric: 4, tier: "4x", category: "Berry / Taming" },
       { name: "Obsidian", rate: "x4", numeric: 4, tier: "4x", category: "Advanced" },
+      { name: "Wood", rate: "x4", numeric: 4, tier: "4x", category: "Structure / Resource" },
+      { name: "Fiber", rate: "x2", numeric: 2, tier: "2x", category: "Structure / Resource" },
       { name: "All Other Materials", rate: "x3", numeric: 3, tier: "3x", category: "Baseline Floor" }
     ];
 
@@ -364,6 +366,7 @@
         case '5x': return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
         case '4x': return 'bg-teal-500/20 text-teal-300 border-teal-500/40';
         case '3x': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        case '2x': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
         default: return 'bg-slate-700 text-slate-300 border-slate-600';
       }
     }
