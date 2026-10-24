@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-y1!cf-eu4i@hjr)k3sl18%zb()*(m93+))+f_4thx80^wh*bg+
 DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0:7287', 'ark.chaneyverse.app', 'localhost', '127.0.0.1', 'brontobyteprovince.com', 'www.brontobyteprovince.com']
+CSRF_TRUSTED_ORIGINS = ['http://0.0.0.0:7287', 'https://ark.chaneyverse.app', 'http://localhost', 'http://127.0.0.1', 'https://brontobyteprovince.com', 'https://www.brontobyteprovince.com']
 
 
 # Application definition
