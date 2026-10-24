@@ -476,6 +476,75 @@ let currentModFilter = 'all';
     });
   }
 
+  function renderAdminAnnouncementHeader(message) {
+    const documentContainer = document.querySelector('.w-full.max-w-7xl');
+    if (!documentContainer) return;
+
+    // Remove any existing admin banner so only the latest announcement stays visible
+    const existingNotification = documentContainer.querySelector('.admin-announcement-header');
+    if (existingNotification) {
+      existingNotification.remove();
+    }
+
+    const notification = document.createElement('div');
+    notification.className = 'admin-announcement-header bg-amber-500/10 border border-amber-500/30 text-amber-300 dark:text-amber-400 p-4 rounded-xl mb-6';
+
+    const paragraph = document.createElement('p');
+    paragraph.className = 'text-sm flex items-center gap-2';
+
+    const icon = document.createElement('span');
+    icon.className = 'inline-flex h-5 w-5 items-center justify-center rounded-full border border-amber-400 font-bold text-xs';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '!';
+
+    const messageElement = document.createElement('span');
+    messageElement.textContent = message;
+
+    paragraph.append(icon, messageElement);
+    notification.appendChild(paragraph);
+
+    documentContainer.prepend(notification);
+  }
+
+  async function loadLatestAdminAnnouncement() {
+      try {
+        const response = await fetch('/api/messages/admin/', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'same-origin' // Ensures Django session cookies/auth headers are sent
+        });
+
+        if (!response.ok) {
+          if (response.status === 404 || response.status === 204) {
+            // No active announcement available
+            return;
+          }
+          throw new Error(`Failed to fetch admin message: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Handles responses where the payload contains a message string or field
+        const announcementText = data?.[0]?.message || data?.message || data?.text || (typeof data === 'string' ? data : null);
+
+        if (announcementText) {
+          renderAdminAnnouncementHeader(announcementText);
+        }
+      } catch (error) {
+        console.error('Error fetching admin announcement:', error);
+      }
+    }
+
+    // Trigger automatically once the DOM is loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadLatestAdminAnnouncement);
+    } else {
+      loadLatestAdminAnnouncement();
+  }
+
   renderModsGrid();
 </script>
 

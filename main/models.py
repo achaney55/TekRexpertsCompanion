@@ -39,3 +39,10 @@ class DodoBallMatch(models.Model):
 
     def __str__(self):
         return f"Team A: {self.team_a_points} - Team B: {self.team_b_points} on {self.match_date}"
+
+class AdminAnnouncement(models.Model):
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Admin Announcement at {self.created_at}"

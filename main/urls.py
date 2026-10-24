@@ -8,5 +8,6 @@ urlpatterns = [
     path('api/maps/dodo_domain/', dodo_domain_maps, name='api_dodo_domain_maps'),
     path('servers/gigabite_retreat/', gbr_stats, name='gbr_stats'),
     path('update_dodoball/', update_dodoball, name='update_dodoball'), 
+    path('api/messages/admin/')
 
 ]

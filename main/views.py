@@ -70,3 +70,10 @@ def beacon_login():
             content=response.content))
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
+
+
+def admin_messages(request):
+    from .models import AdminAnnouncement
+    announcements = AdminAnnouncement.objects.all().order_by('-created_at')
+    data = [{'message': a.message, 'created_at': a.created_at} for a in announcements]
+    return JsonResponse(data, safe=False)
