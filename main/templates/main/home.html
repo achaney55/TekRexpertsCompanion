@@ -480,30 +480,34 @@ let currentModFilter = 'all';
     const documentContainer = document.querySelector('.w-full.max-w-6xl');
     if (!documentContainer) return;
 
-    // Remove any existing admin banner so only the latest announcement stays visible
-    const existingNotification = documentContainer.querySelector('.admin-announcement-header');
-    if (existingNotification) {
-      existingNotification.remove();
-    }
+      // Remove any existing admin banner so only the latest stays visible
+      const existingNotification = documentContainer.querySelector('.admin-announcement-header');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
 
-    const notification = document.createElement('div');
-    notification.className = 'admin-announcement-header bg-amber-500/10 border border-amber-500/30 text-amber-300 dark:text-amber-400 p-4 rounded-xl mb-6';
+      const notification = document.createElement('div');
+      notification.className = 'admin-announcement-header bg-amber-500/10 border border-amber-500/30 text-amber-300 dark:text-amber-400 p-4 rounded-xl mb-6';
 
-    const paragraph = document.createElement('p');
-    paragraph.className = 'text-sm flex items-center gap-2';
+      const paragraph = document.createElement('div');
+      // items-start ensures the icon aligns with the top line of multi-line text on mobile
+      paragraph.className = 'text-sm flex items-start gap-2.5';
 
-    const icon = document.createElement('span');
-    icon.className = 'inline-flex h-5 w-5 items-center justify-center rounded-full border border-amber-400 font-bold text-xs';
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = '!';
+      const icon = document.createElement('span');
+      // shrink-0 prevents flexbox from squishing the circle on narrow viewports
+      icon.className = 'inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-amber-400 font-bold text-xs mt-0.5';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = '!';
 
-    const messageElement = document.createElement('span');
-    messageElement.textContent = message;
+      const messageElement = document.createElement('div');
+      messageElement.className = 'flex-1 break-words leading-relaxed';
+      // Use innerHTML instead of textContent so HTML tags are rendered
+      messageElement.innerHTML = message;
 
-    paragraph.append(icon, messageElement);
-    notification.appendChild(paragraph);
+      paragraph.append(icon, messageElement);
+      notification.appendChild(paragraph);
 
-    documentContainer.prepend(notification);
+      documentContainer.prepend(notification);
   }
 
   async function loadLatestAdminAnnouncement() {
