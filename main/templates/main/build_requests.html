@@ -1411,54 +1411,54 @@ Solo Farm Mod</textarea>
                 };
 
             async function submitToDjangoBackend() {
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-            // Gather your existing form state object from the builder
-            const payload = {
-                requester_name: document.getElementById('requesterName')?.value || 'Community Member',
-                server_name: document.getElementById('serverName').value,
-                game_version: document.querySelector('input[name="gameVersion"]:checked')?.value || 'ASA',
-                visibility: document.getElementById('visibility').value,
-                server_password: document.getElementById('serverPassword')?.value || '',
-                maps: Array.from(document.querySelectorAll('input[name="maps"]:checked')).map(cb => cb.value),
-                mods_requested: document.getElementById('modsList').value,
-                blacklisted_items: document.getElementById('blacklistItems').value,
-                custom_notes: document.getElementById('customNotes').value,
-                rates: {
-                    max_wild_level: parseFloat(document.getElementById('maxWildLevel').value),
-                    xp: parseFloat(document.getElementById('xpRate').value),
-                    taming: parseFloat(document.getElementById('tamingRate').value),
-                    harvest: parseFloat(document.getElementById('harvestRate').value),
-                    resource_respawn: parseFloat(document.getElementById('resourceRespawn').value),
-                    passive_tame_interval: parseFloat(document.getElementById('passiveInterval').value)
-                },
-                breeding: {
-                    mating_interval: parseFloat(document.getElementById('matingInterval').value),
-                    egg_hatch_speed: parseFloat(document.getElementById('eggHatch').value),
-                    baby_mature_speed: parseFloat(document.getElementById('babyMature').value),
-                    cuddle_interval: parseFloat(document.getElementById('cuddleInterval').value)
-                },
-                // Optionally pass the already-formatted INI text from the preview pane
-                raw_gus_ini: typeof generateGUS === 'function' ? generateGUS() : '',
-                raw_game_ini: typeof generateGameINI === 'function' ? generateGameINI() : ''
-            };
+                // Gather your existing form state object from the builder
+                const payload = {
+                    requester_name: document.getElementById('requesterName')?.value || 'Community Member',
+                    server_name: document.getElementById('serverName').value,
+                    game_version: document.querySelector('input[name="gameVersion"]:checked')?.value || 'ASA',
+                    visibility: document.getElementById('visibility').value,
+                    server_password: document.getElementById('serverPassword')?.value || '',
+                    maps: Array.from(document.querySelectorAll('input[name="maps"]:checked')).map(cb => cb.value),
+                    mods_requested: document.getElementById('modsList').value,
+                    blacklisted_items: document.getElementById('blacklistItems').value,
+                    custom_notes: document.getElementById('customNotes').value,
+                    rates: {
+                        max_wild_level: parseFloat(document.getElementById('maxWildLevel').value),
+                        xp: parseFloat(document.getElementById('xpRate').value),
+                        taming: parseFloat(document.getElementById('tamingRate').value),
+                        harvest: parseFloat(document.getElementById('harvestRate').value),
+                        resource_respawn: parseFloat(document.getElementById('resourceRespawn').value),
+                        passive_tame_interval: parseFloat(document.getElementById('passiveInterval').value)
+                    },
+                    breeding: {
+                        mating_interval: parseFloat(document.getElementById('matingInterval').value),
+                        egg_hatch_speed: parseFloat(document.getElementById('eggHatch').value),
+                        baby_mature_speed: parseFloat(document.getElementById('babyMature').value),
+                        cuddle_interval: parseFloat(document.getElementById('cuddleInterval').value)
+                    },
+                    // Optionally pass the already-formatted INI text from the preview pane
+                    raw_gus_ini: typeof generateGUS === 'function' ? generateGUS() : '',
+                    raw_game_ini: typeof generateGameINI === 'function' ? generateGameINI() : ''
+                };
 
-            const response = await fetch("{% url 'ark_builder:submit_config' %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                },
-                body: JSON.stringify(payload)
-            });
+                const response = await fetch("{% url 'main:submit_config' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify(payload)
+                });
 
-            const result = await response.json();
-            if (response.ok) {
-                alert(result.message);
-            } else {
-                alert("Submission Error: " + result.message);
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert("Submission Error: " + result.message);
+                }
             }
-        }
     </script>
 </body>
 </html>
