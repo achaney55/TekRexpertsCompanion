@@ -112,38 +112,98 @@
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="border-b border-slate-800/80 bg-obsidian/90 backdrop-blur-md sticky top-0 z-40 no-print">
-        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500/20 to-amber-500/20 border border-tekCyan/50 flex items-center justify-center shadow-lg shadow-cyan-500/10">
-                    <i class="fa-solid fa-cubes-stacked text-tekCyan text-xl"></i>
+    <!-- Submission Confirmation / Django Payload Modal -->
+    <div id="submitModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="tek-card rounded-2xl max-w-2xl w-full border border-emerald-500/50 overflow-hidden shadow-2xl shadow-emerald-500/10">
+            <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div id="modalIconWrap" class="w-9 h-9 rounded-lg bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
+                        <i id="modalIcon" class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalTitle" class="font-tek text-sm sm:text-base font-bold text-white uppercase tracking-wider">Server Request Submitted</h3>
+                        <p id="modalSubtitle" class="text-xs text-slate-400">Payload ready for Beacon import</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeSubmitModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+                <div id="modalStatusBanner" class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-200 leading-relaxed">
+                    Your server request has been packaged and sent!
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="font-tek text-lg sm:text-xl font-bold tracking-wider text-white uppercase">
-                            ARK <span class="text-tekCyan">Beacon INI</span> Intake Builder
-                        </h1>
-                        <span class="hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-tekCyan border border-cyan-500/30">ASA & ASE Ready</span>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-mono font-semibold text-tekCyan">POST /api/submit-config/ Payload</span>
+                        <button type="button" onclick="copyTextById('modalJsonPreview', 'JSON Payload copied!')" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+                            <i class="fa-regular fa-copy mr-1"></i>Copy JSON
+                        </button>
                     </div>
-                    <p class="text-xs text-slate-400">Complete the specifications below to generate your custom Beacon Project & <code class="text-amber-400">GameUserSettings.ini</code> / <code class="text-amber-400">Game.ini</code> blueprint.</p>
+                    <pre id="modalJsonPreview" class="p-3.5 rounded-xl bg-obsidian border border-slate-800 text-[11px] font-mono text-slate-300 overflow-x-auto max-h-64 leading-relaxed"></pre>
                 </div>
             </div>
+            <div class="bg-slate-900 px-6 py-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="downloadSpec('ini')" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition">
+                        <i class="fa-solid fa-download text-tekCyan mr-1"></i>Download .INI
+                    </button>
+                    <button type="button" onclick="downloadSpec('json')" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition">
+                        <i class="fa-solid fa-file-code text-tekAmber mr-1"></i>Download .JSON
+                    </button>
+                </div>
+                <button type="button" onclick="closeSubmitModal()" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian font-bold text-xs uppercase tracking-wider transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
 
-            <!-- Preset Bar -->
-            <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs font-medium text-slate-400 mr-1"><i class="fa-solid fa-bolt text-tekAmber mr-1"></i>Quick Presets:</span>
-                <button type="button" onclick="applyPreset('vanilla')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-leaf text-emerald-400"></i> Vanilla+ (2x)
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-obsidian/90 backdrop-blur-md sticky top-0 z-40 no-print">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
+            <div class="flex items-center justify-between gap-3.5">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500/20 to-amber-500/20 border border-tekCyan/50 flex items-center justify-center shadow-lg shadow-cyan-500/10">
+                        <i class="fa-solid fa-cubes-stacked text-tekCyan text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-tek text-lg sm:text-xl font-bold tracking-wider text-white uppercase">
+                                ARK <span class="text-tekCyan">Beacon INI</span> Intake Builder
+                            </h1>
+                            <span class="hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-tekCyan border border-cyan-500/30">Django Ready</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Configure rates, stats, mods & blacklists to submit directly to the server build queue.</p>
+                    </div>
+                </div>
+
+                <!-- Mobile Header Submit Button -->
+                <button type="button" onclick="submitToDjangoBackend()" class="xl:hidden px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-obsidian font-tek font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 flex items-center gap-1.5 shrink-0">
+                    <i class="fa-solid fa-paper-plane"></i> Submit
                 </button>
-                <button type="button" onclick="applyPreset('casual')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-950/60 hover:bg-cyan-900/70 text-tekCyan border border-cyan-500/40 transition flex items-center gap-1.5 shadow-sm shadow-cyan-500/10">
-                    <i class="fa-solid fa-dragon"></i> Casual Cluster (5x)
-                </button>
-                <button type="button" onclick="applyPreset('boosted')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-950/60 hover:bg-amber-900/70 text-amber-300 border border-amber-500/40 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-fire"></i> Boosted (10x)
-                </button>
-                <button type="button" onclick="applyPreset('pvp')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border border-rose-500/40 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-crosshairs"></i> PvP / Insta-Tame (50x)
+            </div>
+
+            <!-- Preset Bar + Desktop Header Submit CTA -->
+            <div class="flex flex-wrap items-center justify-between xl:justify-end gap-2">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-xs font-medium text-slate-400 mr-1"><i class="fa-solid fa-bolt text-tekAmber mr-1"></i>Presets:</span>
+                    <button type="button" onclick="applyPreset('vanilla')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-leaf text-emerald-400"></i> Vanilla+ (2x)
+                    </button>
+                    <button type="button" onclick="applyPreset('casual')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan-950/60 hover:bg-cyan-900/70 text-tekCyan border border-cyan-500/40 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-dragon"></i> Casual (5x)
+                    </button>
+                    <button type="button" onclick="applyPreset('boosted')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-950/60 hover:bg-amber-900/70 text-amber-300 border border-amber-500/40 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-fire"></i> Boosted (10x)
+                    </button>
+                    <button type="button" onclick="applyPreset('pvp')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border border-rose-500/40 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-crosshairs"></i> PvP / Insta-Tame (50x)
+                    </button>
+                </div>
+
+                <button type="button" onclick="submitToDjangoBackend()" class="hidden xl:flex px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition items-center gap-2 ml-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Server Request
                 </button>
             </div>
         </div>
@@ -153,18 +213,29 @@
     <main class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-            <!-- LEFT / MAIN FORM COLUMN (65% -> 8 cols on 12-col grid) -->
-            <form id="arkForm" class="lg:col-span-7 xl:col-span-8 space-y-6 no-print" onsubmit="event.preventDefault();">
+            <!-- LEFT / MAIN FORM COLUMN (8 cols on 12-col grid) -->
+            <form id="arkForm" data-submit-url="/submit-config/" class="lg:col-span-7 xl:col-span-8 space-y-6 no-print" onsubmit="event.preventDefault(); submitToDjangoBackend();">
+
+                <!-- Validation Alert Banner (Hidden by default) -->
+                <div id="validationBanner" class="hidden p-4 rounded-xl bg-rose-950/70 border border-rose-500 text-rose-200 text-xs flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base"></i>
+                        <span id="validationBannerText">Please complete all required fields before submitting.</span>
+                    </div>
+                    <button type="button" onclick="document.getElementById('validationBanner').classList.add('hidden')" class="text-rose-300 hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
 
                 <!-- Quick Navigation Pills -->
-                <div class="tek-card rounded-xl p-3 flex items-center gap-2 overflow-x-auto text-xs font-medium sticky top-[73px] z-30">
+                <div class="tek-card rounded-xl p-3 flex items-center gap-2 overflow-x-auto text-xs font-medium sticky top-[68px] z-30">
                     <a href="#sec-identity" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">1. Identity & Cluster</a>
                     <a href="#sec-maps" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">2. Maps</a>
-                    <a href="#sec-rates" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">3. Core Rates</a>
+                    <a href="#sec-rates" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">3. Core Rates & QoL</a>
                     <a href="#sec-breeding" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">4. Breeding</a>
-                    <a href="#sec-stats" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">5. Player & Dino Stats</a>
-                    <a href="#sec-world" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">6. World & Structures</a>
-                    <a href="#sec-mods" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">7. Mods, Blacklist & Loot</a>
+                    <a href="#sec-stats" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">5. Stat Matrix</a>
+                    <a href="#sec-mods" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-500/20 hover:text-tekCyan whitespace-nowrap transition">6. Mods & Blacklist</a>
+                    <a href="#sec-submit" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 whitespace-nowrap transition ml-auto"><i class="fa-solid fa-paper-plane mr-1"></i>7. Submit Request</a>
                 </div>
 
                 <!-- SECTION 1: CLIENT & SERVER IDENTITY -->
@@ -173,7 +244,7 @@
                         <div class="flex items-center gap-3">
                             <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">01</span>
                             <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">Client & Server Identity</h2>
+                                <h2 class="text-base sm:text-lg font-bold text-white">Identity & Cluster Rules</h2>
                                 <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">General</span> & <span class="text-tekCyan font-mono">Cluster</span> tabs</p>
                             </div>
                         </div>
@@ -182,9 +253,9 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Client Name / Discord Handle <span class="text-tekAmber">*</span></label>
-                            <input type="text" id="clientName" placeholder="e.g., SurvivorJoe / @survivorjoe" value="SurvivorJoe#0001" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">
-                            <p class="text-[11px] text-slate-400 mt-1">Used so the admin can follow up with your Beacon file.</p>
+                            <label for="requesterName" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Requester Name / Discord Handle <span class="text-tekAmber">*</span></label>
+                            <input type="text" id="requesterName" required placeholder="e.g., SurvivorJoe / @survivorjoe" value="SurvivorJoe#0001" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">
+                            <p class="text-[11px] text-slate-400 mt-1">Required so we can link your request in Django and ping you on Discord.</p>
                         </div>
 
                         <div>
@@ -206,27 +277,17 @@
                         </div>
 
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Server / Cluster Name <span class="text-tekAmber">*</span></label>
-                            <input type="text" id="serverName" placeholder="e.g., [US] Apex Tek Cluster | 5x Tame/Harvest | QoL Mods" value="[US] Horizon Survival | 5x Rates | S+ & QoL" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm font-medium">
+                            <label for="serverName" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Server / Cluster Name <span class="text-tekAmber">*</span></label>
+                            <input type="text" id="serverName" required placeholder="e.g., [US] Apex Tek Cluster | 5x Tame/Harvest | QoL Mods" value="[US] Horizon Survival | 5x Rates | QoL" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm font-medium">
                             <p class="text-[11px] text-slate-400 mt-1">Maps to <code class="text-cyan-400">SessionName</code>. For clusters, Beacon automatically appends the map name.</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Server Visibility</label>
-                            <div class="grid grid-cols-2 gap-2">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="visibility" value="Public" onchange="togglePasswordBox()" class="peer sr-only">
-                                    <div class="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-center text-xs font-semibold text-slate-300 peer-checked:border-emerald-400 peer-checked:bg-emerald-950/40 peer-checked:text-emerald-300 transition">
-                                        <i class="fa-solid fa-globe mr-1"></i> Public Server
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="visibility" value="Private" checked onchange="togglePasswordBox()" class="peer sr-only">
-                                    <div class="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-center text-xs font-semibold text-slate-300 peer-checked:border-tekAmber peer-checked:bg-amber-950/40 peer-checked:text-amber-300 transition">
-                                        <i class="fa-solid fa-lock mr-1"></i> Private (Password)
-                                    </div>
-                                </label>
-                            </div>
+                            <label for="visibility" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Server Visibility</label>
+                            <select id="visibility" onchange="togglePasswordBox()" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm font-medium">
+                                <option value="private" selected>Private (Password Protected)</option>
+                                <option value="public">Public (Open to Community)</option>
+                            </select>
                         </div>
 
                         <div>
@@ -250,17 +311,17 @@
                         <!-- Conditional Passwords Row -->
                         <div id="passwordFields" class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20">
                             <div>
-                                <label class="block text-xs font-semibold text-amber-300 mb-1"><i class="fa-solid fa-key mr-1"></i>Join Password (<code class="font-mono">ServerPassword</code>)</label>
-                                <input type="text" id="serverPassword" placeholder="Leave blank if Public" value="Dino Tribe2025" class="tek-input w-full rounded-lg px-3 py-1.5 text-sm">
+                                <label for="serverPassword" class="block text-xs font-semibold text-amber-300 mb-1"><i class="fa-solid fa-key mr-1"></i>Join Password (<code class="font-mono">ServerPassword</code>)</label>
+                                <input type="text" id="serverPassword" placeholder="Leave blank if Public" value="DinoTribe2026" class="tek-input w-full rounded-lg px-3 py-1.5 text-sm">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1"><i class="fa-solid fa-shield-halved text-tekCyan mr-1"></i>Admin Password (<code class="font-mono">ServerAdminPassword</code>)</label>
+                                <label for="adminPassword" class="block text-xs font-semibold text-slate-300 mb-1"><i class="fa-solid fa-shield-halved text-tekCyan mr-1"></i>Admin Password (<code class="font-mono">ServerAdminPassword</code>)</label>
                                 <input type="text" id="adminPassword" placeholder="Desired RCON / Cheat Password" value="SuperSecretTekAdmin99" class="tek-input w-full rounded-lg px-3 py-1.5 text-sm">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Max Player Slots</label>
+                            <label for="maxPlayers" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Max Player Slots</label>
                             <input type="number" id="maxPlayers" min="2" max="200" value="20" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm font-mono">
                         </div>
 
@@ -313,81 +374,75 @@
                         <div class="flex items-center gap-3">
                             <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">02</span>
                             <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">Map Selection & Cluster Layout</h2>
+                                <h2 class="text-base sm:text-lg font-bold text-white">Map & Cluster Picker</h2>
                                 <p class="text-xs text-slate-400">Select all official or modded maps to include in your server or multi-map cluster</p>
                             </div>
                         </div>
-                        <button type="button" onclick="toggleAllMaps()" class="text-xs text-tekCyan hover:underline">Toggle All Official</button>
+                        <button type="button" onclick="toggleAllMaps()" class="text-xs text-tekCyan hover:underline">Toggle All Maps</button>
                     </div>
 
                     <div class="mb-4">
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Official Maps (ASA & ASE)</label>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5" id="mapCheckboxes">
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="The Island" checked class="map-cb accent-cyan-400"> <span>The Island</span>
+                                <input type="checkbox" name="maps" value="The Island" checked class="map-cb accent-cyan-400"> <span>The Island</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Scorched Earth" class="map-cb accent-cyan-400"> <span>Scorched Earth</span>
+                                <input type="checkbox" name="maps" value="Scorched Earth" class="map-cb accent-cyan-400"> <span>Scorched Earth</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="The Center" class="map-cb accent-cyan-400"> <span>The Center</span>
+                                <input type="checkbox" name="maps" value="Aberration" class="map-cb accent-cyan-400"> <span>Aberration</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Aberration" class="map-cb accent-cyan-400"> <span>Aberration</span>
+                                <input type="checkbox" name="maps" value="The Center" class="map-cb accent-cyan-400"> <span>The Center</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Extinction" class="map-cb accent-cyan-400"> <span>Extinction</span>
+                                <input type="checkbox" name="maps" value="Ragnarok" checked class="map-cb accent-cyan-400"> <span>Ragnarok</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Ragnarok" checked class="map-cb accent-cyan-400"> <span>Ragnarok</span>
+                                <input type="checkbox" name="maps" value="Astraeos" checked class="map-cb accent-cyan-400"> <span>Astraeos</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Astraeos" class="map-cb accent-cyan-400"> <span>Astraeos</span>
+                                <input type="checkbox" name="maps" value="Extinction" class="map-cb accent-cyan-400"> <span>Extinction</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Valguero" class="map-cb accent-cyan-400"> <span>Valguero</span>
+                                <input type="checkbox" name="maps" value="Genesis" class="map-cb accent-cyan-400"> <span>Genesis (Part 1 & 2)</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Genesis: Part 1" class="map-cb accent-cyan-400"> <span>Genesis: Part 1</span>
+                                <input type="checkbox" name="maps" value="Fjordur" class="map-cb accent-cyan-400"> <span>Fjordur</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Genesis: Part 2" class="map-cb accent-cyan-400"> <span>Genesis: Part 2</span>
+                                <input type="checkbox" name="maps" value="Valguero" class="map-cb accent-cyan-400"> <span>Valguero</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Lost Colony" class="map-cb accent-cyan-400"> <span>Lost Colony</span>
+                                <input type="checkbox" name="maps" value="Lost Island" class="map-cb accent-cyan-400"> <span>Lost Island</span>
                             </label>
                             <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Fjordur" class="map-cb accent-cyan-400"> <span>Fjordur</span>
-                            </label>
-                            <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Crystal Isles" class="map-cb accent-cyan-400"> <span>Crystal Isles</span>
-                            </label>
-                            <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 text-xs cursor-pointer transition">
-                                <input type="checkbox" value="Lost Island" class="map-cb accent-cyan-400"> <span>Lost Island</span>
+                                <input type="checkbox" name="maps" value="Crystal Isles" class="map-cb accent-cyan-400"> <span>Crystal Isles</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Primary / Starter Map</label>
+                            <label for="primaryMap" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Primary / Starter Map</label>
                             <input type="text" id="primaryMap" value="The Island" placeholder="e.g., The Island or Ragnarok" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Custom / Modded Maps (Optional)</label>
+                            <label for="customMaps" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Custom / Modded Maps (Optional)</label>
                             <input type="text" id="customMaps" placeholder="e.g., Svartalfheim, Forglar, Temptress Lagoon, Amissa" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">
                         </div>
                     </div>
                 </section>
 
-                <!-- SECTION 3: CORE RATES & DIFFICULTY -->
+                <!-- SECTION 3: CORE RATES, DIFFICULTY & QOL -->
                 <section id="sec-rates" class="tek-card rounded-2xl p-5 sm:p-6 scroll-mt-32">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
                         <div class="flex items-center gap-3">
                             <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">03</span>
                             <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">Core Rates & Wild Dino Difficulty</h2>
-                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Rates & Difficulty</span> editor</p>
+                                <h2 class="text-base sm:text-lg font-bold text-white">Core Rates, Difficulty & World QoL</h2>
+                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Rates & Difficulty</span> and <span class="text-tekCyan font-mono">Structures / QoL</span></p>
                             </div>
                         </div>
                         <span class="text-xs font-mono text-amber-400 bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30">Official = 1.0x</span>
@@ -397,11 +452,11 @@
                         <!-- Max Wild Dino Level -->
                         <div class="sm:col-span-2 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-tekCyan">Max Wild Standard Dino Level</label>
+                                <label for="maxWildLevel" class="block text-xs font-semibold uppercase tracking-wider text-tekCyan">Max Wild Standard Dino Level (<code class="font-mono">maxWildLevel</code>)</label>
                                 <p class="text-xs text-slate-400 mt-0.5">Beacon automatically calculates <code class="text-slate-200">OverrideOfficialDifficulty</code> (Max Level ÷ 30) and <code class="text-slate-200">DifficultyOffset=1.0</code>.</p>
                             </div>
                             <div class="flex items-center gap-2">
-                                <select id="maxWildLevelSelect" onchange="syncWildDinoLevel()" class="tek-input rounded-lg px-3 py-2 text-sm font-mono">
+                                <select id="maxWildLevel" onchange="updateLivePreview()" class="tek-input rounded-lg px-3 py-2 text-sm font-mono">
                                     <option value="150" selected>Lvl 150 (Official / Diff 5.0)</option>
                                     <option value="180">Lvl 180 (Diff 6.0)</option>
                                     <option value="240">Lvl 240 (Diff 8.0)</option>
@@ -415,61 +470,121 @@
                         <!-- XP Multiplier -->
                         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/90">
                             <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-200">XP Multiplier (<code class="text-cyan-400">XPMultiplier</code>)</label>
-                                <input type="number" id="xpMultiplier" step="0.5" min="0.1" max="1000" value="3.0" oninput="syncSlider('xpMultiplier','xpSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
+                                <label for="xpRate" class="text-xs font-semibold text-slate-200">XP Multiplier (<code class="text-cyan-400">XPMultiplier</code>)</label>
+                                <input type="number" id="xpRate" step="0.5" min="0.1" max="1000" value="3.0" oninput="syncSlider('xpRate','xpSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
                             </div>
-                            <input type="range" id="xpSlider" min="0.5" max="25" step="0.5" value="3.0" oninput="syncNumber('xpSlider','xpMultiplier')" class="w-full my-2">
+                            <input type="range" id="xpSlider" min="0.5" max="25" step="0.5" value="3.0" oninput="syncNumber('xpSlider','xpRate')" class="w-full my-2">
                             <p class="text-[11px] text-slate-400">Higher = Faster player, crafting & dino leveling (1.0 = Official).</p>
                         </div>
 
                         <!-- Taming Speed -->
                         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/90">
                             <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-200">Taming Speed (<code class="text-cyan-400">TamingSpeedMultiplier</code>)</label>
-                                <input type="number" id="tamingSpeed" step="0.5" min="0.1" max="1000" value="5.0" oninput="syncSlider('tamingSpeed','tamingSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
+                                <label for="tamingRate" class="text-xs font-semibold text-slate-200">Taming Speed (<code class="text-cyan-400">TamingSpeedMultiplier</code>)</label>
+                                <input type="number" id="tamingRate" step="0.5" min="0.1" max="1000" value="5.0" oninput="syncSlider('tamingRate','tamingSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
                             </div>
-                            <input type="range" id="tamingSlider" min="0.5" max="50" step="0.5" value="5.0" oninput="syncNumber('tamingSlider','tamingSpeed')" class="w-full my-2">
+                            <input type="range" id="tamingSlider" min="0.5" max="50" step="0.5" value="5.0" oninput="syncNumber('tamingSlider','tamingRate')" class="w-full my-2">
                             <p class="text-[11px] text-slate-400">Higher = Faster taming progress per bite & less kibble required.</p>
                         </div>
 
                         <!-- Harvest Amount -->
                         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/90">
                             <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-200">Harvest Yield (<code class="text-cyan-400">HarvestAmountMultiplier</code>)</label>
-                                <input type="number" id="harvestAmount" step="0.5" min="0.1" max="1000" value="5.0" oninput="syncSlider('harvestAmount','harvestSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
+                                <label for="harvestRate" class="text-xs font-semibold text-slate-200">Harvest Yield (<code class="text-cyan-400">HarvestAmountMultiplier</code>)</label>
+                                <input type="number" id="harvestRate" step="0.5" min="0.1" max="1000" value="5.0" oninput="syncSlider('harvestRate','harvestSlider')" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
                             </div>
-                            <input type="range" id="harvestSlider" min="0.5" max="25" step="0.5" value="5.0" oninput="syncNumber('harvestSlider','harvestAmount')" class="w-full my-2">
+                            <input type="range" id="harvestSlider" min="0.5" max="25" step="0.5" value="5.0" oninput="syncNumber('harvestSlider','harvestRate')" class="w-full my-2">
                             <p class="text-[11px] text-slate-400">Higher = More wood, stone, metal & berries gathered per swing.</p>
                         </div>
 
-                        <!-- Wild Dino Food Drain -->
+                        <!-- Harvest Node Health -->
                         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/90">
                             <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-200">Wild Food Drain (<code class="text-cyan-400">WildDinoCharacterFoodDrain</code>)</label>
-                                <input type="number" id="wildFoodDrain" step="0.25" min="0.1" max="20" value="1.0" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
+                                <label for="harvestHealth" class="text-xs font-semibold text-slate-200">Node Health (<code class="text-cyan-400">HarvestHealthMultiplier</code>)</label>
+                                <input type="number" id="harvestHealth" step="0.5" min="0.1" max="50" value="1.0" class="tek-input w-20 rounded px-2 py-1 text-right text-xs font-mono text-tekCyan">
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-2">Higher = Knocked-out dinos eat faster without ruining taming effectiveness on low taming multipliers.</p>
-                        </div>
-
-                        <!-- Harvest Node Health -->
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Harvest Node Health (<code class="text-cyan-400">HarvestHealthMultiplier</code>)</label>
-                            <input type="number" id="harvestHealth" step="0.5" min="0.1" max="50" value="1.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">1.0 = Official. Higher means rocks/trees take longer to break.</p>
+                            <p class="text-[11px] text-slate-400 mt-2">1.0 = Official. Higher means rocks/trees take longer to break.</p>
                         </div>
 
                         <!-- Resource Respawn Period -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Resource Respawn Time (<code class="text-amber-400">ResourcesRespawnPeriod</code>)</label>
+                            <label for="resourceRespawn" class="block text-xs font-semibold text-slate-300 mb-1">Resource Respawn Time (<code class="text-amber-400">ResourcesRespawnPeriod</code>)</label>
                             <input type="number" id="resourceRespawn" step="0.1" min="0.01" max="10" value="0.5" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Faster respawn! (e.g., <code class="font-mono">0.5</code> = 2x faster node regrowth).</p>
+                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Faster respawn! (<code class="font-mono">0.5</code> = 2x faster node regrowth).</p>
                         </div>
 
                         <!-- Passive Tame Interval -->
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Passive Tame Interval (<code class="text-amber-400">PassiveTameIntervalMultiplier</code>)</label>
-                            <input type="number" id="passiveTameInterval" step="0.1" min="0.01" max="10" value="0.5" class="tek-input w-full sm:w-1/2 rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Shorter wait between passive feeds (e.g., <code class="font-mono">0.5</code> halves the waiting time).</p>
+                        <div>
+                            <label for="passiveInterval" class="block text-xs font-semibold text-slate-300 mb-1">Passive Tame Interval (<code class="text-amber-400">PassiveTameInterval</code>)</label>
+                            <input type="number" id="passiveInterval" step="0.1" min="0.01" max="10" value="0.5" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Shorter wait between passive feeds (<code class="font-mono">0.5</code> halves wait).</p>
+                        </div>
+                    </div>
+
+                    <!-- Stack Size & Day/Night Speeds -->
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-5 pt-5 border-t border-slate-800">
+                        <div>
+                            <label for="stackSize" class="block text-xs font-semibold text-slate-300 mb-1">Item Stack Multiplier</label>
+                            <input type="number" id="stackSize" step="1" min="1" max="1000" value="5.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-slate-400 mt-1"><code class="text-cyan-400">ItemStackSizeMultiplier</code></p>
+                        </div>
+                        <div>
+                            <label for="dayCycleSpeed" class="block text-xs font-semibold text-slate-300 mb-1">Day Cycle Speed</label>
+                            <input type="number" id="dayCycleSpeed" step="0.1" min="0.1" max="10" value="1.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-slate-400 mt-1">1.0 = Standard length</p>
+                        </div>
+                        <div>
+                            <label for="dayTimeSpeed" class="block text-xs font-semibold text-slate-300 mb-1">Daytime Speed</label>
+                            <input type="number" id="dayTimeSpeed" step="0.1" min="0.1" max="10" value="0.7" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-slate-400 mt-1">Lower = Longer Days</p>
+                        </div>
+                        <div>
+                            <label for="nightTimeSpeed" class="block text-xs font-semibold text-slate-300 mb-1">Nighttime Speed</label>
+                            <input type="number" id="nightTimeSpeed" step="0.1" min="0.1" max="10" value="2.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-slate-400 mt-1">Higher = Shorter Nights</p>
+                        </div>
+                    </div>
+
+                    <!-- Core QoL Checkboxes -->
+                    <div class="mt-5 pt-4 border-t border-slate-800">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2.5">Quality of Life & Structure Toggles</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="allowFlyerCarry" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Allow PvE Flyer Carry</strong><br><span class="text-slate-400"><code class="text-cyan-400">AllowFlyerCarryPvE=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="allowFlyerSpeed" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Allow Flyer Speed Leveling</strong><br><span class="text-slate-400"><code class="text-cyan-400">bAllowFlyerSpeedLeveling=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="allowSpeedLeveling" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Ground Speed Leveling (ASA)</strong><br><span class="text-slate-400"><code class="text-cyan-400">bAllowSpeedLeveling=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="floatingDamage" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Floating Damage Numbers</strong><br><span class="text-slate-400"><code class="text-cyan-400">ShowFloatingDamageText=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="disableCollision" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>No Structure Collision</strong><br><span class="text-slate-400"><code class="text-cyan-400">bDisableStructurePlacementCollision</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="alwaysStructurePickup" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Permanent Structure Pickup</strong><br><span class="text-slate-400"><code class="text-cyan-400">AlwaysAllowStructurePickup=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="caveFlyers" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Allow Cave Flyers</strong><br><span class="text-slate-400"><code class="text-cyan-400">bForceCanRideFliers=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="corpseLocator" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Death Beam Corpse Locator</strong><br><span class="text-slate-400"><code class="text-cyan-400">bUseCorpseLocator=True</code></span></span>
+                            </label>
+                            <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
+                                <input type="checkbox" id="unlimitedRespecs" checked class="accent-cyan-400 mt-0.5">
+                                <span><strong>Unlimited Mindwipe Respecs</strong><br><span class="text-slate-400"><code class="text-cyan-400">bAllowUnlimitedRespecs=True</code></span></span>
+                            </label>
                         </div>
                     </div>
                 </section>
@@ -481,85 +596,78 @@
                             <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">04</span>
                             <div>
                                 <h2 class="text-base sm:text-lg font-bold text-white">Breeding, Hatching & Imprinting</h2>
-                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Breeding & Maturation</span> Wizard (`Game.ini`)</p>
+                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Breeding & Maturation</span> Wizard (<code class="font-mono">Game.ini</code>)</p>
                             </div>
                         </div>
                         <span class="text-xs font-mono text-slate-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-800">[/script/shootergame.shootergamemode]</span>
                     </div>
 
-                    <!-- Beacon Breeding Wizard Hint Banner -->
-                    <div class="mb-5 p-3.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 flex items-start gap-3">
-                        <i class="fa-solid fa-wand-magic-sparkles text-tekCyan text-base mt-0.5"></i>
-                        <div class="text-xs text-slate-300 leading-relaxed">
-                            <strong class="text-white">Pro Tip for Beacon's Breeding Wizard:</strong> Beacon calculates exact cuddle intervals so every dino can reach 100% imprint before adulthood. Describe your target maturation speed below OR enter exact multipliers.
-                        </div>
-                    </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Target Breeding Goal for Beacon Wizard</label>
+                            <label for="breedingGoalNotes" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Beacon Breeding Wizard Reference Target</label>
                             <textarea id="breedingGoalNotes" rows="2" placeholder="e.g., I want a Rex to fully mature in ~45 minutes with 1 or 2 cuddles giving 100% imprint." class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">Rex matures in ~45 mins, Wyvern/Giga in ~1.5 hours. Ensure 100% imprint is possible on all creatures with 1-2 cuddles.</textarea>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Egg Hatch Speed (<code class="text-cyan-400">EggHatchSpeedMultiplier</code>)</label>
-                            <input type="number" id="eggHatchSpeed" step="1" min="0.1" max="1000" value="15.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <label for="matingInterval" class="block text-xs font-semibold text-slate-300 mb-1">Mating Interval (<code class="text-amber-400">MatingIntervalMultiplier</code>)</label>
+                            <input type="number" id="matingInterval" step="0.01" min="0.001" max="10" value="0.1" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Faster cooldown between breeding (<code class="font-mono">0.1</code> = 10x faster).</p>
+                        </div>
+
+                        <div>
+                            <label for="eggHatch" class="block text-xs font-semibold text-slate-300 mb-1">Egg Hatch Speed (<code class="text-cyan-400">EggHatchSpeedMultiplier</code>)</label>
+                            <input type="number" id="eggHatch" step="1" min="0.1" max="1000" value="15.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
                             <p class="text-[11px] text-slate-400 mt-1">Higher = Faster egg incubation & mammal gestation.</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Baby Mature Speed (<code class="text-cyan-400">BabyMatureSpeedMultiplier</code>)</label>
-                            <input type="number" id="babyMatureSpeed" step="1" min="0.1" max="1000" value="20.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <label for="babyMature" class="block text-xs font-semibold text-slate-300 mb-1">Baby Mature Speed (<code class="text-cyan-400">BabyMatureSpeedMultiplier</code>)</label>
+                            <input type="number" id="babyMature" step="1" min="0.1" max="1000" value="20.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
                             <p class="text-[11px] text-slate-400 mt-1">Higher = Babies grow into adults much faster.</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mating Cooldown (<code class="text-amber-400">MatingIntervalMultiplier</code>)</label>
-                            <input type="number" id="matingInterval" step="0.01" min="0.001" max="10" value="0.1" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = Faster cooldown between breeding! (<code class="font-mono">0.1</code> = 10x faster).</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mating Speed (<code class="text-cyan-400">MatingSpeedMultiplier</code>)</label>
-                            <input type="number" id="matingSpeed" step="0.5" min="0.1" max="100" value="5.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">Higher = Progress bar fills faster while mating.</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Cuddle Interval (<code class="text-amber-400">BabyCuddleIntervalMultiplier</code>)</label>
+                            <label for="cuddleInterval" class="block text-xs font-semibold text-slate-300 mb-1">Cuddle Interval (<code class="text-amber-400">BabyCuddleIntervalMultiplier</code>)</label>
                             <input type="number" id="cuddleInterval" step="0.01" min="0.001" max="10" value="0.15" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = More frequent imprints (usually scaled with mature speed).</p>
+                            <p class="text-[11px] text-amber-300/90 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>LOWER = More frequent imprints (scaled with mature speed).</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Imprint Amount Multiplier (<code class="text-cyan-400">BabyImprintAmountMultiplier</code>)</label>
+                            <label for="imprintAmount" class="block text-xs font-semibold text-slate-300 mb-1">Imprint Amount (<code class="text-cyan-400">BabyImprintAmountMultiplier</code>)</label>
                             <input type="number" id="imprintAmount" step="0.5" min="0.1" max="100" value="2.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">Higher = More imprint % gained per single cuddle (2.0 = 2x per cuddle).</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Higher = More imprint % gained per single cuddle.</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Imprint Stat Bonus Scale (<code class="text-cyan-400">BabyImprintingStatScale</code>)</label>
-                            <input type="number" id="imprintStatScale" step="0.1" min="0.1" max="50" value="1.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">1.0 = Standard +20% stat boost at 100% imprint.</p>
+                            <label for="babyFoodConsumption" class="block text-xs font-semibold text-slate-300 mb-1">Baby Food Drain (<code class="text-cyan-400">BabyFoodConsumptionSpeed</code>)</label>
+                            <input type="number" id="babyFoodConsumption" step="0.1" min="0.05" max="10" value="0.5" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
+                            <p class="text-[11px] text-slate-400 mt-1">Lower = Babies eat less food while growing (<code class="font-mono">0.5</code> = half drain).</p>
                         </div>
 
-                        <div class="flex items-center pt-4">
+                        <div class="flex items-center">
                             <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs cursor-pointer w-full">
-                                <input type="checkbox" id="allowAnyoneImprint" checked class="accent-cyan-400 w-4 h-4">
-                                <span><strong>Allow Anyone to Imprint</strong> (<code class="text-cyan-400">AllowAnyoneBabyImprintCuddle=True</code>) — Any tribe member can cuddle babies.</span>
+                                <input type="checkbox" id="anyoneCanImprint" checked class="accent-cyan-400 w-4 h-4">
+                                <span><strong>Anyone Can Imprint</strong> (<code class="text-cyan-400">AllowAnyoneBabyImprintCuddle</code>)</span>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs cursor-pointer w-full">
+                                <input type="checkbox" id="disableImprintBuff" class="accent-cyan-400 w-4 h-4">
+                                <span><strong>Disable Rider Imprint Bonus</strong> (<code class="text-cyan-400">DisableImprintDinoBuff</code>)</span>
                             </label>
                         </div>
                     </div>
                 </section>
 
-                <!-- SECTION 5: PLAYER & DINO STAT MULTIPLIERS -->
+                <!-- SECTION 5: PER-LEVEL PLAYER, TAMED DINO & WILD DINO STAT MATRIX -->
                 <section id="sec-stats" class="tek-card rounded-2xl p-5 sm:p-6 scroll-mt-32">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
                         <div class="flex items-center gap-3">
                             <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">05</span>
                             <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">Per-Level Stat Multipliers (Player & Tamed Dino)</h2>
-                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Stat Multipliers</span> (<code class="font-mono">1.0</code> = Official gain per level point spent)</p>
+                                <h2 class="text-base sm:text-lg font-bold text-white">Per-Level Player & Dino Stats Matrix</h2>
+                                <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekCyan font-mono">Stat Multipliers</span> across ARK indices <code class="font-mono">[0]</code> through <code class="font-mono">[11]</code> (<code class="font-mono">1.0</code> = Official)</p>
                             </div>
                         </div>
                         <button type="button" onclick="resetStatsToOfficial()" class="text-xs text-slate-400 hover:text-tekCyan transition">Reset All to 1.0x</button>
@@ -569,163 +677,92 @@
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="border-b border-slate-800 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                                    <th class="py-2.5 px-3">Attribute / Stat Index</th>
-                                    <th class="py-2.5 px-3">Player Per-Level</th>
-                                    <th class="py-2.5 px-3">Tamed Dino Per-Level</th>
+                                    <th class="py-2.5 px-3">ARK Attribute & Index</th>
+                                    <th class="py-2.5 px-3">Player (<code class="text-cyan-400">_Player</code>)</th>
+                                    <th class="py-2.5 px-3">Tamed Dino (<code class="text-emerald-400">_DinoTamed</code>)</th>
+                                    <th class="py-2.5 px-3">Wild Dino (<code class="text-amber-400">_DinoWild</code>)</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-800/70 text-xs">
+                            <tbody class="divide-y divide-slate-800/70 text-xs" id="statMatrixBody">
+                                <!-- Populated cleanly with all indices 0,1,2,3,4,5,7,8,9,10,11 -->
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-heart-pulse text-rose-400 w-5"></i> Health <span class="text-slate-500 font-mono">[0]</span></td>
-                                    <td class="py-2 px-3"><input type="number" id="pStat_0" step="0.5" value="2.0" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
-                                    <td class="py-2 px-3"><input type="number" id="dStat_0" step="0.5" value="1.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-heart-pulse text-rose-400 w-5"></i> Health <span class="text-slate-500 font-mono">[0]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_0" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_0" step="0.5" value="1.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_0" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-bolt text-amber-400 w-5"></i> Stamina <span class="text-slate-500 font-mono">[1]</span></td>
-                                    <td class="py-2 px-3"><input type="number" id="pStat_1" step="0.5" value="2.0" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
-                                    <td class="py-2 px-3"><input type="number" id="dStat_1" step="0.5" value="2.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-bolt text-amber-400 w-5"></i> Stamina <span class="text-slate-500 font-mono">[1]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_1" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_1" step="0.5" value="2.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_1" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-weight-hanging text-cyan-400 w-5"></i> Weight <span class="text-slate-500 font-mono">[7]</span></td>
-                                    <td class="py-2 px-3"><input type="number" id="pStat_7" step="1" value="5.0" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
-                                    <td class="py-2 px-3"><input type="number" id="dStat_7" step="1" value="5.0" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-moon text-purple-400 w-5"></i> Torpidity <span class="text-slate-500 font-mono">[2]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_2" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_2" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_2" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-hand-fist text-orange-400 w-5"></i> Melee Damage <span class="text-slate-500 font-mono">[8]</span></td>
-                                    <td class="py-2 px-3"><input type="number" id="pStat_8" step="0.5" value="1.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
-                                    <td class="py-2 px-3"><input type="number" id="dStat_8" step="0.5" value="1.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-lungs text-sky-400 w-5"></i> Oxygen <span class="text-slate-500 font-mono">[3]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_3" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_3" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_3" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-person-running text-emerald-400 w-5"></i> Movement Speed <span class="text-slate-500 font-mono">[9]</span></td>
-                                    <td class="py-2 px-3"><input type="number" id="pStat_9" step="0.5" value="1.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
-                                    <td class="py-2 px-3"><input type="number" id="dStat_9" step="0.5" value="1.5" class="tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-drumstick-bite text-orange-300 w-5"></i> Food <span class="text-slate-500 font-mono">[4]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_4" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_4" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_4" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2.5 px-3 font-medium text-slate-200"><i class="fa-solid fa-temperature-half text-sky-400 w-5"></i> Fortitude <span class="text-slate-500 font-mono">[10]</span> / Crafting <span class="text-slate-500 font-mono">[11]</span></td>
-                                    <td class="py-2 px-3">
-                                        <div class="flex items-center gap-2">
-                                            <input type="number" id="pStat_10" step="1" value="3.0" title="Fortitude" class="tek-input w-20 rounded px-2 py-1 font-mono">
-                                            <span class="text-[10px] text-slate-400">Fort</span>
-                                        </div>
-                                    </td>
-                                    <td class="py-2 px-3">
-                                        <div class="flex items-center gap-2">
-                                            <input type="number" id="pStat_11" step="1" value="2.0" title="Player Crafting Skill" class="tek-input w-20 rounded px-2 py-1 font-mono">
-                                            <span class="text-[10px] text-slate-400">Craft Skill</span>
-                                        </div>
-                                    </td>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-droplet text-blue-400 w-5"></i> Water <span class="text-slate-500 font-mono">[5]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_5" step="0.5" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_5" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_5" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-weight-hanging text-cyan-400 w-5"></i> Weight <span class="text-slate-500 font-mono">[7]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_7" step="1" value="5.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_7" step="1" value="5.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_7" step="1" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-hand-fist text-orange-400 w-5"></i> Melee Damage <span class="text-slate-500 font-mono">[8]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_8" step="0.5" value="1.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_8" step="0.5" value="1.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_8" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-person-running text-emerald-400 w-5"></i> Movement Speed <span class="text-slate-500 font-mono">[9]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_9" step="0.5" value="1.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_9" step="0.5" value="1.5" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_9" step="0.5" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-temperature-half text-sky-400 w-5"></i> Fortitude <span class="text-slate-500 font-mono">[10]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_10" step="1" value="3.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_10" step="1" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_10" step="1" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-3 font-medium text-slate-200"><i class="fa-solid fa-hammer text-amber-300 w-5"></i> Crafting Skill <span class="text-slate-500 font-mono">[11]</span></td>
+                                    <td class="py-2 px-3"><input type="number" id="pStat_11" step="1" value="2.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="dStat_11" step="1" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
+                                    <td class="py-2 px-3"><input type="number" id="wStat_11" step="1" value="1.0" class="stat-input tek-input w-24 rounded px-2.5 py-1 font-mono"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-800">
-                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="allowFlyerSpeed" checked class="accent-cyan-400 w-4 h-4">
-                            <span><strong>Allow Flyer Speed Leveling</strong> (<code class="text-cyan-400">bAllowFlyerSpeedLeveling=True</code>)</span>
-                        </label>
-                        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="allowSpeedLeveling" checked class="accent-cyan-400 w-4 h-4">
-                            <span><strong>Allow Dino/Player Speed Leveling (ASA)</strong> (<code class="text-cyan-400">bAllowSpeedLeveling=True</code>)</span>
-                        </label>
-                    </div>
                 </section>
 
-                <!-- SECTION 6: WORLD, QOL & STRUCTURE RULES -->
-                <section id="sec-world" class="tek-card rounded-2xl p-5 sm:p-6 scroll-mt-32">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
-                        <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-cyan-500/15 border border-tekCyan/40 text-tekCyan flex items-center justify-center font-tek font-bold text-sm">06</span>
-                            <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">World Environment, Structures & QoL Toggles</h2>
-                                <p class="text-xs text-slate-400">Stack sizes, Day/Night cycle, Structure collision, Cryopods & HUD settings</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-5">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Item Stack Multiplier</label>
-                            <input type="number" id="stackSizeMultiplier" step="1" min="1" max="1000" value="5.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1"><code class="text-cyan-400">ItemStackSizeMultiplier</code></p>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Day Cycle Speed</label>
-                            <input type="number" id="dayCycleSpeed" step="0.1" min="0.1" max="10" value="1.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">1.0 = Standard length</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Daytime Speed</label>
-                            <input type="number" id="dayTimeSpeed" step="0.1" min="0.1" max="10" value="0.7" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">Lower = Longer Days</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nighttime Speed</label>
-                            <input type="number" id="nightTimeSpeed" step="0.1" min="0.1" max="10" value="2.0" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
-                            <p class="text-[11px] text-slate-400 mt-1">Higher = Shorter Nights</p>
-                        </div>
-                    </div>
-
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2.5">Quality of Life & Structure Rules</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="disableCollision" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>No Structure Collision</strong><br><span class="text-slate-400">Build into terrain (<code class="text-cyan-400">bDisableStructurePlacementCollision</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="alwaysStructurePickup" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Permanent Structure Pickup</strong><br><span class="text-slate-400">No 30s timer limit (<code class="text-cyan-400">AlwaysAllowStructurePickup</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="caveFlyers" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Allow Cave & Gen1 Flyers</strong><br><span class="text-slate-400">Ride flyers in caves (<code class="text-cyan-400">bForceCanRideFliers</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="caveBuilding" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Allow Rich-Resource / Cave Building</strong><br><span class="text-slate-400"><code class="text-cyan-400">EnableExtraStructurePreventionVolumes=False</code></span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="floatingDamage" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Floating Damage Numbers</strong><br><span class="text-slate-400">RPG combat numbers (<code class="text-cyan-400">ShowFloatingDamageText</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="corpseLocator" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Death Beam Corpse Locator</strong><br><span class="text-slate-400">Green beam on death (<code class="text-cyan-400">bUseCorpseLocator</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="unlimitedRespecs" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Unlimited Mindwipe Respecs</strong><br><span class="text-slate-400">No 24h cooldown (<code class="text-cyan-400">bAllowUnlimitedRespecs</code>)</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="disableCryoSickness" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Disable Cryo Sickness / Cryo Fridge Req</strong><br><span class="text-slate-400">No cryo cooldown or ASA fridge restriction</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="thirdPerson" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Allow Third-Person & Crosshair</strong><br><span class="text-slate-400"><code class="text-cyan-400">AllowThirdPersonPlayer</code> & <code class="text-cyan-400">ServerCrosshair</code></span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="disableFriendlyFire" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Disable Tribe Friendly Fire</strong><br><span class="text-slate-400"><code class="text-cyan-400">bPvEDisableFriendlyFire=True</code></span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="disableDecay" checked class="accent-cyan-400 mt-0.5">
-                            <span><strong>Disable Structure & Dino Auto-Decay</strong><br><span class="text-slate-400">Great for private friend servers</span></span>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs cursor-pointer">
-                            <input type="checkbox" id="offlineRaidProtection" class="accent-cyan-400 mt-0.5">
-                            <span><strong>Offline Raid Protection (ORP)</strong><br><span class="text-slate-400"><code class="text-cyan-400">bAutoPvETimer</code> / <code class="text-cyan-400">PreventOfflinePvP</code></span></span>
-                        </label>
-                    </div>
-                </section>
-
-                <!-- SECTION 7: MODS, BLACKLISTED ITEMS/ENGRAMS & LOOT DROPS -->
+                <!-- SECTION 6: MODS, BLACKLISTED ITEMS/ENGRAMS & LOOT DROPS -->
                 <section id="sec-mods" class="tek-card rounded-2xl p-5 sm:p-6 scroll-mt-32">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
                         <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-amber-500/15 border border-tekAmber/40 text-tekAmber flex items-center justify-center font-tek font-bold text-sm">07</span>
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/15 border border-tekAmber/40 text-tekAmber flex items-center justify-center font-tek font-bold text-sm">06</span>
                             <div>
-                                <h2 class="text-base sm:text-lg font-bold text-white">Mods, Blacklisted Items, Engrams & Loot Drops</h2>
+                                <h2 class="text-base sm:text-lg font-bold text-white">Mods, Blacklist & Custom Loot Drops</h2>
                                 <p class="text-xs text-slate-400">Maps to Beacon's <span class="text-tekAmber font-mono">Mods</span>, <span class="text-tekAmber font-mono">Engram Control</span>, <span class="text-tekAmber font-mono">Creature Spawns</span> & <span class="text-tekAmber font-mono">Loot Drops</span></p>
                             </div>
                         </div>
@@ -735,42 +772,34 @@
                         <!-- Requested Mods -->
                         <div>
                             <div class="flex items-center justify-between mb-1">
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-tekCyan">
-                                    <i class="fa-solid fa-puzzle-piece mr-1"></i>Requested Mods (Names or CurseForge / Steam Workshop IDs)
+                                <label for="modsList" class="block text-xs font-semibold uppercase tracking-wider text-tekCyan">
+                                    <i class="fa-solid fa-puzzle-piece mr-1"></i>Requested Mods — IDs or Names (<code class="font-mono">modsList</code>)
                                 </label>
-                                <span class="text-[11px] text-slate-400">One per line or comma-separated</span>
+                                <span class="text-[11px] text-slate-400">CurseForge (ASA) or Steam Workshop (ASE)</span>
                             </div>
-                            <textarea id="requestedMods" rows="3" placeholder="List the mods you want installed (e.g., Super Spyglass Plus, Pelayori's Cryo Storage, Automated Ark, Ark Additions, Paleo ARK, Custom Dino Levels)..." class="tek-input w-full rounded-lg px-3.5 py-2.5 text-sm">Super Spyglass Plus (929420)
+                            <textarea id="modsList" rows="3" placeholder="List the mods you want installed (e.g., Super Spyglass Plus, Pelayori's Cryo Storage, Automated Ark, Custom Dino Levels)..." class="tek-input w-full rounded-lg px-3.5 py-2.5 text-sm">Super Spyglass Plus (929420)
 Pelayori's Cryo Storage (928793)
 Custom Dino Levels (928708)
 Automated Ark
 Solo Farm Mod</textarea>
                         </div>
 
-                        <!-- Mod INI Specific Tweaks -->
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">
-                                Mod-Specific INI Preferences (Optional)
-                            </label>
-                            <textarea id="modIniNotes" rows="2" placeholder="e.g., Enable passive resource generation in Cryo Terminal, set Custom Dino Levels to High Level Bias, increase Pulling range..." class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">Set Custom Dino Levels to favor high-level spawns (Ragnarok-style level distribution). Allow Cryo Gun capture without needing a nearby Cryofridge.</textarea>
-                        </div>
-
                         <!-- Blacklisted Items / Disabled Engrams -->
                         <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30">
                             <div class="flex items-center justify-between mb-1">
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-rose-300">
-                                    <i class="fa-solid fa-ban mr-1"></i>Blacklisted Items & Disabled Engrams (<code class="font-mono">OverrideNamedEngramEntries</code>)
+                                <label for="blacklistItems" class="block text-xs font-semibold uppercase tracking-wider text-rose-300">
+                                    <i class="fa-solid fa-ban mr-1"></i>Blacklisted Items & Disabled Engrams (<code class="font-mono">blacklistItems</code>)
                                 </label>
                                 <span class="text-[11px] text-rose-300/80">Beacon Engram Control</span>
                             </div>
-                            <textarea id="blacklistedItems" rows="3" placeholder="Describe any items, weapons, or structures you want blacklisted/uncraftable (e.g., C4, Rocket Launcher, Net Projectile, Tek Transmitter, Climb Picks, Rafts)..." class="tek-input w-full rounded-lg px-3.5 py-2.5 text-sm border-rose-500/30">None — keep all official and mod engrams craftable.</textarea>
-                            <p class="text-[11px] text-slate-400 mt-1.5">Beacon will automatically resolve these item names into exact <code class="text-rose-300">EngramHidden=True</code> and loot-removal entries.</p>
+                            <textarea id="blacklistItems" rows="3" placeholder="Describe any items, weapons, or structures you want blacklisted/uncraftable (e.g., C4, Rocket Launcher, Net Projectile, Tek Transmitter, Climb Picks, Rafts)..." class="tek-input w-full rounded-lg px-3.5 py-2.5 text-sm border-rose-500/30">None — keep all official and mod engrams craftable.</textarea>
+                            <p class="text-[11px] text-slate-400 mt-1.5">Beacon will resolve these item names into exact <code class="text-rose-300">OverrideNamedEngramEntries</code> and loot-removal entries.</p>
                         </div>
 
                         <!-- Engram Auto-Unlock Policy & Supply Crate Multiplier -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Engram Unlock Policy</label>
+                                <label for="engramPolicy" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Engram Unlock Policy</label>
                                 <select id="engramPolicy" class="tek-input w-full rounded-lg px-3 py-2 text-sm">
                                     <option value="Auto-Unlock Per Level (Non-Tek)" selected>Auto-Unlock Engrams as Players Level Up (Exclude Tek)</option>
                                     <option value="Auto-Unlock All Per Level (Include Tek)">Auto-Unlock ALL Engrams Per Level (Include Tek)</option>
@@ -779,7 +808,7 @@ Solo Farm Mod</textarea>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Supply Crate & Cave Loot Quality</label>
+                                <label for="lootQuality" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Supply Crate & Cave Loot Quality</label>
                                 <select id="lootQuality" class="tek-input w-full rounded-lg px-3 py-2 text-sm font-mono">
                                     <option value="1.0">1.0x (Official Loot Quality)</option>
                                     <option value="1.5">1.5x (Slightly Boosted Blueprints)</option>
@@ -790,29 +819,35 @@ Solo Farm Mod</textarea>
                             </div>
                         </div>
 
-                        <!-- Blacklisted Dino Spawns & Custom Loot Requests -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Disabled / Replaced Wild Dino Spawns</label>
-                                <textarea id="blacklistedDinos" rows="2" placeholder="e.g., Disable Ichthyornis (seagulls), Pegomastax, Leedsichthys, or Titanosaur..." class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">Disable Ichthyornis (Seagulls) and Pegomastax spawns.</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Custom Beacon Loot Drop Requests</label>
-                                <textarea id="customLootNotes" rows="2" placeholder="e.g., Add Element to Red Drops, Kibble in Green Drops, Starter Kit in White Drops..." class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">Add small stacks of Element & Black Pearls to Red Ringed Drops; add Cryopods to Blue Drops.</textarea>
-                            </div>
-                        </div>
-
-                        <!-- Additional Admin / Custom Requests -->
+                        <!-- Custom Supply Drops, Dino Spawns & Extra Rules -->
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Additional Notes / Custom Server Requests</label>
-                            <textarea id="additionalNotes" rows="2" placeholder="Any custom boss difficulty tweaks, scheduled wild dino wipes, Discord chat bridge, or specific INI lines..." class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">Please configure daily automated wild dino wipe at 4:00 AM EST and enable corpse/bag decay of 2 hours.</textarea>
+                            <label for="customNotes" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">
+                                Custom Supply Drops, Dino Spawn Removals & Extra Server Notes (<code class="font-mono">customNotes</code>)
+                            </label>
+                            <textarea id="customNotes" rows="3" placeholder="e.g., Disable Ichthyornis & Pegomastax spawns. Add Element & Black Pearls to Red Drops. Configure daily 4:00 AM wild dino wipe..." class="tek-input w-full rounded-lg px-3.5 py-2.5 text-sm">Disable Ichthyornis (Seagulls) and Pegomastax spawns. Add small stacks of Element & Black Pearls to Red Ringed Drops; add Cryopods to Blue Drops. Configure daily automated wild dino wipe at 4:00 AM EST.</textarea>
                         </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 7: PROMINENT FORM FOOTER SUBMIT CTA -->
+                <section id="sec-submit" class="tek-card rounded-2xl p-6 border-2 border-emerald-500/40 bg-gradient-to-r from-slate-900 via-emerald-950/30 to-slate-900 scroll-mt-32">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <div>
+                            <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-emerald-400 mb-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Ready for Beacon Deployment
+                            </div>
+                            <h3 class="font-tek text-base sm:text-lg font-bold text-white uppercase">Submit Your ARK Server Specification</h3>
+                            <p class="text-xs text-slate-300 mt-0.5">Sends your complete configuration, stat matrix, and pre-compiled <code class="text-tekCyan">GameUserSettings.ini</code> & <code class="text-tekAmber">Game.ini</code> directly to our server build queue.</p>
+                        </div>
+                        <button type="submit" id="mainFormSubmitBtn" class="w-full md:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-extrabold text-sm uppercase tracking-wider shadow-xl shadow-emerald-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2.5 shrink-0">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Server Request
+                        </button>
                     </div>
                 </section>
 
             </form>
 
-            <!-- RIGHT / STICKY LIVE PREVIEW COLUMN (35% -> 4/5 cols on 12-col grid) -->
+            <!-- RIGHT / STICKY LIVE PREVIEW COLUMN (4 cols on 12-col grid) -->
             <aside class="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-24 space-y-4 print-full">
                 <div class="tek-card rounded-2xl border border-cyan-500/30 overflow-hidden">
                     <!-- Panel Header -->
@@ -824,23 +859,26 @@ Solo Farm Mod</textarea>
                         <span id="liveGameBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-tekCyan border border-cyan-500/30">ASA</span>
                     </div>
 
-                    <!-- Preview Tabs -->
-                    <div class="grid grid-cols-2 bg-obsidian border-b border-slate-800 text-xs font-semibold no-print">
-                        <button type="button" id="tabBtnChecklist" onclick="switchPreviewTab('checklist')" class="py-3 px-4 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition">
-                            <i class="fa-solid fa-list-check mr-1.5"></i>Beacon Checklist
+                    <!-- Preview Tabs (3 Tabs: Checklist, Raw INI, Django JSON) -->
+                    <div class="grid grid-cols-3 bg-obsidian border-b border-slate-800 text-[11px] font-semibold no-print">
+                        <button type="button" id="tabBtnChecklist" onclick="switchPreviewTab('checklist')" class="py-3 px-2 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition">
+                            <i class="fa-solid fa-list-check mr-1"></i>Beacon Spec
                         </button>
-                        <button type="button" id="tabBtnIni" onclick="switchPreviewTab('ini')" class="py-3 px-4 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-                            <i class="fa-solid fa-code mr-1.5"></i>Raw INI Preview
+                        <button type="button" id="tabBtnIni" onclick="switchPreviewTab('ini')" class="py-3 px-2 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
+                            <i class="fa-solid fa-code mr-1"></i>Raw INI
+                        </button>
+                        <button type="button" id="tabBtnJson" onclick="switchPreviewTab('json')" class="py-3 px-2 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
+                            <i class="fa-solid fa-database mr-1"></i>Django JSON
                         </button>
                     </div>
 
                     <!-- TAB 1: BEACON CHECKLIST SUMMARY -->
-                    <div id="previewChecklist" class="p-4 sm:p-5 max-h-[600px] overflow-y-auto space-y-4 text-xs">
+                    <div id="previewChecklist" class="p-4 sm:p-5 max-h-[520px] overflow-y-auto space-y-4 text-xs">
                         <!-- Dynamically Populated by JS -->
                     </div>
 
                     <!-- TAB 2: RAW INI PREVIEW -->
-                    <div id="previewIni" class="hidden p-4 sm:p-5 max-h-[600px] overflow-y-auto space-y-4">
+                    <div id="previewIni" class="hidden p-4 sm:p-5 max-h-[520px] overflow-y-auto space-y-4">
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
                                 <span class="text-xs font-mono font-semibold text-tekCyan">GameUserSettings.ini</span>
@@ -862,20 +900,32 @@ Solo Farm Mod</textarea>
                         </div>
                     </div>
 
-                    <!-- Action Bar -->
+                    <!-- TAB 3: DJANGO JSON PAYLOAD PREVIEW -->
+                    <div id="previewJson" class="hidden p-4 sm:p-5 max-h-[520px] overflow-y-auto space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono font-semibold text-emerald-400">POST /api/submit-config/</span>
+                            <button type="button" onclick="copyTextById('jsonOutput', 'Django JSON Payload copied!')" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+                                <i class="fa-regular fa-copy mr-1"></i>Copy JSON
+                            </button>
+                        </div>
+                        <pre id="jsonOutput" class="p-3 rounded-xl bg-obsidian border border-slate-800 text-[11px] font-mono text-slate-300 overflow-x-auto leading-relaxed"></pre>
+                    </div>
+
+                    <!-- Sticky Right-Hand Action Bar with Prominent Submit Button -->
                     <div class="p-4 bg-slate-900/95 border-t border-slate-800 space-y-2.5 no-print">
-                        <button type="button" onclick="copyFullSpecSummary()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-obsidian font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-clipboard-check text-sm"></i> Copy Full Spec & INI for Admin
+                        <button type="button" id="sidebarSubmitBtn" onclick="submitToDjangoBackend()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-sm"></i> Submit Server Request
                         </button>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button type="button" onclick="downloadSpec('txt')" class="py-2 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-file-lines text-tekCyan"></i> .TXT Spec
+
+                        <div class="grid grid-cols-3 gap-2 pt-1">
+                            <button type="button" onclick="copyFullSpecSummary()" class="py-2 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
+                                <i class="fa-regular fa-copy text-tekCyan"></i> Copy INI
                             </button>
-                            <button type="button" onclick="downloadSpec('json')" class="py-2 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-file-code text-tekAmber"></i> .JSON Data
+                            <button type="button" onclick="downloadSpec('ini')" class="py-2 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-file-lines text-emerald-400"></i> .INI File
                             </button>
-                            <button type="button" onclick="window.print()" class="py-2 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-print text-emerald-400"></i> Print / PDF
+                            <button type="button" onclick="downloadSpec('json')" class="py-2 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-file-code text-tekAmber"></i> .JSON
                             </button>
                         </div>
                     </div>
@@ -888,6 +938,8 @@ Solo Farm Mod</textarea>
     <textarea id="clipboardHelper" class="sr-only" aria-hidden="true"></textarea>
 
     <script>
+        const STAT_INDICES = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11];
+
         // --- Helper: Show Notification Toast ---
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -897,7 +949,7 @@ Solo Farm Mod</textarea>
             clearTimeout(window.toastTimer);
             window.toastTimer = setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 3000);
+            }, 3200);
         }
 
         // --- Helper: Clipboard Copy using execCommand for iframe compatibility ---
@@ -930,26 +982,23 @@ Solo Farm Mod</textarea>
             document.getElementById(numId).value = val;
             updateLivePreview();
         }
-        function syncWildDinoLevel() {
-            updateLivePreview();
-        }
 
         // --- Toggle Password Box on Visibility Change ---
         function togglePasswordBox() {
-            const vis = document.querySelector('input[name="visibility"]:checked').value;
+            const vis = document.getElementById('visibility').value;
             const box = document.getElementById('passwordFields');
-            if (vis === 'Public') {
+            if (vis === 'public') {
                 document.getElementById('serverPassword').value = '';
-                box.classList.add('opacity-75');
+                box.classList.add('opacity-70');
             } else {
-                box.classList.remove('opacity-75');
+                box.classList.remove('opacity-70');
             }
             updateLivePreview();
         }
 
         // --- Toggle All Official Maps ---
         function toggleAllMaps() {
-            const cbs = document.querySelectorAll('.map-cb');
+            const cbs = document.querySelectorAll('input[name="maps"]');
             const allChecked = Array.from(cbs).every(cb => cb.checked);
             cbs.forEach(cb => cb.checked = !allChecked);
             updateLivePreview();
@@ -957,59 +1006,58 @@ Solo Farm Mod</textarea>
 
         // --- Reset Per-Level Stats to Official 1.0x ---
         function resetStatsToOfficial() {
-            ['pStat_0','pStat_1','pStat_7','pStat_8','pStat_9','pStat_10','pStat_11',
-             'dStat_0','dStat_1','dStat_7','dStat_8','dStat_9'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '1.0';
+            document.querySelectorAll('.stat-input').forEach(el => {
+                el.value = '1.0';
             });
             updateLivePreview();
-            showToast('Per-level stat multipliers reset to 1.0x (Official)');
+            showToast('All Player, Tamed, and Wild Dino stats reset to 1.0x');
         }
 
         // --- Switch Preview Panel Tabs ---
         function switchPreviewTab(tab) {
-            const checklistDiv = document.getElementById('previewChecklist');
-            const iniDiv = document.getElementById('previewIni');
-            const btnCheck = document.getElementById('tabBtnChecklist');
-            const btnIni = document.getElementById('tabBtnIni');
+            const tabs = {
+                checklist: { div: 'previewChecklist', btn: 'tabBtnChecklist' },
+                ini: { div: 'previewIni', btn: 'tabBtnIni' },
+                json: { div: 'previewJson', btn: 'tabBtnJson' }
+            };
 
-            if (tab === 'checklist') {
-                checklistDiv.classList.remove('hidden');
-                iniDiv.classList.add('hidden');
-                btnCheck.className = 'py-3 px-4 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition';
-                btnIni.className = 'py-3 px-4 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
-            } else {
-                checklistDiv.classList.add('hidden');
-                iniDiv.classList.remove('hidden');
-                btnIni.className = 'py-3 px-4 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition';
-                btnCheck.className = 'py-3 px-4 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
-            }
+            Object.keys(tabs).forEach(key => {
+                const divEl = document.getElementById(tabs[key].div);
+                const btnEl = document.getElementById(tabs[key].btn);
+                if (key === tab) {
+                    divEl.classList.remove('hidden');
+                    btnEl.className = 'py-3 px-2 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition';
+                } else {
+                    divEl.classList.add('hidden');
+                    btnEl.className = 'py-3 px-2 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
+                }
+            });
         }
 
         // --- Quick Server Presets ---
         function applyPreset(preset) {
             const presets = {
                 vanilla: {
-                    xp: 2.0, taming: 2.5, harvest: 2.0, wildDrain: 1.0, harvestHealth: 1.0, respawn: 0.75, passive: 0.75,
-                    hatch: 5.0, mature: 5.0, matingInt: 0.4, matingSpd: 2.0, cuddleInt: 0.35, imprintAmt: 1.5,
+                    xp: 2.0, taming: 2.5, harvest: 2.0, harvestHealth: 1.0, respawn: 0.75, passive: 0.75,
+                    hatch: 5.0, mature: 5.0, matingInt: 0.4, cuddleInt: 0.35, imprintAmt: 1.5, babyFood: 0.8,
                     stack: 2.5, pWeight: 2.0, dWeight: 2.0, mode: 'PvE',
                     goal: 'Vanilla+ feel: ~2 hours for large dinos, 100% imprint achievable.'
                 },
                 casual: {
-                    xp: 3.0, taming: 5.0, harvest: 5.0, wildDrain: 1.0, harvestHealth: 1.0, respawn: 0.5, passive: 0.5,
-                    hatch: 15.0, mature: 20.0, matingInt: 0.1, matingSpd: 5.0, cuddleInt: 0.15, imprintAmt: 2.0,
+                    xp: 3.0, taming: 5.0, harvest: 5.0, harvestHealth: 1.0, respawn: 0.5, passive: 0.5,
+                    hatch: 15.0, mature: 20.0, matingInt: 0.1, cuddleInt: 0.15, imprintAmt: 2.0, babyFood: 0.5,
                     stack: 5.0, pWeight: 5.0, dWeight: 5.0, mode: 'PvE',
                     goal: 'Rex matures in ~45 mins, Wyvern/Giga in ~1.5 hours. 100% imprint in 1-2 cuddles.'
                 },
                 boosted: {
-                    xp: 10.0, taming: 15.0, harvest: 10.0, wildDrain: 1.5, harvestHealth: 1.0, respawn: 0.25, passive: 0.25,
-                    hatch: 40.0, mature: 50.0, matingInt: 0.05, matingSpd: 10.0, cuddleInt: 0.08, imprintAmt: 5.0,
+                    xp: 10.0, taming: 15.0, harvest: 10.0, harvestHealth: 1.0, respawn: 0.25, passive: 0.25,
+                    hatch: 40.0, mature: 50.0, matingInt: 0.05, cuddleInt: 0.08, imprintAmt: 5.0, babyFood: 0.25,
                     stack: 10.0, pWeight: 15.0, dWeight: 15.0, mode: 'PvE',
                     goal: 'Fast 15-20 minute maturation for most creatures; single cuddle gives 100% imprint.'
                 },
                 pvp: {
-                    xp: 25.0, taming: 50.0, harvest: 25.0, wildDrain: 2.0, harvestHealth: 1.0, respawn: 0.1, passive: 0.1,
-                    hatch: 100.0, mature: 100.0, matingInt: 0.01, matingSpd: 20.0, cuddleInt: 0.05, imprintAmt: 10.0,
+                    xp: 25.0, taming: 50.0, harvest: 25.0, harvestHealth: 1.0, respawn: 0.1, passive: 0.1,
+                    hatch: 100.0, mature: 100.0, matingInt: 0.01, cuddleInt: 0.05, imprintAmt: 10.0, babyFood: 0.1,
                     stack: 100.0, pWeight: 100.0, dWeight: 100.0, mode: 'PvP',
                     goal: 'Rapid PvP turnaround: near-instant hatch & 10-minute maturation with 1-click 100% imprint.'
                 }
@@ -1018,26 +1066,25 @@ Solo Farm Mod</textarea>
             const p = presets[preset];
             if (!p) return;
 
-            document.getElementById('xpMultiplier').value = p.xp;
+            document.getElementById('xpRate').value = p.xp;
             document.getElementById('xpSlider').value = Math.min(p.xp, 25);
-            document.getElementById('tamingSpeed').value = p.taming;
+            document.getElementById('tamingRate').value = p.taming;
             document.getElementById('tamingSlider').value = Math.min(p.taming, 50);
-            document.getElementById('harvestAmount').value = p.harvest;
+            document.getElementById('harvestRate').value = p.harvest;
             document.getElementById('harvestSlider').value = Math.min(p.harvest, 25);
-            document.getElementById('wildFoodDrain').value = p.wildDrain;
             document.getElementById('harvestHealth').value = p.harvestHealth;
             document.getElementById('resourceRespawn').value = p.respawn;
-            document.getElementById('passiveTameInterval').value = p.passive;
+            document.getElementById('passiveInterval').value = p.passive;
 
-            document.getElementById('eggHatchSpeed').value = p.hatch;
-            document.getElementById('babyMatureSpeed').value = p.mature;
+            document.getElementById('eggHatch').value = p.hatch;
+            document.getElementById('babyMature').value = p.mature;
             document.getElementById('matingInterval').value = p.matingInt;
-            document.getElementById('matingSpeed').value = p.matingSpd;
             document.getElementById('cuddleInterval').value = p.cuddleInt;
             document.getElementById('imprintAmount').value = p.imprintAmt;
+            document.getElementById('babyFoodConsumption').value = p.babyFood;
             document.getElementById('breedingGoalNotes').value = p.goal;
 
-            document.getElementById('stackSizeMultiplier').value = p.stack;
+            document.getElementById('stackSize').value = p.stack;
             document.getElementById('pStat_7').value = p.pWeight;
             document.getElementById('dStat_7').value = p.dWeight;
 
@@ -1048,190 +1095,175 @@ Solo Farm Mod</textarea>
             showToast(`Applied "${preset.toUpperCase()}" Server Preset!`);
         }
 
-        // --- Gather All Form Data into Structured Spec Object ---
-        function getFormData() {
+        // --- Gather All Form Data Matching Django Backend Schema ---
+        function buildDjangoPayload() {
             const gameVersion = document.querySelector('input[name="gameVersion"]:checked')?.value || 'ASA';
-            const visibility = document.querySelector('input[name="visibility"]:checked')?.value || 'Private';
             const gameMode = document.querySelector('input[name="gameMode"]:checked')?.value || 'PvE';
+            const visibility = document.getElementById('visibility').value;
 
-            const platforms = Array.from(document.querySelectorAll('.platform-cb:checked')).map(cb => cb.value);
-            const selectedMaps = Array.from(document.querySelectorAll('.map-cb:checked')).map(cb => cb.value);
+            const selectedMaps = Array.from(document.querySelectorAll('input[name="maps"]:checked')).map(cb => cb.value);
+            const customMaps = document.getElementById('customMaps').value.trim();
+            if (customMaps) {
+                customMaps.split(',').map(m => m.trim()).filter(Boolean).forEach(m => {
+                    if (!selectedMaps.includes(m)) selectedMaps.push(m);
+                });
+            }
 
-            const maxWildLevel = parseInt(document.getElementById('maxWildLevelSelect').value, 10) || 150;
-            const overrideDifficulty = (maxWildLevel / 30).toFixed(1);
+            const maxWildLevel = parseFloat(document.getElementById('maxWildLevel').value) || 150;
+            const overrideDifficulty = Number((maxWildLevel / 30).toFixed(2));
 
-            return {
-                timestamp: new Date().toISOString(),
-                identity: {
-                    clientName: document.getElementById('clientName').value.trim() || 'Unspecified',
-                    gameVersion,
-                    serverName: document.getElementById('serverName').value.trim() || 'My ARK Server',
-                    visibility,
-                    serverPassword: visibility === 'Private' ? document.getElementById('serverPassword').value.trim() : '',
-                    adminPassword: document.getElementById('adminPassword').value.trim() || 'ChangeMeAdmin',
-                    gameMode,
-                    maxPlayers: document.getElementById('maxPlayers').value || 20,
-                    platforms,
-                    clusterEnabled: document.getElementById('clusterEnabled').checked,
-                    preventDownloadSurvivors: document.getElementById('preventDownloadSurvivors').checked,
-                    preventDownloadItems: document.getElementById('preventDownloadItems').checked,
-                    preventDownloadDinos: document.getElementById('preventDownloadDinos').checked,
-                },
-                maps: {
-                    officialMaps: selectedMaps,
-                    primaryMap: document.getElementById('primaryMap').value.trim() || 'The Island',
-                    customMaps: document.getElementById('customMaps').value.trim() || 'None'
+            // Collect Player, Tamed Dino, and Wild Dino stats across indices
+            const playerStats = {};
+            const tamedStats = {};
+            const wildStats = {};
+            STAT_INDICES.forEach(idx => {
+                playerStats[idx] = parseFloat(document.getElementById(`pStat_${idx}`)?.value) || 1.0;
+                tamedStats[idx] = parseFloat(document.getElementById(`dStat_${idx}`)?.value) || 1.0;
+                wildStats[idx] = parseFloat(document.getElementById(`wStat_${idx}`)?.value) || 1.0;
+            });
+
+            const payload = {
+                requester_name: document.getElementById('requesterName').value.trim(),
+                server_name: document.getElementById('serverName').value.trim(),
+                game_version: gameVersion,
+                game_mode: gameMode,
+                visibility: visibility,
+                server_password: visibility === 'private' ? document.getElementById('serverPassword').value.trim() : '',
+                admin_password: document.getElementById('adminPassword').value.trim(),
+                max_players: parseInt(document.getElementById('maxPlayers').value, 10) || 20,
+                platforms: Array.from(document.querySelectorAll('.platform-cb:checked')).map(cb => cb.value),
+                primary_map: document.getElementById('primaryMap').value.trim() || 'The Island',
+                maps: selectedMaps,
+                cluster_rules: {
+                    cluster_enabled: document.getElementById('clusterEnabled').checked,
+                    prevent_download_survivors: document.getElementById('preventDownloadSurvivors').checked,
+                    prevent_download_items: document.getElementById('preventDownloadItems').checked,
+                    prevent_download_dinos: document.getElementById('preventDownloadDinos').checked
                 },
                 rates: {
-                    maxWildLevel,
-                    overrideDifficulty,
-                    xpMultiplier: document.getElementById('xpMultiplier').value,
-                    tamingSpeed: document.getElementById('tamingSpeed').value,
-                    harvestAmount: document.getElementById('harvestAmount').value,
-                    wildFoodDrain: document.getElementById('wildFoodDrain').value,
-                    harvestHealth: document.getElementById('harvestHealth').value,
-                    resourceRespawn: document.getElementById('resourceRespawn').value,
-                    passiveTameInterval: document.getElementById('passiveTameInterval').value,
+                    max_wild_level: maxWildLevel,
+                    override_official_difficulty: overrideDifficulty,
+                    xp: parseFloat(document.getElementById('xpRate').value) || 1.0,
+                    taming: parseFloat(document.getElementById('tamingRate').value) || 1.0,
+                    harvest: parseFloat(document.getElementById('harvestRate').value) || 1.0,
+                    harvest_health: parseFloat(document.getElementById('harvestHealth').value) || 1.0,
+                    resource_respawn: parseFloat(document.getElementById('resourceRespawn').value) || 1.0,
+                    passive_tame_interval: parseFloat(document.getElementById('passiveInterval').value) || 1.0,
+                    day_cycle_speed: parseFloat(document.getElementById('dayCycleSpeed').value) || 1.0,
+                    day_time_speed: parseFloat(document.getElementById('dayTimeSpeed').value) || 1.0,
+                    night_time_speed: parseFloat(document.getElementById('nightTimeSpeed').value) || 1.0
+                },
+                qol: {
+                    stack_size: parseFloat(document.getElementById('stackSize').value) || 1.0,
+                    allow_flyer_carry: document.getElementById('allowFlyerCarry').checked,
+                    allow_flyer_speed: document.getElementById('allowFlyerSpeed').checked,
+                    allow_speed_leveling: document.getElementById('allowSpeedLeveling').checked,
+                    floating_damage: document.getElementById('floatingDamage').checked,
+                    disable_collision: document.getElementById('disableCollision').checked,
+                    always_structure_pickup: document.getElementById('alwaysStructurePickup').checked,
+                    cave_flyers: document.getElementById('caveFlyers').checked,
+                    corpse_locator: document.getElementById('corpseLocator').checked,
+                    unlimited_respecs: document.getElementById('unlimitedRespecs').checked
                 },
                 breeding: {
-                    goalNotes: document.getElementById('breedingGoalNotes').value.trim(),
-                    eggHatchSpeed: document.getElementById('eggHatchSpeed').value,
-                    babyMatureSpeed: document.getElementById('babyMatureSpeed').value,
-                    matingInterval: document.getElementById('matingInterval').value,
-                    matingSpeed: document.getElementById('matingSpeed').value,
-                    cuddleInterval: document.getElementById('cuddleInterval').value,
-                    imprintAmount: document.getElementById('imprintAmount').value,
-                    imprintStatScale: document.getElementById('imprintStatScale').value,
-                    allowAnyoneImprint: document.getElementById('allowAnyoneImprint').checked
+                    wizard_goal: document.getElementById('breedingGoalNotes').value.trim(),
+                    mating_interval: parseFloat(document.getElementById('matingInterval').value) || 1.0,
+                    egg_hatch_speed: parseFloat(document.getElementById('eggHatch').value) || 1.0,
+                    baby_mature_speed: parseFloat(document.getElementById('babyMature').value) || 1.0,
+                    cuddle_interval: parseFloat(document.getElementById('cuddleInterval').value) || 1.0,
+                    imprint_amount: parseFloat(document.getElementById('imprintAmount').value) || 1.0,
+                    baby_food_consumption: parseFloat(document.getElementById('babyFoodConsumption').value) || 1.0,
+                    anyone_can_imprint: document.getElementById('anyoneCanImprint').checked,
+                    disable_imprint_buff: document.getElementById('disableImprintBuff').checked
                 },
                 stats: {
-                    player: {
-                        health: document.getElementById('pStat_0').value,
-                        stamina: document.getElementById('pStat_1').value,
-                        weight: document.getElementById('pStat_7').value,
-                        melee: document.getElementById('pStat_8').value,
-                        speed: document.getElementById('pStat_9').value,
-                        fortitude: document.getElementById('pStat_10').value,
-                        crafting: document.getElementById('pStat_11').value,
-                    },
-                    dinoTamed: {
-                        health: document.getElementById('dStat_0').value,
-                        stamina: document.getElementById('dStat_1').value,
-                        weight: document.getElementById('dStat_7').value,
-                        melee: document.getElementById('dStat_8').value,
-                        speed: document.getElementById('dStat_9').value,
-                    },
-                    allowFlyerSpeed: document.getElementById('allowFlyerSpeed').checked,
-                    allowSpeedLeveling: document.getElementById('allowSpeedLeveling').checked
+                    player: playerStats,
+                    tamed: tamedStats,
+                    wild: wildStats
                 },
-                world: {
-                    stackSizeMultiplier: document.getElementById('stackSizeMultiplier').value,
-                    dayCycleSpeed: document.getElementById('dayCycleSpeed').value,
-                    dayTimeSpeed: document.getElementById('dayTimeSpeed').value,
-                    nightTimeSpeed: document.getElementById('nightTimeSpeed').value,
-                    disableCollision: document.getElementById('disableCollision').checked,
-                    alwaysStructurePickup: document.getElementById('alwaysStructurePickup').checked,
-                    caveFlyers: document.getElementById('caveFlyers').checked,
-                    caveBuilding: document.getElementById('caveBuilding').checked,
-                    floatingDamage: document.getElementById('floatingDamage').checked,
-                    corpseLocator: document.getElementById('corpseLocator').checked,
-                    unlimitedRespecs: document.getElementById('unlimitedRespecs').checked,
-                    disableCryoSickness: document.getElementById('disableCryoSickness').checked,
-                    thirdPerson: document.getElementById('thirdPerson').checked,
-                    disableFriendlyFire: document.getElementById('disableFriendlyFire').checked,
-                    disableDecay: document.getElementById('disableDecay').checked,
-                    offlineRaidProtection: document.getElementById('offlineRaidProtection').checked,
-                },
-                modsAndLoot: {
-                    requestedMods: document.getElementById('requestedMods').value.trim() || 'None',
-                    modIniNotes: document.getElementById('modIniNotes').value.trim() || 'None',
-                    blacklistedItems: document.getElementById('blacklistedItems').value.trim() || 'None',
-                    engramPolicy: document.getElementById('engramPolicy').value,
-                    lootQuality: document.getElementById('lootQuality').value,
-                    blacklistedDinos: document.getElementById('blacklistedDinos').value.trim() || 'None',
-                    customLootNotes: document.getElementById('customLootNotes').value.trim() || 'None',
-                    additionalNotes: document.getElementById('additionalNotes').value.trim() || 'None'
-                }
+                mods_requested: document.getElementById('modsList').value.trim(),
+                blacklisted_items: document.getElementById('blacklistItems').value.trim(),
+                engram_policy: document.getElementById('engramPolicy').value,
+                loot_quality: parseFloat(document.getElementById('lootQuality').value) || 1.0,
+                custom_notes: document.getElementById('customNotes').value.trim()
             };
+
+            const inis = generateIniSnippets(payload);
+            payload.raw_gus_ini = inis.gus;
+            payload.raw_game_ini = inis.game;
+
+            return payload;
         }
 
         // --- Generate Raw INI Strings ---
-        function generateIniSnippets(data) {
-            const isPvE = data.identity.gameMode === 'PvE' ? 'True' : 'False';
+        function generateIniSnippets(payload) {
+            const isPvE = payload.game_mode === 'PvE' ? 'True' : 'False';
             const gusLines = [
                 `[ServerSettings]`,
-                `ServerPassword=${data.identity.serverPassword}`,
-                `ServerAdminPassword=${data.identity.adminPassword}`,
+                `ServerPassword=${payload.server_password}`,
+                `ServerAdminPassword=${payload.admin_password}`,
                 `ServerPVE=${isPvE}`,
                 `DifficultyOffset=1.000000`,
-                `OverrideOfficialDifficulty=${data.rates.overrideDifficulty}`,
-                `XPMultiplier=${data.rates.xpMultiplier}`,
-                `TamingSpeedMultiplier=${data.rates.tamingSpeed}`,
-                `HarvestAmountMultiplier=${data.rates.harvestAmount}`,
-                `HarvestHealthMultiplier=${data.rates.harvestHealth}`,
-                `WildDinoCharacterFoodDrainMultiplier=${data.rates.wildFoodDrain}`,
-                `ResourcesRespawnPeriodMultiplier=${data.rates.resourceRespawn}`,
-                `PassiveTameIntervalMultiplier=${data.rates.passiveTameInterval}`,
-                `ItemStackSizeMultiplier=${data.world.stackSizeMultiplier}`,
-                `SupplyCrateLootQualityMultiplier=${data.modsAndLoot.lootQuality}`,
-                `DayCycleSpeedScale=${data.world.dayCycleSpeed}`,
-                `DayTimeSpeedScale=${data.world.dayTimeSpeed}`,
-                `NightTimeSpeedScale=${data.world.nightTimeSpeed}`,
-                `AlwaysAllowStructurePickup=${data.world.alwaysStructurePickup ? 'True' : 'False'}`,
-                `bDisableStructurePlacementCollision=${data.world.disableCollision ? 'True' : 'False'}`,
-                `bForceCanRideFliers=${data.world.caveFlyers ? 'True' : 'False'}`,
-                `EnableExtraStructurePreventionVolumes=${data.world.caveBuilding ? 'False' : 'True'}`,
-                `ShowFloatingDamageText=${data.world.floatingDamage ? 'True' : 'False'}`,
-                `AllowThirdPersonPlayer=${data.world.thirdPerson ? 'True' : 'False'}`,
-                `ServerCrosshair=${data.world.thirdPerson ? 'True' : 'False'}`,
-                `AllowAnyoneBabyImprintCuddle=${data.breeding.allowAnyoneImprint ? 'True' : 'False'}`,
-                `EnableCryopodNerf=${data.world.disableCryoSickness ? 'False' : 'True'}`,
-                `DisableCryopodFridgeRequirement=${data.world.disableCryoSickness ? 'True' : 'False'}`,
-                `DisableStructureDecayPvE=${data.world.disableDecay ? 'True' : 'False'}`,
-                `DisableDinoDecayPvE=${data.world.disableDecay ? 'True' : 'False'}`,
-                `PreventOfflinePvP=${data.world.offlineRaidProtection ? 'True' : 'False'}`,
-                `NoTributeDownloads=${data.identity.clusterEnabled ? 'False' : 'True'}`,
-                `PreventDownloadSurvivors=${data.identity.preventDownloadSurvivors ? 'True' : 'False'}`,
-                `PreventDownloadItems=${data.identity.preventDownloadItems ? 'True' : 'False'}`,
-                `PreventDownloadDinos=${data.identity.preventDownloadDinos ? 'True' : 'False'}`,
+                `OverrideOfficialDifficulty=${payload.rates.override_official_difficulty}`,
+                `XPMultiplier=${payload.rates.xp}`,
+                `TamingSpeedMultiplier=${payload.rates.taming}`,
+                `HarvestAmountMultiplier=${payload.rates.harvest}`,
+                `HarvestHealthMultiplier=${payload.rates.harvest_health}`,
+                `ResourcesRespawnPeriodMultiplier=${payload.rates.resource_respawn}`,
+                `PassiveTameIntervalMultiplier=${payload.rates.passive_tame_interval}`,
+                `ItemStackSizeMultiplier=${payload.qol.stack_size}`,
+                `SupplyCrateLootQualityMultiplier=${payload.loot_quality}`,
+                `DayCycleSpeedScale=${payload.rates.day_cycle_speed}`,
+                `DayTimeSpeedScale=${payload.rates.day_time_speed}`,
+                `NightTimeSpeedScale=${payload.rates.night_time_speed}`,
+                `AllowFlyerCarryPvE=${payload.qol.allow_flyer_carry ? 'True' : 'False'}`,
+                `AlwaysAllowStructurePickup=${payload.qol.always_structure_pickup ? 'True' : 'False'}`,
+                `bDisableStructurePlacementCollision=${payload.qol.disable_collision ? 'True' : 'False'}`,
+                `bForceCanRideFliers=${payload.qol.cave_flyers ? 'True' : 'False'}`,
+                `ShowFloatingDamageText=${payload.qol.floating_damage ? 'True' : 'False'}`,
+                `AllowAnyoneBabyImprintCuddle=${payload.breeding.anyone_can_imprint ? 'True' : 'False'}`,
+                `DisableImprintDinoBuff=${payload.breeding.disable_imprint_buff ? 'True' : 'False'}`,
+                `NoTributeDownloads=${payload.cluster_rules.cluster_enabled ? 'False' : 'True'}`,
+                `PreventDownloadSurvivors=${payload.cluster_rules.prevent_download_survivors ? 'True' : 'False'}`,
+                `PreventDownloadItems=${payload.cluster_rules.prevent_download_items ? 'True' : 'False'}`,
+                `PreventDownloadDinos=${payload.cluster_rules.prevent_download_dinos ? 'True' : 'False'}`,
                 ``,
                 `[SessionSettings]`,
-                `SessionName=${data.identity.serverName}`,
+                `SessionName=${payload.server_name}`,
                 ``,
                 `[/Script/Engine.GameSession]`,
-                `MaxPlayers=${data.identity.maxPlayers}`
+                `MaxPlayers=${payload.max_players}`
             ];
 
             const gameLines = [
-                `[/script/shootergame.shootergamemode]`,
-                `MatingIntervalMultiplier=${data.breeding.matingInterval}`,
-                `MatingSpeedMultiplier=${data.breeding.matingSpeed}`,
-                `EggHatchSpeedMultiplier=${data.breeding.eggHatchSpeed}`,
-                `BabyMatureSpeedMultiplier=${data.breeding.babyMatureSpeed}`,
-                `BabyCuddleIntervalMultiplier=${data.breeding.cuddleInterval}`,
-                `BabyImprintAmountMultiplier=${data.breeding.imprintAmount}`,
-                `BabyImprintingStatScaleMultiplier=${data.breeding.imprintStatScale}`,
-                `bAllowFlyerSpeedLeveling=${data.stats.allowFlyerSpeed ? 'True' : 'False'}`,
-                `bAllowSpeedLeveling=${data.stats.allowSpeedLeveling ? 'True' : 'False'}`,
-                `bUseCorpseLocator=${data.world.corpseLocator ? 'True' : 'False'}`,
-                `bAllowUnlimitedRespecs=${data.world.unlimitedRespecs ? 'True' : 'False'}`,
-                `bPvEDisableFriendlyFire=${data.world.disableFriendlyFire ? 'True' : 'False'}`,
-                `bAutoUnlockAllEngrams=${data.modsAndLoot.engramPolicy.includes('Include Tek') ? 'True' : 'False'}`,
-                `; --- Player Per-Level Stat Multipliers ---`,
-                `PerLevelStatsMultiplier_Player[0]=${data.stats.player.health}`,
-                `PerLevelStatsMultiplier_Player[1]=${data.stats.player.stamina}`,
-                `PerLevelStatsMultiplier_Player[7]=${data.stats.player.weight}`,
-                `PerLevelStatsMultiplier_Player[8]=${data.stats.player.melee}`,
-                `PerLevelStatsMultiplier_Player[9]=${data.stats.player.speed}`,
-                `PerLevelStatsMultiplier_Player[10]=${data.stats.player.fortitude}`,
-                `PerLevelStatsMultiplier_Player[11]=${data.stats.player.crafting}`,
-                `; --- Tamed Dino Per-Level Stat Multipliers ---`,
-                `PerLevelStatsMultiplier_DinoTamed[0]=${data.stats.dinoTamed.health}`,
-                `PerLevelStatsMultiplier_DinoTamed[1]=${data.stats.dinoTamed.stamina}`,
-                `PerLevelStatsMultiplier_DinoTamed[7]=${data.stats.dinoTamed.weight}`,
-                `PerLevelStatsMultiplier_DinoTamed[8]=${data.stats.dinoTamed.melee}`,
-                `PerLevelStatsMultiplier_DinoTamed[9]=${data.stats.dinoTamed.speed}`
+                `[/Script/ShooterGame.ShooterGameMode]`,
+                `MatingIntervalMultiplier=${payload.breeding.mating_interval}`,
+                `EggHatchSpeedMultiplier=${payload.breeding.egg_hatch_speed}`,
+                `BabyMatureSpeedMultiplier=${payload.breeding.baby_mature_speed}`,
+                `BabyCuddleIntervalMultiplier=${payload.breeding.cuddle_interval}`,
+                `BabyImprintAmountMultiplier=${payload.breeding.imprint_amount}`,
+                `BabyFoodConsumptionSpeedMultiplier=${payload.breeding.baby_food_consumption}`,
+                `bAllowFlyerSpeedLeveling=${payload.qol.allow_flyer_speed ? 'True' : 'False'}`,
+                `bAllowSpeedLeveling=${payload.qol.allow_speed_leveling ? 'True' : 'False'}`,
+                `bUseCorpseLocator=${payload.qol.corpse_locator ? 'True' : 'False'}`,
+                `bAllowUnlimitedRespecs=${payload.qol.unlimited_respecs ? 'True' : 'False'}`,
+                `bAutoUnlockAllEngrams=${payload.engram_policy.includes('Include Tek') ? 'True' : 'False'}`,
+                `; --- Player Per-Level Stat Multipliers ---`
             ];
+
+            STAT_INDICES.forEach(idx => {
+                gameLines.push(`PerLevelStatsMultiplier_Player[${idx}]=${payload.stats.player[idx]}`);
+            });
+            gameLines.push(`; --- Tamed Dino Per-Level Stat Multipliers ---`);
+            STAT_INDICES.forEach(idx => {
+                gameLines.push(`PerLevelStatsMultiplier_DinoTamed[${idx}]=${payload.stats.tamed[idx]}`);
+            });
+            gameLines.push(`; --- Wild Dino Per-Level Stat Multipliers ---`);
+            STAT_INDICES.forEach(idx => {
+                if (payload.stats.wild[idx] !== 1.0) {
+                    gameLines.push(`PerLevelStatsMultiplier_DinoWild[${idx}]=${payload.stats.wild[idx]}`);
+                }
+            });
 
             return {
                 gus: gusLines.join('\n'),
@@ -1239,43 +1271,50 @@ Solo Farm Mod</textarea>
             };
         }
 
+        function generateGUS() {
+            return buildDjangoPayload().raw_gus_ini;
+        }
+
+        function generateGameINI() {
+            return buildDjangoPayload().raw_game_ini;
+        }
+
         // --- Render Live Preview Panel ---
         function updateLivePreview() {
-            const data = getFormData();
-            const inis = generateIniSnippets(data);
+            const payload = buildDjangoPayload();
 
-            document.getElementById('liveGameBadge').textContent = `${data.identity.gameVersion} • ${data.identity.gameMode}`;
-            document.getElementById('gusOutput').textContent = inis.gus;
-            document.getElementById('gameIniOutput').textContent = inis.game;
+            document.getElementById('liveGameBadge').textContent = `${payload.game_version} • ${payload.game_mode}`;
+            document.getElementById('gusOutput').textContent = payload.raw_gus_ini;
+            document.getElementById('gameIniOutput').textContent = payload.raw_game_ini;
+            document.getElementById('jsonOutput').textContent = JSON.stringify(payload, null, 2);
 
             const checklistContainer = document.getElementById('previewChecklist');
-            const mapsList = data.maps.officialMaps.length ? data.maps.officialMaps.join(', ') : 'None selected';
+            const mapsList = payload.maps.length ? payload.maps.join(', ') : 'None selected';
 
             checklistContainer.innerHTML = `
                 <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5">
                     <div class="flex items-center justify-between text-tekCyan font-semibold">
                         <span><i class="fa-solid fa-server mr-1.5"></i>Beacon: General & Identity</span>
-                        <span class="font-mono text-[11px]">${data.identity.visibility}</span>
+                        <span class="font-mono text-[11px] uppercase">${escapeHtml(payload.visibility)}</span>
                     </div>
-                    <p class="text-slate-300"><strong>Client:</strong> ${escapeHtml(data.identity.clientName)}</p>
-                    <p class="text-slate-300"><strong>SessionName:</strong> <span class="text-white font-mono">${escapeHtml(data.identity.serverName)}</span></p>
-                    <p class="text-slate-300"><strong>Slots / Platforms:</strong> ${data.identity.maxPlayers} Players (${data.identity.platforms.join(', ') || 'None'})</p>
-                    <p class="text-slate-300"><strong>Maps (${data.maps.officialMaps.length}):</strong> ${escapeHtml(mapsList)}</p>
-                    ${data.maps.customMaps !== 'None' ? `<p class="text-amber-300"><strong>Mod Maps:</strong> ${escapeHtml(data.maps.customMaps)}</p>` : ''}
+                    <p class="text-slate-300"><strong>Requester:</strong> ${escapeHtml(payload.requester_name || 'Missing *')}</p>
+                    <p class="text-slate-300"><strong>SessionName:</strong> <span class="text-white font-mono">${escapeHtml(payload.server_name || 'Missing *')}</span></p>
+                    <p class="text-slate-300"><strong>Slots / Platforms:</strong> ${payload.max_players} Players (${payload.platforms.join(', ') || 'None'})</p>
+                    <p class="text-slate-300"><strong>Maps (${payload.maps.length}):</strong> ${escapeHtml(mapsList)}</p>
                 </div>
 
                 <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5">
                     <div class="flex items-center justify-between text-tekCyan font-semibold">
                         <span><i class="fa-solid fa-gauge-high mr-1.5"></i>Beacon: Rates & Difficulty</span>
-                        <span class="font-mono text-[11px] text-amber-400">Diff ${data.rates.overrideDifficulty} (Lvl ${data.rates.maxWildLevel})</span>
+                        <span class="font-mono text-[11px] text-amber-400">Diff ${payload.rates.override_official_difficulty} (Lvl ${payload.rates.max_wild_level})</span>
                     </div>
                     <div class="grid grid-cols-2 gap-1 text-slate-300 font-mono text-[11px] pt-1">
-                        <div>XP: <span class="text-white">${data.rates.xpMultiplier}x</span></div>
-                        <div>Taming: <span class="text-white">${data.rates.tamingSpeed}x</span></div>
-                        <div>Harvest: <span class="text-white">${data.rates.harvestAmount}x</span></div>
-                        <div>Stacks: <span class="text-white">${data.world.stackSizeMultiplier}x</span></div>
-                        <div>Node Respawn: <span class="text-white">${data.rates.resourceRespawn}</span></div>
-                        <div>Loot Quality: <span class="text-white">${data.modsAndLoot.lootQuality}x</span></div>
+                        <div>XP: <span class="text-white">${payload.rates.xp}x</span></div>
+                        <div>Taming: <span class="text-white">${payload.rates.taming}x</span></div>
+                        <div>Harvest: <span class="text-white">${payload.rates.harvest}x</span></div>
+                        <div>Stacks: <span class="text-white">${payload.qol.stack_size}x</span></div>
+                        <div>Node Respawn: <span class="text-white">${payload.rates.resource_respawn}</span></div>
+                        <div>Loot Quality: <span class="text-white">${payload.loot_quality}x</span></div>
                     </div>
                 </div>
 
@@ -1283,24 +1322,22 @@ Solo Farm Mod</textarea>
                     <div class="flex items-center justify-between text-tekCyan font-semibold">
                         <span><i class="fa-solid fa-egg mr-1.5"></i>Beacon: Breeding & Maturation</span>
                     </div>
-                    <p class="text-slate-400 italic">"${escapeHtml(data.breeding.goalNotes)}"</p>
+                    <p class="text-slate-400 italic">"${escapeHtml(payload.breeding.wizard_goal)}"</p>
                     <div class="grid grid-cols-2 gap-1 text-slate-300 font-mono text-[11px] pt-1">
-                        <div>Hatch: <span class="text-white">${data.breeding.eggHatchSpeed}x</span></div>
-                        <div>Mature: <span class="text-white">${data.breeding.babyMatureSpeed}x</span></div>
-                        <div>Mating Int: <span class="text-white">${data.breeding.matingInterval}</span></div>
-                        <div>Cuddle Int: <span class="text-white">${data.breeding.cuddleInterval}</span></div>
+                        <div>Hatch: <span class="text-white">${payload.breeding.egg_hatch_speed}x</span></div>
+                        <div>Mature: <span class="text-white">${payload.breeding.baby_mature_speed}x</span></div>
+                        <div>Mating Int: <span class="text-white">${payload.breeding.mating_interval}</span></div>
+                        <div>Cuddle Int: <span class="text-white">${payload.breeding.cuddle_interval}</span></div>
                     </div>
                 </div>
 
                 <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5">
                     <div class="flex items-center justify-between text-tekAmber font-semibold">
-                        <span><i class="fa-solid fa-puzzle-piece mr-1.5"></i>Mods, Blacklist & Spawns</span>
+                        <span><i class="fa-solid fa-puzzle-piece mr-1.5"></i>Mods, Blacklist & Notes</span>
                     </div>
-                    <p class="text-slate-300"><strong>Requested Mods:</strong><br><span class="text-slate-400 whitespace-pre-line">${escapeHtml(data.modsAndLoot.requestedMods)}</span></p>
-                    <p class="text-rose-300 pt-1"><strong>Blacklisted Items / Engrams:</strong><br><span class="text-slate-300 whitespace-pre-line">${escapeHtml(data.modsAndLoot.blacklistedItems)}</span></p>
-                    <p class="text-slate-300 pt-1"><strong>Engram Policy:</strong> ${escapeHtml(data.modsAndLoot.engramPolicy)}</p>
-                    <p class="text-slate-300"><strong>Disabled Dinos:</strong> ${escapeHtml(data.modsAndLoot.blacklistedDinos)}</p>
-                    <p class="text-slate-300"><strong>Loot Drops:</strong> ${escapeHtml(data.modsAndLoot.customLootNotes)}</p>
+                    <p class="text-slate-300"><strong>Requested Mods:</strong><br><span class="text-slate-400 whitespace-pre-line">${escapeHtml(payload.mods_requested || 'None')}</span></p>
+                    <p class="text-rose-300 pt-1"><strong>Blacklisted Items:</strong><br><span class="text-slate-300 whitespace-pre-line">${escapeHtml(payload.blacklisted_items || 'None')}</span></p>
+                    <p class="text-slate-300 pt-1"><strong>Custom Notes:</strong><br><span class="text-slate-400 whitespace-pre-line">${escapeHtml(payload.custom_notes || 'None')}</span></p>
                 </div>
             `;
         }
@@ -1313,137 +1350,74 @@ Solo Farm Mod</textarea>
                 .replace(/"/g, '&quot;');
         }
 
-        // --- Format Full Human-Readable Spec + INI Text ---
-        function buildFullTextReport() {
-            const data = getFormData();
-            const inis = generateIniSnippets(data);
-            return `====================================================================
-            ARK SERVER & BEACON INI SPECIFICATION SHEET
-            ====================================================================
-            Client / Contact : ${data.identity.clientName}
-            Game Version     : ${data.identity.gameVersion} (${data.identity.gameMode})
-            Server Name      : ${data.identity.serverName}
-            Visibility       : ${data.identity.visibility} (Max Players: ${data.identity.maxPlayers})
-            Platforms        : ${data.identity.platforms.join(', ')}
-            Primary Map      : ${data.maps.primaryMap}
-            Cluster Maps     : ${data.maps.officialMaps.join(', ')}
-            Custom Maps      : ${data.maps.customMaps}
+        // --- CSRF Cookie Helper for Django ---
+        function getCsrfToken() {
+            const domInput = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (domInput && domInput.value) return domInput.value;
 
-            --- CORE RATES & DIFFICULTY ---
-            Max Wild Dino Lvl: ${data.rates.maxWildLevel} (OverrideOfficialDifficulty=${data.rates.overrideDifficulty})
-            XP Multiplier    : ${data.rates.xpMultiplier}x
-            Taming Speed     : ${data.rates.tamingSpeed}x (Wild Food Drain: ${data.rates.wildFoodDrain}x)
-            Harvest Yield    : ${data.rates.harvestAmount}x (Node Health: ${data.rates.harvestHealth}x, Respawn: ${data.rates.resourceRespawn})
-            Stack Size Mult  : ${data.world.stackSizeMultiplier}x
-
-            --- BREEDING & MATURATION (BEACON WIZARD) ---
-            Target Goal      : ${data.breeding.goalNotes}
-            Egg Hatch Speed  : ${data.breeding.eggHatchSpeed}x
-            Baby Mature Speed: ${data.breeding.babyMatureSpeed}x
-            Mating Interval  : ${data.breeding.matingInterval} | Mating Speed: ${data.breeding.matingSpeed}x
-            Cuddle Interval  : ${data.breeding.cuddleInterval} | Imprint Amount: ${data.breeding.imprintAmount}x
-
-            --- MODS, BLACKLISTED ITEMS & LOOT ---
-            Requested Mods:
-            ${data.modsAndLoot.requestedMods}
-
-            Mod INI Tweaks:
-            ${data.modsAndLoot.modIniNotes}
-
-            Blacklisted Items / Disabled Engrams:
-            ${data.modsAndLoot.blacklistedItems}
-
-            Engram Unlock Policy : ${data.modsAndLoot.engramPolicy}
-            Disabled Dino Spawns : ${data.modsAndLoot.blacklistedDinos}
-            Loot Drop Quality    : ${data.modsAndLoot.lootQuality}x (${data.modsAndLoot.customLootNotes})
-            Additional Notes     : ${data.modsAndLoot.additionalNotes}
-
-            ====================================================================
-            GENERATED GameUserSettings.ini
-            ====================================================================
-            ${inis.gus}
-
-            ====================================================================
-            GENERATED Game.ini
-            ====================================================================
-            ${inis.game}
-            `;
-                    }
-
-                function copyFullSpecSummary() {
-                    const report = buildFullTextReport();
-                    copyToClipboard(report, 'Full Beacon Spec & INI copied to clipboard!');
+            const name = 'csrftoken';
+            const cookies = document.cookie ? document.cookie.split(';') : [];
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    return decodeURIComponent(cookie.substring(name.length + 1));
                 }
+            }
+            return '';
+        }
 
-                function downloadSpec(format) {
-                    const data = getFormData();
-                    const safeName = data.identity.clientName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'ark_server';
-                    let content = '';
-                    let mime = 'text/plain;charset=utf-8';
-                    let ext = 'txt';
+        // --- Validate Required Fields & Highlight Missing Input ---
+        function validateRequiredFields() {
+            const reqInput = document.getElementById('requesterName');
+            const srvInput = document.getElementById('serverName');
+            const banner = document.getElementById('validationBanner');
+            const bannerText = document.getElementById('validationBannerText');
 
-                    if (format === 'json') {
-                        content = JSON.stringify({ spec: data, generatedIni: generateIniSnippets(data) }, null, 2);
-                        mime = 'application/json;charset=utf-8';
-                        ext = 'json';
-                    } else {
-                        content = buildFullTextReport();
-                    }
+            [reqInput, srvInput].forEach(el => el.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40'));
+            banner.classList.add('hidden');
 
-                    const blob = new Blob([content], { type: mime });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `beacon_ark_spec_${safeName}.${ext}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showToast(`Downloaded beacon_ark_spec_${safeName}.${ext}`);
-                }
+            if (!reqInput.value.trim()) {
+                reqInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-500/40');
+                bannerText.textContent = 'Requester Name / Discord Handle is required before submitting.';
+                banner.classList.remove('hidden');
+                reqInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                reqInput.focus();
+                return false;
+            }
 
-                // Attach live listener to form inputs
-                window.onload = function () {
-                    const form = document.getElementById('arkForm');
-                    form.addEventListener('input', updateLivePreview);
-                    form.addEventListener('change', updateLivePreview);
-                    updateLivePreview();
-                };
+            if (!srvInput.value.trim()) {
+                srvInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-500/40');
+                bannerText.textContent = 'Server / Cluster Name is required before submitting.';
+                banner.classList.remove('hidden');
+                srvInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                srvInput.focus();
+                return false;
+            }
 
-            async function submitToDjangoBackend() {
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            return true;
+        }
 
-                // Gather your existing form state object from the builder
-                const payload = {
-                    requester_name: document.getElementById('requesterName')?.value || 'Community Member',
-                    server_name: document.getElementById('serverName').value,
-                    game_version: document.querySelector('input[name="gameVersion"]:checked')?.value || 'ASA',
-                    visibility: document.getElementById('visibility').value,
-                    server_password: document.getElementById('serverPassword')?.value || '',
-                    maps: Array.from(document.querySelectorAll('input[name="maps"]:checked')).map(cb => cb.value),
-                    mods_requested: document.getElementById('modsList').value,
-                    blacklisted_items: document.getElementById('blacklistItems').value,
-                    custom_notes: document.getElementById('customNotes').value,
-                    rates: {
-                        max_wild_level: parseFloat(document.getElementById('maxWildLevel').value),
-                        xp: parseFloat(document.getElementById('xpRate').value),
-                        taming: parseFloat(document.getElementById('tamingRate').value),
-                        harvest: parseFloat(document.getElementById('harvestRate').value),
-                        resource_respawn: parseFloat(document.getElementById('resourceRespawn').value),
-                        passive_tame_interval: parseFloat(document.getElementById('passiveInterval').value)
-                    },
-                    breeding: {
-                        mating_interval: parseFloat(document.getElementById('matingInterval').value),
-                        egg_hatch_speed: parseFloat(document.getElementById('eggHatch').value),
-                        baby_mature_speed: parseFloat(document.getElementById('babyMature').value),
-                        cuddle_interval: parseFloat(document.getElementById('cuddleInterval').value)
-                    },
-                    // Optionally pass the already-formatted INI text from the preview pane
-                    raw_gus_ini: typeof generateGUS === 'function' ? generateGUS() : '',
-                    raw_game_ini: typeof generateGameINI === 'function' ? generateGameINI() : ''
-                };
+        // --- Submit to Django Backend (with Standalone Preview Fallback) ---
+        async function submitToDjangoBackend() {
+            if (!validateRequiredFields()) return;
 
-                const response = await fetch("{% url 'submit_config' %}", {
+            const payload = buildDjangoPayload();
+            const formEl = document.getElementById('arkForm');
+            const submitUrl = formEl.getAttribute('data-submit-url') || '/api/submit-config/';
+            const csrfToken = getCsrfToken();
+
+            const mainBtn = document.getElementById('mainFormSubmitBtn');
+            const sideBtn = document.getElementById('sidebarSubmitBtn');
+            const originalMainHtml = mainBtn.innerHTML;
+            const originalSideHtml = sideBtn.innerHTML;
+
+            mainBtn.disabled = true;
+            sideBtn.disabled = true;
+            mainBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting to Server Queue...';
+            sideBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting...';
+
+            try {
+                const response = await fetch(submitUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1452,13 +1426,124 @@ Solo Farm Mod</textarea>
                     body: JSON.stringify(payload)
                 });
 
-                const result = await response.json();
-                if (response.ok) {
-                    alert(result.message);
+                const contentType = response.headers.get('content-type') || '';
+                if (response.ok && contentType.includes('application/json')) {
+                    const result = await response.json();
+                    openSubmitModal({
+                        liveSuccess: true,
+                        title: 'Server Request Saved to Django!',
+                        subtitle: `Request ID #${result.request_id || 'New'} • Ready for Beacon Import`,
+                        bannerMsg: result.message || `Configuration for "${payload.server_name}" saved to the database!`,
+                        payload
+                    });
                 } else {
-                    alert("Submission Error: " + result.message);
+                    throw new Error(`Endpoint returned status ${response.status}`);
                 }
+            } catch (err) {
+                // Graceful fallback when previewing outside the running Django server
+                openSubmitModal({
+                    liveSuccess: false,
+                    title: 'Server Request Packaged (Preview Mode)',
+                    subtitle: `Ready for Django endpoint ${submitUrl}`,
+                    bannerMsg: `Validated "${payload.server_name}" requested by ${payload.requester_name}. When hosted inside your Django template, this POSTs directly to ${submitUrl}. You can copy the JSON payload or download the .INI file below.`,
+                    payload
+                });
+            } finally {
+                mainBtn.disabled = false;
+                sideBtn.disabled = false;
+                mainBtn.innerHTML = originalMainHtml;
+                sideBtn.innerHTML = originalSideHtml;
             }
+        }
+
+        function openSubmitModal({ liveSuccess, title, subtitle, bannerMsg, payload }) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalSubtitle').textContent = subtitle;
+            document.getElementById('modalStatusBanner').textContent = bannerMsg;
+            document.getElementById('modalJsonPreview').textContent = JSON.stringify(payload, null, 2);
+            document.getElementById('submitModal').classList.remove('hidden');
+            showToast(liveSuccess ? 'Server Request saved to Django!' : 'Server Request validated & packaged!');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.add('hidden');
+        }
+
+        // --- Format Full Human-Readable Spec + INI Text ---
+        function buildFullTextReport() {
+            const payload = buildDjangoPayload();
+            return `# ====================================================================
+            # ARK SERVER & BEACON INI SPECIFICATION SHEET
+            # ====================================================================
+            # Requester        : ${payload.requester_name}
+            # Game Version     : ${payload.game_version} (${payload.game_mode})
+            # Server Name      : ${payload.server_name}
+            # Visibility       : ${payload.visibility} (Max Players: ${payload.max_players})
+            # Platforms        : ${payload.platforms.join(', ')}
+            # Primary Map      : ${payload.primary_map}
+            # Cluster Maps     : ${payload.maps.join(', ')}
+            #
+            # --- MODS REQUESTED ---
+            # ${payload.mods_requested.replace(/\n/g, '\n# ')}
+            #
+            # --- BLACKLISTED ITEMS / DISABLED ENGRAMS ---
+            # ${payload.blacklisted_items.replace(/\n/g, '\n# ')}
+            #
+            # --- CUSTOM LOOT DROPS, DINO SPAWNS & EXTRA NOTES ---
+            # ${payload.custom_notes.replace(/\n/g, '\n# ')}
+            # ====================================================================
+
+            # ====================================================================
+            # GameUserSettings.ini
+            # ====================================================================
+            ${payload.raw_gus_ini}
+
+            # ====================================================================
+            # Game.ini
+            # ====================================================================
+            ${payload.raw_game_ini}
+            `;
+        }
+
+        function copyFullSpecSummary() {
+            const report = buildFullTextReport();
+            copyToClipboard(report, 'Full Beacon Spec & INI copied to clipboard!');
+        }
+
+        function downloadSpec(format) {
+            const payload = buildDjangoPayload();
+            const safeName = (payload.server_name || 'ark_server').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            let content = '';
+            let mime = 'text/plain;charset=utf-8';
+            let ext = 'ini';
+
+            if (format === 'json') {
+                content = JSON.stringify(payload, null, 2);
+                mime = 'application/json;charset=utf-8';
+                ext = 'json';
+            } else {
+                content = buildFullTextReport();
+            }
+
+            const blob = new Blob([content], { type: mime });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Beacon_Spec_${safeName}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`Downloaded Beacon_Spec_${safeName}.${ext}`);
+        }
+
+        // Attach live listener to form inputs
+        window.onload = function () {
+            const form = document.getElementById('arkForm');
+            form.addEventListener('input', updateLivePreview);
+            form.addEventListener('change', updateLivePreview);
+            updateLivePreview();
+        };
     </script>
 </body>
 </html>
