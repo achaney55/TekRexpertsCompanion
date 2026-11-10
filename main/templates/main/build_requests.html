@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    <!-- Submission Confirmation / Django Payload Modal -->
+    <!-- Submission Confirmation / Chaneyverse Payload Modal -->
     <div id="submitModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="tek-card rounded-2xl max-w-2xl w-full border border-emerald-500/50 overflow-hidden shadow-2xl shadow-emerald-500/10">
             <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
@@ -172,7 +172,7 @@
                             <h1 class="font-tek text-lg sm:text-xl font-bold tracking-wider text-white uppercase">
                                 ARK <span class="text-tekCyan">Beacon INI</span> Intake Builder
                             </h1>
-                            <span class="hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-tekCyan border border-cyan-500/30">Django Ready</span>
+                            <span class="hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-tekCyan border border-cyan-500/30">Chaneyverse Ready</span>
                         </div>
                         <p class="text-xs text-slate-400">Configure rates, stats, mods & blacklists to submit directly to the server build queue.</p>
                     </div>
@@ -198,7 +198,7 @@
                     </button>
                 </div>
 
-                <button type="button" onclick="submitToDjangoBackend()" class="hidden xl:flex px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition items-center gap-2 ml-2">
+                <button type="button" onclick="submitToChaneyverseBackend()" class="hidden xl:flex px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition items-center gap-2 ml-2">
                     <i class="fa-solid fa-paper-plane"></i> Submit Server Request
                 </button>
             </div>
@@ -210,7 +210,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
             <!-- LEFT / MAIN FORM COLUMN (8 cols on 12-col grid) -->
-            <form id="arkForm" data-submit-url="/api/submit-config/" class="lg:col-span-7 xl:col-span-8 space-y-6 no-print" onsubmit="event.preventDefault(); submitToDjangoBackend();">
+            <form id="arkForm" data-submit-url="/api/submit-config/" class="lg:col-span-7 xl:col-span-8 space-y-6 no-print" onsubmit="event.preventDefault(); submitToChaneyverseBackend();">
 
                 <!-- Validation Alert Banner (Hidden by default) -->
                 <div id="validationBanner" class="hidden p-4 rounded-xl bg-rose-950/70 border border-rose-500 text-rose-200 text-xs flex items-center justify-between gap-3">
@@ -251,7 +251,7 @@
                         <div>
                             <label for="requesterName" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Requester Name / Discord Handle <span class="text-tekAmber">*</span></label>
                             <input type="text" id="requesterName" required placeholder="e.g., SurvivorJoe / @survivorjoe" value="SurvivorJoe#0001" class="tek-input w-full rounded-lg px-3.5 py-2 text-sm">
-                            <p class="text-[11px] text-slate-400 mt-1">Required so we can link your request in Django and ping you on Discord.</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Required so we can link your request in the Chaneyverse and ping you on Discord.</p>
                         </div>
 
                         <div>
@@ -851,7 +851,7 @@
                         <span id="liveGameBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-tekCyan border border-cyan-500/30">ASA</span>
                     </div>
 
-                    <!-- Preview Tabs (3 Tabs: Checklist, Raw INI, Django JSON) -->
+                    <!-- Preview Tabs (3 Tabs: Checklist, Raw INI, Chaneyverse JSON) -->
                     <div class="grid grid-cols-3 bg-obsidian border-b border-slate-800 text-[11px] font-semibold no-print">
                         <button type="button" id="tabBtnChecklist" onclick="switchPreviewTab('checklist')" class="py-3 px-2 text-center border-b-2 border-tekCyan text-tekCyan bg-cyan-950/20 transition">
                             <i class="fa-solid fa-list-check mr-1"></i>Beacon Spec
@@ -860,7 +860,7 @@
                             <i class="fa-solid fa-code mr-1"></i>Raw INI
                         </button>
                         <button type="button" id="tabBtnJson" onclick="switchPreviewTab('json')" class="py-3 px-2 text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-                            <i class="fa-solid fa-database mr-1"></i>Django JSON
+                            <i class="fa-solid fa-database mr-1"></i>JSON
                         </button>
                     </div>
 
@@ -892,11 +892,11 @@
                         </div>
                     </div>
 
-                    <!-- TAB 3: DJANGO JSON PAYLOAD PREVIEW -->
+                    <!-- TAB 3: Chaneyverse JSON PAYLOAD PREVIEW -->
                     <div id="previewJson" class="hidden p-4 sm:p-5 max-h-[520px] overflow-y-auto space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-mono font-semibold text-emerald-400">POST /api/submit-config/</span>
-                            <button type="button" onclick="copyTextById('jsonOutput', 'Django JSON Payload copied!')" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+                            <button type="button" onclick="copyTextById('jsonOutput', 'Chaneyverse JSON Payload copied!')" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
                                 <i class="fa-regular fa-copy mr-1"></i>Copy JSON
                             </button>
                         </div>
@@ -905,7 +905,7 @@
 
                     <!-- Sticky Right-Hand Action Bar with Prominent Submit Button -->
                     <div class="p-4 bg-slate-900/95 border-t border-slate-800 space-y-2.5 no-print">
-                        <button type="button" id="sidebarSubmitBtn" onclick="submitToDjangoBackend()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2">
+                        <button type="button" id="sidebarSubmitBtn" onclick="submitToChaneyverseBackend()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-obsidian font-tek font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-paper-plane text-sm"></i> Submit Server Request
                         </button>
 
@@ -1087,8 +1087,8 @@
             showToast(`Applied "${preset.toUpperCase()}" Server Preset!`);
         }
 
-        // --- Gather All Form Data Matching Django Backend Schema ---
-        function buildDjangoPayload() {
+        // --- Gather All Form Data Matching Chaneyverse Backend Schema ---
+        function buildChaneyversePayload() {
             const gameVersion = document.querySelector('input[name="gameVersion"]:checked')?.value || 'ASA';
             const gameMode = document.querySelector('input[name="gameMode"]:checked')?.value || 'PvE';
             const visibility = document.getElementById('visibility').value;
@@ -1264,16 +1264,16 @@
         }
 
         function generateGUS() {
-            return buildDjangoPayload().raw_gus_ini;
+            return buildChaneyversePayload().raw_gus_ini;
         }
 
         function generateGameINI() {
-            return buildDjangoPayload().raw_game_ini;
+            return buildChaneyversePayload().raw_game_ini;
         }
 
         // --- Render Live Preview Panel ---
         function updateLivePreview() {
-            const payload = buildDjangoPayload();
+            const payload = buildChaneyversePayload();
 
             document.getElementById('liveGameBadge').textContent = `${payload.game_version} • ${payload.game_mode}`;
             document.getElementById('gusOutput').textContent = payload.raw_gus_ini;
@@ -1342,7 +1342,7 @@
                 .replace(/"/g, '&quot;');
         }
 
-        // --- CSRF Cookie Helper for Django ---
+        // --- CSRF Cookie Helper for Chaneyverse ---
         function getCsrfToken() {
             const domInput = document.querySelector('[name=csrfmiddlewaretoken]');
             if (domInput && domInput.value) return domInput.value;
@@ -1389,11 +1389,11 @@
             return true;
         }
 
-        // --- Submit to Django Backend (with Standalone Preview Fallback) ---
-        async function submitToDjangoBackend() {
+        // --- Submit to Chaneyverse Backend (with Standalone Preview Fallback) ---
+        async function submitToChaneyverseBackend() {
             if (!validateRequiredFields()) return;
 
-            const payload = buildDjangoPayload();
+            const payload = buildChaneyversePayload();
             const formEl = document.getElementById('arkForm');
             const submitUrl = formEl.getAttribute('data-submit-url') || '/api/submit-config/';
             const csrfToken = getCsrfToken();
@@ -1423,7 +1423,7 @@
                     const result = await response.json();
                     openSubmitModal({
                         liveSuccess: true,
-                        title: 'Server Request Saved to Django!',
+                        title: 'Server Request Saved!',
                         subtitle: `Request ID #${result.request_id || 'New'} • Ready for Beacon Import`,
                         bannerMsg: result.message || `Configuration for "${payload.server_name}" saved to the database!`,
                         payload
@@ -1432,12 +1432,12 @@
                     throw new Error(`Endpoint returned status ${response.status}`);
                 }
             } catch (err) {
-                // Graceful fallback when previewing outside the running Django server
+                // Graceful fallback when previewing outside the running Chaneyverse server
                 openSubmitModal({
                     liveSuccess: false,
                     title: 'Server Request Packaged (Preview Mode)',
-                    subtitle: `Ready for Django endpoint ${submitUrl}`,
-                    bannerMsg: `Validated "${payload.server_name}" requested by ${payload.requester_name}. When hosted inside your Django template, this POSTs directly to ${submitUrl}. You can copy the JSON payload or download the .INI file below.`,
+                    subtitle: `Ready for Chaneyverse endpoint ${submitUrl}`,
+                    bannerMsg: `Validated "${payload.server_name}" requested by ${payload.requester_name}. You can copy the JSON payload or download the .INI file below.`,
                     payload
                 });
             } finally {
@@ -1454,7 +1454,7 @@
             document.getElementById('modalStatusBanner').textContent = bannerMsg;
             document.getElementById('modalJsonPreview').textContent = JSON.stringify(payload, null, 2);
             document.getElementById('submitModal').classList.remove('hidden');
-            showToast(liveSuccess ? 'Server Request saved to Django!' : 'Server Request validated & packaged!');
+            showToast(liveSuccess ? 'Server Request saved!' : 'Server Request validated & packaged!');
         }
 
         function closeSubmitModal() {
@@ -1463,7 +1463,7 @@
 
         // --- Format Full Human-Readable Spec + INI Text ---
         function buildFullTextReport() {
-            const payload = buildDjangoPayload();
+            const payload = buildChaneyversePayload();
             return `# ====================================================================
             # ARK SERVER & BEACON INI SPECIFICATION SHEET
             # ====================================================================
@@ -1503,7 +1503,7 @@
         }
 
         function downloadSpec(format) {
-            const payload = buildDjangoPayload();
+            const payload = buildChaneyversePayload();
             const safeName = (payload.server_name || 'ark_server').replace(/[^a-z0-9]/gi, '_').toLowerCase();
             let content = '';
             let mime = 'text/plain;charset=utf-8';
