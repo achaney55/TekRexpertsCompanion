@@ -46,3 +46,56 @@ class AdminAnnouncement(models.Model):
 
     def __str__(self):
         return f"Admin Announcement at {self.created_at}"
+
+from django.db import models
+
+class ServerConfigRequest(models.Model):
+    GAME_CHOICES = [
+        ('ASA', 'ARK: Survival Ascended'),
+        ('ASE', 'ARK: Survival Evolved'),
+    ]
+    VISIBILITY_CHOICES = [
+        ('public', 'Public'),
+        ('private', 'Private (Password Protected)'),
+    ]
+    STATUS_CHOICES = [
+        ('pending', 'Pending Beacon Build'),
+        ('in_progress', 'Building in Beacon'),
+        ('deployed', 'Deployed to Host'),
+        ('archived', 'Archived'),
+    ]
+
+    # Core Searchable Metadata
+    requester_name = models.CharField(max_length=120, help_text="Discord handle or name")
+    server_name = models.CharField(max_length=150)
+    game_version = models.CharField(max_length=3, choices=GAME_CHOICES, default='ASA')
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES, default='public')
+    server_password = models.CharField(max_length=100, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    # Array / Text Fields
+    maps = models.JSONField(default=list, help_text="List of selected maps")
+    mods_requested = models.TextField(blank=True, help_text="Requested Mod IDs or names")
+    blacklisted_items = models.TextField(blank=True, help_text="Engrams/items to hide or disable")
+    custom_notes = models.TextField(blank=True, help_text="Supply drops, dino spawns, or extra rules")
+
+    # Full Structured Payload (Rates, Breeding, Stat Multipliers, QoL Toggles)
+    config_payload = models.JSONField(
+        default=dict,
+        help_text="Complete JSON object containing rates, breeding, and stat arrays"
+    )
+
+    # Pre-compiled INI Strings for quick copy/export
+    game_user_settings_ini = models.TextField(blank=True)
+    game_ini = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "ARK Server Config Request"
+        verbose_name_plural = "ARK Server Config Requests"
+
+    def __str__(self):
+        return f"[{self.game_version}] {self.server_name} ({self.requester_name}) - {self.get_status_display()}"
