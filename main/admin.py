@@ -65,7 +65,7 @@ class ServerConfigRequestAdmin(admin.ModelAdmin):
     )
 
     def download_spec_button(self, obj):
-        url = reverse('ark_builder:export_beacon_spec', args=[obj.pk])
+        url = reverse('export_beacon_spec', args=[obj.pk])
         return format_html(
             '<a class="button" href="{}" style="padding:4px 8px; background:#0ea5e9; color:#fff; border-radius:4px; text-decoration:none;">Download .INI</a>',
             url
