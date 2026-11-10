@@ -1443,7 +1443,7 @@ Solo Farm Mod</textarea>
                     raw_game_ini: typeof generateGameINI === 'function' ? generateGameINI() : ''
                 };
 
-                const response = await fetch("{% url 'main:submit_config' %}", {
+                const response = await fetch("{% url 'submit_config' %}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
